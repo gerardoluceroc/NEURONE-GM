@@ -1,0 +1,40 @@
+<app-header marked="management"></app-header>
+<div class="main-content">
+  <h1 class="h1-1">Active Application</h1>
+  <div class="select-app-container">
+    <mat-form-field class="select-1">
+      <mat-select [formControl]="appControl" required>
+        <mat-option>--</mat-option>
+        <mat-option *ngFor="let app of [].constructor(3)">
+          Option
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <h1 class="h1-1">Manage my Apps</h1>
+
+  <div class="column">
+    <button mat-raised-button class="button-1">Add</button>
+    <mat-form-field style="width: 100%">
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+    </mat-form-field>
+    <table mat-table [dataSource]="table" style="width: 100%">
+      <ng-container matColumnDef="name">
+        <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+      </ng-container>
+
+      <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="select(row)" style="cursor:pointer"></mat-row>
+    </table>
+  </div>
+  <div *ngIf="selectedRow!=null" class="display-column">
+    <button mat-raised-button class="button-1">Edit</button>
+    <button mat-raised-button class="button-2">Delete</button>
+    <div class="points-column">
+      <p class="attributes">Name: {{selectedRow.name}}</p>
+      <p class="attributes">Description: {{selectedRow.description}}</p>
+      <p class="attributes">Owner: {{selectedRow.owner}}</p>
+    </div>
+  </div>
+
+</div>

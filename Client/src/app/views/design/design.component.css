@@ -1,0 +1,32 @@
+.main-content{
+  position: absolute;
+  top: 8.9%;
+  left: 0;
+  right: 0;
+  width: 100%;
+}
+
+.column {
+  float: left;
+  width: 20%;
+  height: 90.9vh;
+  border: solid 0.1vh #181818;
+}
+
+.p-label{
+  margin: 5vh auto auto;
+  text-align: center;
+  color: black;
+  font-family: Ubuntu;
+  font-size: calc(0.75em + 1vmin);
+  letter-spacing: 0.2em;
+}
+
+.marked{
+  color: #008b04;
+  font-weight: 900;
+}
+
+a {
+  text-decoration:none;
+}

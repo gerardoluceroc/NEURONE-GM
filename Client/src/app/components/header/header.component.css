@@ -1,0 +1,48 @@
+.toolbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 9%;
+  display: flex;
+  align-items: center;
+  background-color: #181818;
+  color: white;
+  font-weight: 600;
+}
+
+.a-1{
+  margin-left: 1%;
+  font-size: calc(0.4em + 1vmin);
+  margin-right: 2.5%;
+  color: #9d9d9d;
+  letter-spacing: 0.2em;
+  text-decoration: none;
+  font-family: Ubuntu;
+  font-weight: lighter;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.marked{
+  color: white;
+}
+
+.title-span {
+  margin-left: 1.5%;
+  font-size: calc(0.9em + 1vmin);
+  margin-right: 3%;
+  color: #9d9d9d;
+  text-decoration: none;
+  font-family: Ubuntu;
+}
+
+.name-span {
+  margin-left: 0.5%;
+  font-size: calc(0.6em + 1vmin);
+  margin-right: 0.5%;
+  font-family: Ubuntu;
+  letter-spacing: 0.2em;
+}
