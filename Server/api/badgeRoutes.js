@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-//const actionController = require('../controllers/actionController');
+const badgeController = require('../controllers/badgeController');
 
-/*
-router.get('/:app_name/actionsPlayer', actionController.getActionsPlayer);
-router.post('/:app_name/actionsPlayer', actionController.postAction);
-router.put('/:app_name/actionsPlayer/:actionsPlayer_id', actionController.updateAction);
-router.delete('/:app_name/actionsPlayer/:actionsPlayer_id', actionController.deleteAction);
-router.get('/:app_name/actionsPlayer/:actionPlayer_id', actionController.getAction);
- */
+
+router.get('/:app_name/badges', badgeController.getBadges);
+router.post('/:app_name/badges', badgeController.postBadge);
+router.put('/:app_name/badges/:badge_id', badgeController.updateBadge);
+router.delete('/:app_name/badges/:badge_id', badgeController.deleteBadge);
+router.get('/:app_name/badges/:badge_id', badgeController.getBadge);
+ 
 module.exports = router;

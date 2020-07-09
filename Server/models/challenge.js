@@ -5,30 +5,25 @@ const ChallengeSchema = new Schema({
     app_name: { type: String, required: true},
     name: { type: String, required: true},
     description: { type: String, required: true},
-    startDate: { type: Date, required: true},
-    endDate: { type: Date, required: true},
-    actionsRequired: [
+    start_date: { type: Date, required: true},
+    end_date: { type: Date, required: true},
+    assign_to: { type: String, required: true},
+    actions_required: [
         {
             name: { type: String, required: true},
             description: { type: String, required: true},
-            timesRequired: { type: Number, required: true},
+            times_required: { type: Number, required: true},
             action_id: { type: String, required: true}
         }
     ],
-    challengesRequired: [
+    challenges_required: [
         {
             challenge_id: { type: String, required: true},
             name: { type: String, required: true},
             description: { type: String, required: true},
         }
     ],
-    rewards: [
-        {
-            title: { type: String, required: true},
-            badge_id: { type: String, required: true},
-            description: { type: String, required: true},
-        }
-    ],
+    badge_id: { type: String, required: false},
 
 });
 

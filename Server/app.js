@@ -14,11 +14,11 @@ const challengeRoutes = require("./api/challengeRoutes");
 const badgeRoutes = require("./api/badgeRoutes");
 const groupRoutes = require("./api/groupRoutes");
 const userRoutes = require("./api/userRoutes");
-const actionsPlayerRoutes = require("./api/actionsPlayerRoutes");
-const pointsPlayerRoutes = require("./api/pointsPlayerRoutes");
-const levelsPlayerRoutes = require("./api/levelsPlayerRoutes");
-const badgesPlayerRoutes = require("./api/badgesPlayerRoutes");
-const challengesPlayerRoutes = require("./api/challengesPlayerRoutes");
+const actionsPlayerRoutes = require("./api/actionPlayerRoutes");
+const pointsPlayerRoutes = require("./api/pointPlayerRoutes");
+const levelsPlayerRoutes = require("./api/levelPlayerRoutes");
+const badgesPlayerRoutes = require("./api/badgePlayerRoutes");
+const actionChallengeRoutes = require("./api/actionChallengeRoutes");
 
 /** Database setup **/
 const URI = 'mongodb://localhost:27017/neuronegm';
@@ -46,7 +46,7 @@ app.use('/api', actionsPlayerRoutes);
 app.use('/api', pointsPlayerRoutes);
 app.use('/api', levelsPlayerRoutes);
 app.use('/api', badgesPlayerRoutes);
-app.use('/api', challengesPlayerRoutes);
+app.use('/api', actionChallengeRoutes);
 
 app.get('/', function (req, res) {
     res.send('Hello World!');

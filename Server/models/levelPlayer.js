@@ -1,20 +1,20 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const LevelsPlayerSchema = new Schema({
+const LevelPlayerSchema = new Schema({
     app_name: { type: String, required: true},
     player_id: { type: String, required: true},
     levels: [
         {
             name: { type: String, required: true},
             description: { type: String, required: true},
-            acquisitionDate: { type: Date, required: true},
-            pointRequired_id: { type: String, required: true},
-            pointThreshold: { type: Number, required: true},
-            pointsEarned: { type: Number, required: true},
+            acquisition_date: { type: Date, required: true},
+            point_required_id: { type: String, required: true},
+            point_threshold: { type: Number, required: true},
+            points_earned: { type: Number, required: true},
             completed: { type: Boolean, required: true}
         }
     ]
 });
 
-module.exports = mongoose.model('LevelsPlayer', LevelsPlayerSchema);
+module.exports = mongoose.model('LevelPlayer', LevelPlayerSchema);

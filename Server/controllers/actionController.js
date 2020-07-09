@@ -26,14 +26,6 @@ actionController.postAction = async (req, res) => {
         res.status(400).send('Write all the fields');
         return;
     }
-    Application.findOne({name: app_name}, (err, app) => {
-        if(err){
-            return res.status(404).json({
-                ok: false,
-                err
-            });
-        }
-    });
     var action = new Action({
         name: name,
         description: description,
