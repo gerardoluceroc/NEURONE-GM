@@ -1,5 +1,7 @@
 const ActionPlayer = require('../models/actionPlayer');
 const ActionChallenge = require('../models/actionChallenge');
+const ChallengeRequisite = require('../models/challengeRequisite');
+const ChallengePlayer = require('../models/challengePlayer');
 
 const actionPlayerController = {};
 
@@ -25,7 +27,7 @@ actionPlayerController.postActionPlayer = async (req, res) => {
     const player_id = req.params.player_id;
     const {action_name, action_id, date } = req.body;
     if(!action_name || !action_id || !date){
-        return callback('Write all the fields');
+        res.status(400).send('Write all the fields');
     }
     var actionPlayer = new ActionPlayer({
         action_name: action_name,
@@ -34,33 +36,29 @@ actionPlayerController.postActionPlayer = async (req, res) => {
         player_id: player_id,
         app_name: app_name
     });
-    actionPlayer.save((err) => {
+    await actionPlayer.save((err) => {
         if (err) {
             return res.status(404).json({
                 ok: false,
                 err
             });
         }
-        console.log({"time": Date.now(), "a": "primera"})
+        ActionChallenge.updateMany({app_name: app_name, player_id: player_id, action_id: action_id, completed: false}, {$inc: {action_counter: 1}}, (err) => {
+            if (err) {
+                return res.status(404).json({
+                    ok: false,
+                    err
+                });
+            }
+        });
     });
-    ActionChallenge.updateMany({app_name: app_name, player_id: player_id, action_id: action_id}, {$inc: {action_counter: 1}}, (err) => {
-        if (err) {
-            ActionPlayer.deleteOne({_id: actionPlayer._id});
-            return res.status(404).json({
-                ok: false,
-                err
-            });
-        }
-        console.log(Date.now())
-    });
-    await ActionChallenge.updateMany({app_name: app_name, player_id: player_id, action_id: action_id, $expr: {$eq:["$action_counter","$total_actions_required"]}}, {$set: {completed: true}}, (err,data) => {
+    await ActionChallenge.updateMany({app_name: app_name, player_id: player_id, action_id: action_id, $expr: {$gte:["$action_counter","$total_actions_required"]}}, {$set: {completed: true}}, (err) => {
         if (err) {
             return res.status(404).json({
                 ok: false,
                 err
             });
         }
-        console.log({"time": Date.now(), "a": "tercera"})
     });
     await ActionChallenge.aggregate([
         {$match: {player_id:player_id, active:true}},
@@ -74,33 +72,31 @@ actionPlayerController.postActionPlayer = async (req, res) => {
         }
         for(let i = 0; i<data.length; i++){
             if(data[i].status){
+                ChallengeRequisite.updateMany({app_name: app_name, player_id: player_id, challenge_required_id: data[i]._id, active: true}, {$set: {completed: true}}, (err) => {
+                    if (err) {
+                        return res.status(404).json({
+                            ok: false,
+                            err
+                        });
+                    }
+                });
+                ChallengePlayer.updateOne({app_name: app_name, player_id: player_id, challenge_id: data[i]._id, active: true}, {$set: {completed: true}},(err) => {
+                    if (err) {
+                        return res.status(404).json({
+                            ok: false,
+                            err
+                        });
+                    }
+                });
                 console.log("Notificar que "+player_id+" ha completado el desafío "+data[i]._id);
             }
         }
-        res.status(200).json({
-            ok: true,
-            data
-        });
     });
-
+    res.status(200).json({
+        ok: true,
+        actionPlayer
+    });
 };
-
-actionPlayerController.test = async (req, res) => {
-    ActionChallenge.find({$expr: {$eq:["$action_counter","$total_actions_required"]}}, (err, data ) => {
-        if(err){
-            return res.status(404).json({
-                ok: false,
-                err
-            });
-        }
-        res.status(200).json({
-            ok: true,
-            data
-        });
-    });
-    const x = ActionPlayer.findOne({app_name: "NEURONE"});
-    console.log(x);
-}
 
 
 module.exports = actionPlayerController;

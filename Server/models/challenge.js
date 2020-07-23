@@ -24,7 +24,6 @@ const ChallengeSchema = new Schema({
         }
     ],
     badge_id: { type: String, required: false},
-
 });
 
 module.exports = mongoose.model('Challenge', ChallengeSchema);

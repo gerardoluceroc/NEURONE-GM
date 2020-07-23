@@ -1,7 +1,9 @@
 /** External modules **/
 const express = require('express');
+var cors = require('cors')
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const multer = require("multer");
 
 /** Internal modules **/
 require('./config/config');
@@ -28,7 +30,7 @@ mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true, useCrea
 
 /** Express setup **/
 const app = express();
-
+app.use(cors())
 
 app.use(bodyParser.json());
 

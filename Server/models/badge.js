@@ -7,7 +7,7 @@ const BadgeSchema = new Schema({
     times_earned: { type: Number, required: true},
     image_path: { type: String, required: true},
     description: { type: String, required: true},
-    last_time_earned: { type: Date, required: true}
+    last_time_earned: { type: Date, required: false}
 });
 
 module.exports = mongoose.model('Badge', BadgeSchema);

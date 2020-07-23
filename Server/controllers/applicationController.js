@@ -27,7 +27,8 @@ applicationController.postApp = async (req, res) => {
         name: name,
         description: description,
         owner: owner,
-        code: code
+        code: code,
+        focus: false,
     });
     await app.save( (err, data) => {
         if(err){
@@ -94,7 +95,23 @@ applicationController.getApp = async  (req, res) => {
             data
         });
     })
-}
+};
+
+applicationController.getFocusApp= async (req, res)=> {
+    const user_id = req.params.user_id;
+    await Application.findOne( {focus: true, owner: user_id}, (err, data) => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+        res.status(200).json({
+            ok: true,
+            data
+        });
+    })
+};
 
 
 module.exports = applicationController;

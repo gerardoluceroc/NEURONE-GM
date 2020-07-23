@@ -1,0 +1,27 @@
+<div mat-dialog-content>
+  <h1 mat-dialog-title>{{data.message}}</h1>
+  <mat-form-field>
+    <mat-label>Action Name</mat-label>
+    <input matInput [(ngModel)]="action.name">
+  </mat-form-field>
+  <mat-form-field style="display: block; width: 90%">
+    <mat-label>Action Description</mat-label>
+    <textarea matInput
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              [(ngModel)]="action.description"
+              cdkAutosizeMinRows="1"
+              cdkAutosizeMaxRows="5"></textarea>
+  </mat-form-field>
+  <mat-form-field appearance="standard">
+    <mat-label>Repeatable</mat-label>
+    <mat-select [(value)]="action.repeatable" >
+      <mat-option value=true>Yes</mat-option>
+      <mat-option value=false>No</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="action">Confirm</button>
+  <button mat-button (click)="onClickNO()">Cancel</button>
+</div>

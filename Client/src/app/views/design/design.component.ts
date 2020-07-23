@@ -11,8 +11,8 @@ export class DesignComponent implements OnInit {
   @Input() marked: string;
   points = false;
   levels = false;
-  missions = false;
-  rules = false;
+  challenges = false;
+  actions = false;
   badges = false;
   ngOnInit(): void {
     // con este switch se resalta la etiqueta del sidebar en la que se encuentra el usuario
@@ -23,11 +23,11 @@ export class DesignComponent implements OnInit {
       case 'levels':
         this.levels = true;
         break;
-      case 'missions':
-        this.missions = true;
+      case 'actions':
+        this.actions = true;
         break;
-      case 'rules':
-        this.rules = true;
+      case 'challenges':
+        this.challenges = true;
         break;
       case 'badges':
         this.badges = true;

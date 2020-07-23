@@ -16,7 +16,13 @@ import { PlayersComponent } from './views/players/players.component';
 import {MatCardModule} from '@angular/material/card';
 import { AppManagementComponent } from './views/app-management/app-management.component';
 import {MatSelectModule} from '@angular/material/select';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { DesignActionsComponent } from './views/design-actions/design-actions.component';
+import {EndpointsService} from './endpoints/endpoints.service';
+import {HttpClientModule} from '@angular/common/http';
+import { AddActionDialogComponent } from './components/add-action-dialog/add-action-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import { DesignChallengesComponent } from './views/design-challenges/design-challenges.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +33,10 @@ import {ReactiveFormsModule} from '@angular/forms';
     DesignPointsComponent,
     DesignLevelsComponent,
     PlayersComponent,
-    AppManagementComponent
+    AppManagementComponent,
+    DesignActionsComponent,
+    AddActionDialogComponent,
+    DesignChallengesComponent
   ],
   imports: [
     BrowserModule,
@@ -38,9 +47,12 @@ import {ReactiveFormsModule} from '@angular/forms';
     MatInputModule,
     MatCardModule,
     MatSelectModule,
-    ReactiveFormsModule
+    HttpClientModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [EndpointsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

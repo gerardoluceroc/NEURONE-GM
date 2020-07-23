@@ -1,16 +1,16 @@
 <app-header marked="design"></app-header>
 <div class="main-content">
   <div class="column">
+    <a href="/design/actions" *ngIf="actions"><p class="p-label" ><strong class="marked">Actions</strong></p></a>
+    <a href="/design/actions" *ngIf="!actions"><p class="p-label" >Actions</p></a>
     <a href="/design/points" *ngIf="points"><p class="p-label" ><strong class="marked">Points</strong></p></a>
     <a href="/design/points" *ngIf="!points"><p class="p-label" >Points</p></a>
     <a href="/design/levels" *ngIf="levels"><p class="p-label" ><strong class="marked">Levels</strong></p></a>
     <a href="/design/levels" *ngIf="!levels"><p class="p-label" >Levels</p></a>
-    <a href="/design/missions" *ngIf="missions"><p class="p-label" ><strong class="marked">Missions</strong></p></a>
-    <a href="/design/missions" *ngIf="!missions"><p class="p-label" >Missions</p></a>
-    <a href="/design/rules" *ngIf="rules"><p class="p-label" ><strong class="marked">Rules</strong></p></a>
-    <a href="/design/rules" *ngIf="!rules"><p class="p-label" >Rules</p></a>
+    <a href="/design/challenges" *ngIf="challenges"><p class="p-label" ><strong class="marked">Challenges</strong></p></a>
+    <a href="/design/challenges" *ngIf="!challenges"><p class="p-label" >Challenges</p></a>
     <a href="/design/badges" *ngIf="badges"><p class="p-label" ><strong class="marked">Badges</strong></p></a>
-    <a href="/design/points" *ngIf="!badges"><p class="p-label" >Badges</p></a>
+    <a href="/design/badges" *ngIf="!badges"><p class="p-label" >Badges</p></a>
   </div>
 </div>
 

@@ -1,6 +1,22 @@
 const Badge = require('../models/badge');
+const multer = require('multer');
+var path = require('path');
 
 const badgeController = {};
+
+const storage = multer.diskStorage({
+    destination: 'public/images',
+    filename: function (req, file, cb) {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+        cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname))
+    }
+});
+
+badgeController.upload = multer({
+    storage,
+    dest: 'public/images'
+});
+
 
 badgeController.getBadges = async (req, res) => {
     const app_name = req.params.app_name;
@@ -18,19 +34,20 @@ badgeController.getBadges = async (req, res) => {
     });
 };
 
-badgeController.postBadge= async (req, res) => {
+badgeController.postBadge =  async  (req, res) => {
     const app_name = req.params.app_name;
-    const {title, times_earned, image_path, description, last_time_earned} = req.body;
-    if(!title || !times_earned || !image_path || !description || !last_time_earned){
+    const {title, description} = req.body;
+    if(!title || !description){
         res.status(400).send('Write all the fields');
         return;
     }
-    var badge = new badge({
+    var badge = new Badge({
         title: title,
         description: description,
         app_name: app_name,
-        image_path: image_path,
-        last_time_earned: last_time_earned
+        image_path: req.file.path,
+        times_earned: 0,
+        last_time_earned: null
     });
     await badge.save( (err, data) => {
         if(err){

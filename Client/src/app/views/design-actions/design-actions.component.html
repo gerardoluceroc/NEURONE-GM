@@ -1,0 +1,28 @@
+<app-design marked="actions"></app-design>
+<div class="content">
+  <div class="column">
+    <button mat-raised-button class="button-add" (click)="openAddActionDialog()">Add</button>
+    <mat-form-field style="width: 100%">
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" #input>
+    </mat-form-field>
+    <table mat-table [dataSource]="table" style="width: 100%">
+      <ng-container matColumnDef="name">
+        <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+      </ng-container>
+
+      <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="select(row)" style="cursor:pointer"></mat-row>
+    </table>
+  </div>
+  <div *ngIf="selectedRow!=null" class="display-column">
+    <button mat-raised-button class="button-edit" (click)="openEditActionDialog()">Edit</button>
+    <button mat-raised-button class="button-delete" (click)="deleteAction()">Delete</button>
+    <div class="points-column">
+      <p class="attributes">Name: {{selectedRow.name}}</p>
+      <p class="attributes">Description: {{selectedRow.description}}</p>
+      <p class="attributes">Repeatable: {{selectedRow.repeatable}}</p>
+    </div>
+  </div>
+</div>
+
+
