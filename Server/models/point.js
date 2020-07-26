@@ -4,6 +4,7 @@ const { Schema } = mongoose;
 const PointSchema = new Schema({
     app_name: { type: String, required: true},
     name: { type: String, required: true},
+    identifier: { type: String, required: true, unique: true},
     abbreviation: { type: String, required: true},
     initial_points: { type: Number, required: true},
     max_points: { type: Number, required: true},

@@ -21,8 +21,9 @@ import { DesignActionsComponent } from './views/design-actions/design-actions.co
 import {EndpointsService} from './endpoints/endpoints.service';
 import {HttpClientModule} from '@angular/common/http';
 import { AddActionDialogComponent } from './components/add-action-dialog/add-action-dialog.component';
-import {MatDialogModule} from "@angular/material/dialog";
+import {MatDialogModule} from '@angular/material/dialog';
 import { DesignChallengesComponent } from './views/design-challenges/design-challenges.component';
+import { AddPointDialogComponent } from './components/add-point-dialog/add-point-dialog.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { DesignChallengesComponent } from './views/design-challenges/design-chal
     AppManagementComponent,
     DesignActionsComponent,
     AddActionDialogComponent,
-    DesignChallengesComponent
+    AddPointDialogComponent,
+    DesignChallengesComponent,
   ],
   imports: [
     BrowserModule,

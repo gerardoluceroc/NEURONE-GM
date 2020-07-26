@@ -18,12 +18,7 @@ export class HeaderComponent implements OnInit {
   home = false;
   ngOnInit(): void {
     // traer app activa
-    this.endpointsService.getActiveApp().subscribe((data: {data: object, ok: boolean}) => { // Success
-        this.focusApp = data.data;
-      },
-      (error) => {
-        console.error(error);
-      });
+    this.getActiveApp();
     // con este switch se resalta la etiqueta del header en la que se encuentra el usuario
     switch (this.marked) {
       case 'design':
@@ -41,6 +36,14 @@ export class HeaderComponent implements OnInit {
       default:
         break;
     }
+  }
+  getActiveApp(){
+    this.endpointsService.getActiveApp().subscribe((data: {data: object, ok: boolean}) => { // Success
+        this.focusApp = data.data;
+      },
+      (error) => {
+        console.error(error);
+      });
   }
 
 }

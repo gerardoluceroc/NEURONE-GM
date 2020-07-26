@@ -36,8 +36,8 @@ badgeController.getBadges = async (req, res) => {
 
 badgeController.postBadge =  async  (req, res) => {
     const app_name = req.params.app_name;
-    const {title, description} = req.body;
-    if(!title || !description){
+    const {title, description, identifier} = req.body;
+    if(!title || !description || !identifier){
         res.status(400).send('Write all the fields');
         return;
     }
@@ -47,7 +47,8 @@ badgeController.postBadge =  async  (req, res) => {
         app_name: app_name,
         image_path: req.file.path,
         times_earned: 0,
-        last_time_earned: null
+        last_time_earned: null,
+        identifier: identifier
     });
     await badge.save( (err, data) => {
         if(err){

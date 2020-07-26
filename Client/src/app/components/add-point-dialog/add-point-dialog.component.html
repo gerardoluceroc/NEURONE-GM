@@ -1,0 +1,45 @@
+<div mat-dialog-content>
+  <h1 mat-dialog-title>{{data.message}}</h1>
+  <mat-form-field>
+    <mat-label>Point Name</mat-label>
+    <input matInput [(ngModel)]="point.name">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Point Identifier</mat-label>
+    <input matInput [(ngModel)]="point.identifier">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Point Abbreviation</mat-label>
+    <input matInput [(ngModel)]="point.abbreviation">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Initial Points</mat-label>
+    <input matInput [(ngModel)]="point.initial_points">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Max Points</mat-label>
+    <input matInput [(ngModel)]="point.max_points">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Daily Max</mat-label>
+    <input matInput [(ngModel)]="point.daily_max">
+  </mat-form-field>
+  <mat-form-field appearance="standard">
+    <mat-label>Default</mat-label>
+    <mat-select [(value)]="point.is_default" >
+      <mat-option value=true>Yes</mat-option>
+      <mat-option value=false>No</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="standard">
+    <mat-label>Hidden</mat-label>
+    <mat-select [(value)]="point.hidden" >
+      <mat-option value=true>Yes</mat-option>
+      <mat-option value=false>No</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div mat-dialog-Points>
+  <button mat-button [mat-dialog-close]="point">Confirm</button>
+  <button mat-button (click)="onClickNO()">Cancel</button>
+</div>

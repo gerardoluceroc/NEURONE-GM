@@ -6,12 +6,14 @@ export interface DialogData {
   name: string;
   description: string;
   repeatable: boolean;
+  identifier: string;
 }
 
 export class Action {
   name: string;
   description: string;
   repeatable: boolean;
+  identifier: string;
 }
 
 @Component({
@@ -27,6 +29,7 @@ export class AddActionDialogComponent implements OnInit {
     this.action.name = this.data.name;
     this.action.description = this.data.description;
     this.action.repeatable = this.data.repeatable;
+    this.action.identifier = this.data.identifier;
   }
 
   onClickNO(){

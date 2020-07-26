@@ -20,12 +20,12 @@ pointController.getPoints = async (req, res) => {
 
 pointController.postPoint = async (req, res) => {
     const app_name = req.params.app_name;
-    const {name, abbreviation, initial_points, max_points, daily_max, is_default, hidden} = req.body;
-    if(!name || !abbreviation || !initial_points || !max_points || !daily_max || !is_default || !hidden){
+    const {name, abbreviation, initial_points, max_points, daily_max, is_default, hidden, identifier} = req.body;
+    if(!name || !abbreviation || !initial_points || !max_points || !daily_max || !is_default || !hidden || !identifier){
         res.status(400).send('Write all the fields');
         return;
     }
-    var point = new point({
+    var point = new Point({
         name: name,
         abbreviation: abbreviation,
         app_name: app_name,
@@ -33,7 +33,8 @@ pointController.postPoint = async (req, res) => {
         max_points: max_points,
         daily_max: daily_max,
         is_default: is_default,
-        hidden: hidden
+        hidden: hidden,
+        identifier: identifier
     });
     await point.save( (err, data) => {
         if(err){

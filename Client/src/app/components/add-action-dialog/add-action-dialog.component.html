@@ -4,7 +4,11 @@
     <mat-label>Action Name</mat-label>
     <input matInput [(ngModel)]="action.name">
   </mat-form-field>
-  <mat-form-field style="display: block; width: 90%">
+  <mat-form-field>
+    <mat-label>Action Identifier</mat-label>
+    <input matInput [(ngModel)]="action.identifier">
+  </mat-form-field>
+  <mat-form-field >
     <mat-label>Action Description</mat-label>
     <textarea matInput
               cdkTextareaAutosize

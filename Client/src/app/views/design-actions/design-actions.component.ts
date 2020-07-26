@@ -16,8 +16,9 @@ export class DesignActionsComponent implements OnInit {
   actions = [];
   displayedColumns: string[] = ['name'];
   selectedRow = null;
+  focusApp: any = {};
   ngOnInit(): void {
-    this.getActions();
+    this.getActiveApp();
   }
 
   applyFilter(event: Event) {
@@ -29,8 +30,17 @@ export class DesignActionsComponent implements OnInit {
     this.selectedRow = row;
   }
 
+  getActiveApp(){
+    this.endpointsService.getActiveApp().subscribe((data: {data: object, ok: boolean}) => { // Success
+        this.focusApp = data.data;
+        this.getActions();
+      },
+      (error) => {
+        console.error(error);
+      });
+  }
   getActions(){
-    this.endpointsService.getActions('NEURONE').subscribe((data: {
+    this.endpointsService.getActions(this.focusApp.name).subscribe((data: {
         actions: any[]; ok: boolean} ) => { // Success
         this.actions = data.actions;
         this.table.data = this.actions;
@@ -46,7 +56,8 @@ export class DesignActionsComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res){
-        this.endpointsService.postAction(res, 'NEURONE').subscribe((data: { action: any; ok: boolean }) => {
+        console.log(res);
+        this.endpointsService.postAction(res, this.focusApp.name).subscribe((data: { action: any; ok: boolean }) => {
           this.getActions();
         }, (error) => {
           console.error(error);
@@ -78,5 +89,7 @@ export class DesignActionsComponent implements OnInit {
       console.error(error);
     });
   }
+
+
 
 }

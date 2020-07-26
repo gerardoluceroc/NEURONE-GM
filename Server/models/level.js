@@ -4,6 +4,7 @@ const { Schema } = mongoose;
 const LevelSchema = new Schema({
     app_name: { type: String, required: true},
     name: { type: String, required: true},
+    identifier: { type: String, required: true, unique: true},
     point_required_id: { type: String, required: true},
     description: { type: String, required: true},
     point_threshold: { type: Number, required: true}

@@ -14,6 +14,7 @@ export class EndpointsService {
     return this.http.get(this.rootURL + 'applications/1/focus');
   }
 
+  /* ACTIONS */
   getActions(appName){
     return this.http.get(this.rootURL + appName + '/actions');
   }
@@ -26,5 +27,17 @@ export class EndpointsService {
   deleteAction(appName, actionId){
     return this.http.delete( this.rootURL + appName + '/actions/' + actionId);
   }
-
+  /* POINTS */
+  getPoints(appName){
+    return this.http.get(this.rootURL + appName + '/points');
+  }
+  postPoint(newPoint, appName){
+    return this.http.post(this.rootURL + appName + '/points', newPoint);
+  }
+  putPoint(updatedPoint, appName, pointId){
+    return this.http.put( this.rootURL + appName + '/points/' + pointId, updatedPoint);
+  }
+  deletePoint(appName, pointId){
+    return this.http.delete( this.rootURL + appName + '/points/' + pointId);
+  }
 }

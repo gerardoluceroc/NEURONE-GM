@@ -1,7 +1,7 @@
 <app-design marked="points"></app-design>
 <div class="content">
   <div class="column">
-    <button mat-raised-button class="button-add">Add</button>
+    <button mat-raised-button class="button-add" (click)="openAddPointDialog()">Add</button>
     <mat-form-field style="width: 100%">
       <mat-label>Filter</mat-label>
       <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
@@ -15,12 +15,15 @@
     </table>
   </div>
   <div *ngIf="selectedRow!=null" class="display-column">
-    <button mat-raised-button class="button-edit">Edit</button>
-    <button mat-raised-button class="button-delete">Delete</button>
+    <button mat-raised-button class="button-edit" (click)="openEditPointDialog()">Edit</button>
+    <button mat-raised-button class="button-delete" (click)="deletePoint()">Delete</button>
     <div class="points-column">
       <p class="attributes">Name: {{selectedRow.name}}</p>
-      <p class="attributes">Type: {{selectedRow.type}}</p>
-      <p class="attributes">Abbreviation: {{selectedRow.abbreviation}}</p>
+      <p class="attributes">Identifier: {{selectedRow.identifier}}</p>
+      <p class="attributes">Initial Points: {{selectedRow.initial_points}}</p>
+      <p class="attributes">Max Points: {{selectedRow.max_points}}</p>
+      <p class="attributes">Daily Max: {{selectedRow.daily_max}}</p>
+      <p class="attributes">Default: {{selectedRow.is_default}}</p>
       <p class="attributes">Hidden: {{selectedRow.hidden}}</p>
     </div>
   </div>

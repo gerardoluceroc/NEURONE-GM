@@ -3,6 +3,7 @@ const { Schema } = mongoose;
 
 const ChallengeSchema = new Schema({
     app_name: { type: String, required: true},
+    identifier: { type: String, required: true, unique: true},
     name: { type: String, required: true},
     description: { type: String, required: true},
     start_date: { type: Date, required: true},
@@ -24,6 +25,12 @@ const ChallengeSchema = new Schema({
         }
     ],
     badge_id: { type: String, required: false},
+    points_awards: [
+        {
+            point_id: { type: String, required: true},
+            points_amount: { type: Number, required: true}
+        }
+    ]
 });
 
 module.exports = mongoose.model('Challenge', ChallengeSchema);

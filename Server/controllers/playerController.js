@@ -20,15 +20,16 @@ playerController.getPlayers = async (req, res) => {
 
 playerController.postPlayer = async (req, res) => {
     const app_name = req.params.app_name;
-    const {name, last_name} = req.body;
-    if(!name || !last_name){
+    const {name, last_name, identifier} = req.body;
+    if(!name || !last_name || !identifier){
         res.status(400).send('Write all the fields');
         return;
     }
     var player = new Player({
         name: name,
         last_name: last_name,
-        app_name: app_name
+        app_name: app_name,
+        identifier,
     });
     await player.save( (err, data) => {
         if(err){

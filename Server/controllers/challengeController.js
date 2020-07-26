@@ -22,8 +22,8 @@ challengeController.getChallenges = async (req, res) => {
 
 challengeController.postChallenge = async (req, res) => {
     const app_name = req.params.app_name;
-    const {name, description, start_date, end_date, assign_to, actions_required, challenges_required, badge_id} = req.body;
-    if(!name || !description || !start_date || !end_date || !assign_to || !actions_required || !challenges_required){
+    const {name, description, start_date, end_date, assign_to, actions_required, challenges_required, badge_id, identifier} = req.body;
+    if(!name || !description || !start_date || !end_date || !assign_to || !actions_required || !challenges_required || identifier){
         res.status(400).send('Write all the fields');
         return;
     }
@@ -37,6 +37,7 @@ challengeController.postChallenge = async (req, res) => {
         actions_required: actions_required,
         challenges_required: challenges_required,
         badge_id: badge_id,
+        identifier: identifier
     });
     await challenge.save( (err) => {
         if(err){

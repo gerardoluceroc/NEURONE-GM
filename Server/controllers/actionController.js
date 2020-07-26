@@ -21,8 +21,8 @@ actionController.getActions = async (req, res) => {
 
 actionController.postAction = async (req, res) => {
     const app_name = req.params.app_name;
-    const {name, description, repeatable} = req.body;
-    if(!name || !description || !repeatable){
+    const {name, description, repeatable, identifier} = req.body;
+    if(!name || !description || !repeatable || !identifier){
         res.status(400).send('Write all the fields');
         return;
     }
@@ -30,7 +30,8 @@ actionController.postAction = async (req, res) => {
         name: name,
         description: description,
         app_name: app_name,
-        repeatable: repeatable
+        repeatable: repeatable,
+        identifier: identifier
     });
     await action.save( (err, data) => {
         if(err){

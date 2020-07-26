@@ -20,8 +20,8 @@ levelController.getLevels = async (req, res) => {
 
 levelController.postLevel = async (req, res) => {
     const app_name = req.params.app_name;
-    const {name, description, point_required_id, point_threshold} = req.body;
-    if(!name || !description || !point_required_id || !point_threshold){
+    const {name, description, point_required_id, point_threshold, identifier} = req.body;
+    if(!name || !description || !point_required_id || !point_threshold || !identifier){
         res.status(400).send('Write all the fields');
         return;
     }
@@ -30,7 +30,8 @@ levelController.postLevel = async (req, res) => {
         description: description,
         app_name: app_name,
         point_required_id: point_required_id,
-        point_threshold: point_threshold
+        point_threshold: point_threshold,
+        identifier: identifier
     });
     await level.save( (err, data) => {
         if(err){
