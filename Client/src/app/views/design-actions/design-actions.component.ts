@@ -40,7 +40,7 @@ export class DesignActionsComponent implements OnInit {
       });
   }
   getActions(){
-    this.endpointsService.getActions(this.focusApp.name).subscribe((data: {
+    this.endpointsService.getActions(this.focusApp.code).subscribe((data: {
         actions: any[]; ok: boolean} ) => { // Success
         this.actions = data.actions;
         this.table.data = this.actions;
@@ -57,7 +57,7 @@ export class DesignActionsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(res => {
       if (res){
         console.log(res);
-        this.endpointsService.postAction(res, this.focusApp.name).subscribe((data: { action: any; ok: boolean }) => {
+        this.endpointsService.postAction(res, this.focusApp.code).subscribe((data: { action: any; ok: boolean }) => {
           this.getActions();
         }, (error) => {
           console.error(error);
@@ -68,11 +68,11 @@ export class DesignActionsComponent implements OnInit {
   openEditActionDialog(){
     const dialogRef = this.dialog.open(AddActionDialogComponent, {
       data: {message: 'Edit Action',
-        name: this.selectedRow.name, description: this.selectedRow.description, repeatable: this.selectedRow.repeatable},
+        name: this.selectedRow.name, description: this.selectedRow.description, repeatable: this.selectedRow.repeatable, code: this.selectedRow.code},
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res){
-        this.endpointsService.putAction(res, this.selectedRow.app_name, this.selectedRow._id).subscribe((data: { action: any; ok: boolean }) => {
+        this.endpointsService.putAction(res, this.focusApp.code, this.selectedRow.code).subscribe((data: { action: any; ok: boolean }) => {
           this.getActions();
           this.selectedRow = null;
         }, (error) => {
@@ -82,7 +82,7 @@ export class DesignActionsComponent implements OnInit {
     });
   }
   deleteAction(){
-    this.endpointsService.deleteAction(this.selectedRow.app_name, this.selectedRow._id).subscribe( () => {
+    this.endpointsService.deleteAction(this.focusApp.code, this.selectedRow.code).subscribe( () => {
       this.getActions();
       this.selectedRow = null;
     },  (error) =>{

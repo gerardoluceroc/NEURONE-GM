@@ -1,12 +1,13 @@
 const Challenge = require('../models/challenge');
+const Action = require('../models/action');
 const ActionChallenge = require('../models/actionChallenge');
 const ChallengeRequisite = require('../models/challengeRequisite');
 const ChallengePlayer = require('../models/challengePlayer');
 const challengeController = {};
 
 challengeController.getChallenges = async (req, res) => {
-    const app_name = req.params.app_name;
-    await Challenge.find({ app_name: app_name }, (err, data) => {
+    const app_code = req.params.app_code;
+    await Challenge.find({ app_code: app_code }, (err, data) => {
         if (err) {
             return res.status(404).json({
                 ok: false,
@@ -17,37 +18,55 @@ challengeController.getChallenges = async (req, res) => {
             ok: true,
             data
         });
-    });
+    }).populate('actions_required.action');
 };
 
 challengeController.postChallenge = async (req, res) => {
-    const app_name = req.params.app_name;
-    const {name, description, start_date, end_date, assign_to, actions_required, challenges_required, badge_id, identifier} = req.body;
-    if(!name || !description || !start_date || !end_date || !assign_to || !actions_required || !challenges_required || identifier){
+    const app_code = req.params.app_code;
+    const {name, description, start_date, end_date, assign_to, actions_required, challenges_required, badge_id, code} = req.body;
+    if(!name || !description || !start_date || !end_date || !assign_to || !code){
         res.status(400).send('Write all the fields');
         return;
+    }
+    let actions = [];
+    if(actions_required && actions_required.length > 0){
+        for(let i = 0; i<actions_required.length; i++){
+            await Action.findOne({code: actions_required[0].action_code}, (err, action)=>{
+                if(err){
+                    return res.status(404).json({
+                        ok: false,
+                        err
+                    });
+                }
+                actions.push({action: action._id, times_required: actions_required[0].times_required});
+            })
+        }
     }
     var challenge = new Challenge({
         name: name,
         description: description,
-        app_name: app_name,
+        app_code: app_code,
         start_date: start_date,
         end_date: end_date,
         assign_to: assign_to,
-        actions_required: actions_required,
-        challenges_required: challenges_required,
-        badge_id: badge_id,
-        identifier: identifier
+        code: code,
+        actions_required: actions,
+        challenges_required: [],
+        points_awards: []
     });
-    await challenge.save( (err) => {
+    await challenge.save( (err,data ) => {
         if(err){
             return res.status(404).json({
                 ok: false,
                 err
             });
         }
+        res.status(200).json({
+            ok: true,
+            data
+        });
     });
-    const actionsChallenges = [];
+    /*const actionsChallenges = [];
     const challengeRequisites = [];
     const challengesPlayers = [];
     for (let i = 0 ; i < actions_required.length ; i++){
@@ -118,7 +137,7 @@ challengeController.postChallenge = async (req, res) => {
     res.status(200).json({
         ok: true,
         challenge
-    });
+    });*/
 };
 
 challengeController.getChallengesRequisites = async (req, res)=>{

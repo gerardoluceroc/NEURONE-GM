@@ -1,0 +1,34 @@
+<div mat-dialog-content>
+  <h1 mat-dialog-title>{{data.message}}</h1>
+  <mat-form-field>
+    <mat-label>Level Name</mat-label>
+    <input matInput [(ngModel)]="level.name">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Level Code</mat-label>
+    <input matInput [(ngModel)]="level.code">
+  </mat-form-field>
+  <mat-form-field >
+    <mat-label>Level Description</mat-label>
+    <textarea matInput
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              [(ngModel)]="level.description"
+              cdkAutosizeMinRows="1"
+              cdkAutosizeMaxRows="5"></textarea>
+  </mat-form-field>
+  <mat-form-field appearance="standard">
+    <mat-label>Level Point Required</mat-label>
+    <mat-select [(ngModel)]="level.point_required" >
+      <mat-option *ngFor="let point of data.points" [value]="point.code">{{point.name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Point Threshold</mat-label>
+    <input matInput [(ngModel)]="level.point_threshold">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="level">Confirm</button>
+  <button mat-button (click)="onClickNO()">Cancel</button>
+</div>

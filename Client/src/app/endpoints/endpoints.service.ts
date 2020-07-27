@@ -15,29 +15,42 @@ export class EndpointsService {
   }
 
   /* ACTIONS */
-  getActions(appName){
-    return this.http.get(this.rootURL + appName + '/actions');
+  getActions(appCode){
+    return this.http.get(this.rootURL + appCode + '/actions');
   }
-  postAction(newAction, appName){
-    return this.http.post(this.rootURL + appName + '/actions', newAction);
+  postAction(newAction, appCode){
+    return this.http.post(this.rootURL + appCode + '/actions', newAction);
   }
-  putAction(updatedAction, appName, actionId){
-    return this.http.put( this.rootURL + appName + '/actions/' + actionId, updatedAction);
+  putAction(updatedAction, appCode, actionCode){
+    return this.http.put( this.rootURL + appCode + '/actions/' + actionCode, updatedAction);
   }
-  deleteAction(appName, actionId){
-    return this.http.delete( this.rootURL + appName + '/actions/' + actionId);
+  deleteAction(appCode, actionCode){
+    return this.http.delete( this.rootURL + appCode + '/actions/' + actionCode);
   }
   /* POINTS */
-  getPoints(appName){
-    return this.http.get(this.rootURL + appName + '/points');
+  getPoints(appCode){
+    return this.http.get(this.rootURL + appCode + '/points');
   }
-  postPoint(newPoint, appName){
-    return this.http.post(this.rootURL + appName + '/points', newPoint);
+  postPoint(newPoint, appCode){
+    return this.http.post(this.rootURL + appCode + '/points', newPoint);
   }
-  putPoint(updatedPoint, appName, pointId){
-    return this.http.put( this.rootURL + appName + '/points/' + pointId, updatedPoint);
+  putPoint(updatedPoint, appCode, pointCode){
+    return this.http.put( this.rootURL + appCode + '/points/' + pointCode, updatedPoint);
   }
-  deletePoint(appName, pointId){
-    return this.http.delete( this.rootURL + appName + '/points/' + pointId);
+  deletePoint(appCode, pointCode){
+    return this.http.delete( this.rootURL + appCode + '/points/' + pointCode);
+  }
+  /* LEVELS */
+  getLevels(appCode){
+    return this.http.get(this.rootURL + appCode + '/levels');
+  }
+  postLevel(newLevel, appCode){
+    return this.http.post(this.rootURL + appCode + '/levels', newLevel);
+  }
+  putLevel(updatedLevel, appCode, levelCode){
+    return this.http.put( this.rootURL + appCode + '/levels/' + levelCode, updatedLevel);
+  }
+  deleteLevel(appCode, levelCode){
+    return this.http.delete( this.rootURL + appCode + '/levels/' + levelCode);
   }
 }

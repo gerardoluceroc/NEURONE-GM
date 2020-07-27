@@ -3,9 +3,8 @@ const { Schema } = mongoose;
 
 const ActionPlayerSchema = new Schema({
     app_name: { type: String, required: true},
-    player_id: { type: String, required: true},
-    action_name: { type: String, required: true},
-    action_id: { type: String, required: true},
+    player: { type: Schema.Types.ObjectId, ref: 'Player', required: true},
+    action: { type: Schema.Types.ObjectId, ref: 'Action', required: true},
     date: { type: Date, required: true},
 });
 

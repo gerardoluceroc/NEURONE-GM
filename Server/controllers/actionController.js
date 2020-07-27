@@ -4,8 +4,8 @@ const Application = require('../models/application');
 const actionController = {};
 
 actionController.getActions = async (req, res) => {
-    const app_name = req.params.app_name;
-    await Action.find({ app_name: app_name }, (err, actions) => {
+    const app_code = req.params.app_code;
+    await Action.find({ app_code: app_code }, {_id: 0}, (err, actions) => {
         if (err) {
             return res.status(404).json({
                 ok: false,
@@ -20,18 +20,18 @@ actionController.getActions = async (req, res) => {
 };
 
 actionController.postAction = async (req, res) => {
-    const app_name = req.params.app_name;
-    const {name, description, repeatable, identifier} = req.body;
-    if(!name || !description || !repeatable || !identifier){
+    const app_code = req.params.app_code;
+    const {name, description, repeatable, code} = req.body;
+    if(!name || !description || !repeatable || !code){
         res.status(400).send('Write all the fields');
         return;
     }
     var action = new Action({
         name: name,
         description: description,
-        app_name: app_name,
+        app_code: app_code,
         repeatable: repeatable,
-        identifier: identifier
+        code: code
     });
     await action.save( (err, data) => {
         if(err){
@@ -48,13 +48,13 @@ actionController.postAction = async (req, res) => {
 };
 
 actionController.updateAction = async (req, res) => {
-    const action_id = req.params.action_id;
+    const action_code = req.params.action_code;
     const {name, description, repeatable} = req.body;
     if(!name || !description || !repeatable){
         res.status(400).send('Write all the fields');
         return;
     }
-    await Action.updateOne( { _id: action_id}, req.body, (err, data) => {
+    await Action.updateOne( { code: action_code}, req.body, (err, data) => {
         if(err){
             return res.status(404).json({
                 ok: false,
@@ -69,8 +69,8 @@ actionController.updateAction = async (req, res) => {
 };
 
 actionController.deleteAction = async (req, res) => {
-    const action_id = req.params.action_id;
-    await Action.deleteOne( { _id: action_id}, (err, data) => {
+    const action_code = req.params.action_code;
+    await Action.deleteOne( { code: action_code}, (err, data) => {
         if(err){
             return res.status(404).json({
                 ok: false,
@@ -85,8 +85,8 @@ actionController.deleteAction = async (req, res) => {
 };
 
 actionController.getAction = async  (req, res) => {
-    const action_id = req.params.action_id;
-    await Action.findOne( { _id: action_id}, (err, data) => {
+    const action_code = req.params.action_code;
+    await Action.findOne( { code: action_code}, {_id: 0}, (err, data) => {
         if(err){
             return res.status(404).json({
                 ok: false,

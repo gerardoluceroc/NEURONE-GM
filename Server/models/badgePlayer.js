@@ -3,11 +3,10 @@ const { Schema } = mongoose;
 
 const BadgePlayerSchema = new Schema({
     app_name: { type: String, required: true},
-    player_id: { type: String, required: true},
+    player: { type: Schema.Types.ObjectId, ref: 'Player', required: true},
     badges: [
         {
-            title: { type: String, required: true},
-            description: { type: String, required: true},
+            badge: {type: Schema.Types.ObjectId, ref: 'Badge', required: true},
             acquisition_date: { type: Date, required: true},
         }
     ]

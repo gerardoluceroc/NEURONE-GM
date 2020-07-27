@@ -30,7 +30,7 @@ export class DesignPointsComponent implements OnInit {
       });
   }
   getPoints(){
-    this.endpointsService.getPoints(this.focusApp.name).subscribe((data: {
+    this.endpointsService.getPoints(this.focusApp.code).subscribe((data: {
         data: any[]; ok: boolean} ) => { // Success
         this.points = data.data;
         this.table.data = this.points;
@@ -45,7 +45,7 @@ export class DesignPointsComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res){
-        this.endpointsService.postPoint(res, this.focusApp.name).subscribe((data: { data: any; ok: boolean }) => {
+        this.endpointsService.postPoint(res, this.focusApp.code).subscribe((data: { data: any; ok: boolean }) => {
           this.getPoints();
         }, (error) => {
           console.error(error);
@@ -56,13 +56,13 @@ export class DesignPointsComponent implements OnInit {
   openEditPointDialog(){
     const dialogRef = this.dialog.open(AddPointDialogComponent, {
       data: {message: 'Edit Point',
-        name: this.selectedRow.name, identifier: this.selectedRow.identifier, initial_points: this.selectedRow.initial_points,
+        name: this.selectedRow.name, code: this.selectedRow.code, initial_points: this.selectedRow.initial_points,
         max_points: this.selectedRow.max_points, daily_max: this.selectedRow.daily_max, is_default: this.selectedRow.daily_max,
         abbreviation: this.selectedRow.abbreviation},
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res){
-        this.endpointsService.putPoint(res, this.selectedRow.app_name, this.selectedRow._id).subscribe((data: { point: any; ok: boolean }) => {
+        this.endpointsService.putPoint(res, this.focusApp.code, this.selectedRow.code).subscribe((data: { point: any; ok: boolean }) => {
           this.getPoints();
           this.selectedRow = null;
         }, (error) => {
@@ -72,7 +72,7 @@ export class DesignPointsComponent implements OnInit {
     });
   }
   deletePoint(){
-    this.endpointsService.deletePoint(this.selectedRow.app_name, this.selectedRow._id).subscribe( () => {
+    this.endpointsService.deletePoint(this.focusApp.code, this.selectedRow.code).subscribe( () => {
       this.getPoints();
       this.selectedRow = null;
     },  (error) => {

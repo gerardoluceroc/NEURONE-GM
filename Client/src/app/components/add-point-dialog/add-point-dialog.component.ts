@@ -5,7 +5,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 export interface DialogData {
   message: string;
   name: string;
-  identifier: string;
+  code: string;
   abbreviation: string;
   initial_points: number;
   max_points: number;
@@ -16,7 +16,7 @@ export interface DialogData {
 
 export class Point {
   name: string;
-  identifier: string;
+  code: string;
   abbreviation: string;
   initial_points: number;
   max_points: number;
@@ -35,7 +35,7 @@ export class AddPointDialogComponent implements OnInit {
   point: Point = new Point();
   ngOnInit(): void {
     this.point.name = this.data.name;
-    this.point.identifier = this.data.identifier;
+    this.point.code = this.data.code;
     this.point.abbreviation = this.data.abbreviation;
     this.point.initial_points = this.data.initial_points;
     this.point.max_points = this.data.max_points;

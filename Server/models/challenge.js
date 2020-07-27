@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const ChallengeSchema = new Schema({
-    app_name: { type: String, required: true},
-    identifier: { type: String, required: true, unique: true},
+    app_code: { type: String, required: true},
+    code: { type: String, required: true, unique: true},
     name: { type: String, required: true},
     description: { type: String, required: true},
     start_date: { type: Date, required: true},
@@ -11,24 +11,21 @@ const ChallengeSchema = new Schema({
     assign_to: { type: String, required: true},
     actions_required: [
         {
-            name: { type: String, required: true},
-            description: { type: String, required: true},
+            _id: false,
+            action: {type: Schema.Types.ObjectId, ref: 'Action', required: true},
             times_required: { type: Number, required: true},
-            action_id: { type: String, required: true}
         }
     ],
     challenges_required: [
         {
-            challenge_id: { type: String, required: true},
-            name: { type: String, required: true},
-            description: { type: String, required: true},
+            challenge: {type: Schema.Types.ObjectId, ref: 'Challenge', required: true}
         }
     ],
-    badge_id: { type: String, required: false},
+    badge: { type: Schema.Types.ObjectId, ref: 'Badge'},
     points_awards: [
         {
-            point_id: { type: String, required: true},
-            points_amount: { type: Number, required: true}
+            point: {type: Schema.Types.ObjectId, ref: 'Point', required: true},
+            amount: {type: Number, required: true}
         }
     ]
 });

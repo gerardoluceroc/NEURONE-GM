@@ -3,7 +3,7 @@ const Application = require('../models/application');
 const applicationController = {};
 
 applicationController.getApps = async (req, res) => {
-    await Application.find( (err, actions) => {
+    await Application.find({},{_id:0}, (err, data) => {
         if (err) {
             return res.status(404).json({
                 ok: false,
@@ -12,7 +12,7 @@ applicationController.getApps = async (req, res) => {
         }
         res.status(200).json({
             ok: true,
-            actions
+            data
         });
     });
 };
@@ -30,7 +30,7 @@ applicationController.postApp = async (req, res) => {
         code: code,
         focus: false,
     });
-    await app.save( (err, data) => {
+    await app.save( (err) => {
         if(err){
             return res.status(404).json({
                 ok: false,
@@ -39,19 +39,19 @@ applicationController.postApp = async (req, res) => {
         }
         res.status(200).json({
             ok: true,
-            data
+            message: 'Your App was created successfully'
         });
     })
 };
 
 applicationController.updateApp = async (req, res) => {
-    const app_name = req.params.app_name;
+    const app_code = req.params.app_code;
     const {name, description, owner, code} = req.body;
     if(!name || !description || !owner || !code){
         res.status(400).send('Write all the fields');
         return;
     }
-    await Application.updateOne( { name: app_name}, req.body, (err, data) => {
+    await Application.updateOne( { code: app_code}, req.body, (err, data) => {
         if(err){
             return res.status(404).json({
                 ok: false,
@@ -66,8 +66,8 @@ applicationController.updateApp = async (req, res) => {
 };
 
 applicationController.deleteApp = async (req, res) => {
-    const app_name = req.params.app_name;
-    await Application.deleteOne( { name: app_name}, (err, data) => {
+    const app_code = req.params.app_code;
+    await Application.deleteOne( { code: app_code}, (err, data) => {
         if(err){
             return res.status(404).json({
                 ok: false,
@@ -82,8 +82,8 @@ applicationController.deleteApp = async (req, res) => {
 };
 
 applicationController.getApp = async  (req, res) => {
-    const app_name = req.params.app_name;
-    await Application.findOne( {name: app_name}, (err, data) => {
+    const app_code = req.params.app_code;
+    await Application.findOne( {code: app_code},{ _id: 0}, (err, data) => {
         if(err){
             return res.status(404).json({
                 ok: false,

@@ -24,6 +24,7 @@ import { AddActionDialogComponent } from './components/add-action-dialog/add-act
 import {MatDialogModule} from '@angular/material/dialog';
 import { DesignChallengesComponent } from './views/design-challenges/design-challenges.component';
 import { AddPointDialogComponent } from './components/add-point-dialog/add-point-dialog.component';
+import { AddLevelDialogComponent } from './components/add-level-dialog/add-level-dialog.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { AddPointDialogComponent } from './components/add-point-dialog/add-point
     AddActionDialogComponent,
     AddPointDialogComponent,
     DesignChallengesComponent,
+    AddLevelDialogComponent,
   ],
   imports: [
     BrowserModule,
