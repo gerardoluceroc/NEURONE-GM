@@ -1,0 +1,51 @@
+<div class="container">
+  <h1 mat-dialog-title>{{data.message}}</h1>
+  <mat-form-field class="input-1">
+    <mat-label>Challenge Name</mat-label>
+    <input matInput [(ngModel)]="challenge.name">
+  </mat-form-field>
+  <mat-form-field class="input-1">
+    <mat-label>Challenge Code</mat-label>
+    <input matInput [(ngModel)]="challenge.code">
+  </mat-form-field>
+  <mat-form-field class="input-1" >
+    <mat-label>Challenge Description</mat-label>
+    <textarea matInput
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              [(ngModel)]="challenge.description"
+              cdkAutosizeMinRows="1"
+              cdkAutosizeMaxRows="5"></textarea>
+  </mat-form-field>
+  <mat-form-field class="input-1">
+    <mat-label>Challenge Start Date</mat-label>
+    <input matInput [(ngModel)]="challenge.start_date">
+  </mat-form-field>
+  <mat-form-field class="input-1">
+    <mat-label>Challenge End Date</mat-label>
+    <input matInput [(ngModel)]="challenge.end_date">
+  </mat-form-field>
+  <h2>Actions Required</h2>
+  <mat-list>
+    <mat-list-item *ngFor="let action_required of challenge.actions_required">
+      <div class="list-item-line-left">{{action_required.action_code}}</div>
+      <div class="list-item-line-right">{{action_required.times_required}}</div>
+      <mat-icon aria-hidden="false" aria-label="Example home icon" (click)="takeOutAction(action_required)">close</mat-icon>
+    </mat-list-item>
+  </mat-list>
+  <mat-form-field appearance="standard" style="width: 50%; margin-right: 2.5%">
+    <mat-label>Action</mat-label>
+    <mat-select [(ngModel)]="newAction">
+      <mat-option *ngFor="let action of this.data.actions" [value]="action.code">{{action.name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field style="width: 20%; margin-right: 5%">
+    <mat-label>Amount</mat-label>
+    <input matInput [(ngModel)]="newAmount">
+  </mat-form-field>
+  <button mat-button (click)="onclickAdd()">Add</button>
+</div>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="challenge">Confirm</button>
+  <button mat-button (click)="onClickNO()">Cancel</button>
+</div>

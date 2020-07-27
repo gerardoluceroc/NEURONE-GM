@@ -25,6 +25,9 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { DesignChallengesComponent } from './views/design-challenges/design-challenges.component';
 import { AddPointDialogComponent } from './components/add-point-dialog/add-point-dialog.component';
 import { AddLevelDialogComponent } from './components/add-level-dialog/add-level-dialog.component';
+import { AddChallengeDialogComponent } from './components/add-challenge-dialog/add-challenge-dialog.component';
+import {MatListModule} from "@angular/material/list";
+import {MatIconModule} from "@angular/material/icon";
 
 @NgModule({
   declarations: [
@@ -41,6 +44,7 @@ import { AddLevelDialogComponent } from './components/add-level-dialog/add-level
     AddPointDialogComponent,
     DesignChallengesComponent,
     AddLevelDialogComponent,
+    AddChallengeDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,7 +58,9 @@ import { AddLevelDialogComponent } from './components/add-level-dialog/add-level
     HttpClientModule,
     ReactiveFormsModule,
     MatDialogModule,
-    FormsModule
+    FormsModule,
+    MatListModule,
+    MatIconModule
   ],
   providers: [EndpointsService],
   bootstrap: [AppComponent]

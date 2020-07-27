@@ -53,4 +53,17 @@ export class EndpointsService {
   deleteLevel(appCode, levelCode){
     return this.http.delete( this.rootURL + appCode + '/levels/' + levelCode);
   }
+  /* CHALLENGES */
+  getChallenges(appCode){
+    return this.http.get(this.rootURL + appCode + '/challenges');
+  }
+  postChallenge(newChallenge, appCode){
+    return this.http.post(this.rootURL + appCode + '/challenges', newChallenge);
+  }
+  putChallenge(updatedChallenge, appCode, challengeCode){
+    return this.http.put( this.rootURL + appCode + '/levels/' + challengeCode, updatedChallenge);
+  }
+  deleteChallenge(appCode, challengeCode){
+    return this.http.delete( this.rootURL + appCode + '/levels/' + challengeCode);
+  }
 }
