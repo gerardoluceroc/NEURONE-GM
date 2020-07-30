@@ -25,6 +25,10 @@
       <p class="attributes">End Date: {{selectedRow.end_date.slice(0,10)}}</p>
       <p class="attributes"><strong>Actions Required</strong></p>
       <p class="attributes" *ngFor="let action of selectedRow.actions_required">Action Name: {{action.action.name}}, Times Required: {{action.times_required}}</p>
+      <p class="attributes" *ngIf="this.selectedRow.challenges_required.length > 0"><strong>Challenges Required</strong></p>
+      <p class="attributes" *ngFor="let challenge of selectedRow.challenges_required">Challenge Name: {{challenge.challenge.name}}</p>
+      <p class="attributes"><strong>Points Awards</strong></p>
+      <p class="attributes" *ngFor="let point of selectedRow.points_awards">Point Name: {{point.point.name}}, Amount: {{point.amount}}</p>
     </div>
   </div>
 </div>

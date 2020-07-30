@@ -9,6 +9,7 @@ export interface DialogData {
   point_required: string;
   point_threshold: number;
   points: [Point];
+  withCode: boolean;
 }
 
 export class Point {
@@ -38,6 +39,7 @@ export class AddLevelDialogComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<AddLevelDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
 
   level: Level = new Level();
+  withCode: boolean;
   ngOnInit(): void {
     this.level.name = this.data.name;
     this.level.code = this.data.code;
@@ -45,6 +47,7 @@ export class AddLevelDialogComponent implements OnInit {
     this.level.point_required = this.data.point_required;
     this.level.point_required = this.data.points[0].code;
     this.level.point_threshold = this.data.point_threshold;
+    this.withCode = this.data.withCode;
   }
 
   onClickNO(){

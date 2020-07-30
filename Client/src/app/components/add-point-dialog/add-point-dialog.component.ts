@@ -12,6 +12,7 @@ export interface DialogData {
   daily_max: number;
   is_default: boolean;
   hidden: boolean;
+  withCode: boolean;
 }
 
 export class Point {
@@ -33,6 +34,7 @@ export class AddPointDialogComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<AddPointDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
   point: Point = new Point();
+  withCode: boolean;
   ngOnInit(): void {
     this.point.name = this.data.name;
     this.point.code = this.data.code;
@@ -42,6 +44,7 @@ export class AddPointDialogComponent implements OnInit {
     this.point.daily_max = this.data.daily_max;
     this.point.is_default = this.data.is_default;
     this.point.hidden = this.data.hidden;
+    this.withCode = this.data.withCode;
   }
 
   onClickNO(){

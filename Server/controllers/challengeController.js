@@ -1,8 +1,10 @@
 const Challenge = require('../models/challenge');
 const Action = require('../models/action');
+const Point = require('../models/point');
 const ActionChallenge = require('../models/actionChallenge');
 const ChallengeRequisite = require('../models/challengeRequisite');
 const ChallengePlayer = require('../models/challengePlayer');
+const codeGenerator = require('../utils/codeGenerator');
 const challengeController = {};
 
 challengeController.getChallenges = async (req, res) => {
@@ -18,30 +20,62 @@ challengeController.getChallenges = async (req, res) => {
             ok: true,
             data
         });
-    }).populate('actions_required.action');
+    }).populate('actions_required.action').populate('challenges_required.challenge').populate( 'points_awards.point')
 };
 
 challengeController.postChallenge = async (req, res) => {
     const app_code = req.params.app_code;
-    const {name, description, start_date, end_date, assign_to, actions_required, challenges_required, badge_id, code} = req.body;
-    if(!name || !description || !start_date || !end_date || !assign_to || !code){
+    const {name, description, start_date, end_date, assign_to, actions_required, challenges_required, badge_id, points_awards} = req.body;
+    if(!name || !description || !start_date || !end_date || !assign_to){
         res.status(400).send('Write all the fields');
         return;
     }
+    let code = codeGenerator.codeGenerator(app_code, name, 'chall');
+    const timesRepeated = await Challenge.countDocuments( { 'code' : { '$regex' : code, '$options' : 'i' } } );
+    if(timesRepeated > 0){
+        code = code+(timesRepeated+1).toString();
+    }
     let actions = [];
+    let challenges = [];
+    let points = [];
     if(actions_required && actions_required.length > 0){
         for(let i = 0; i<actions_required.length; i++){
-            await Action.findOne({code: actions_required[0].action_code}, (err, action)=>{
+            await Action.findOne({code: actions_required[i].action_code}, (err, action)=>{
                 if(err){
                     return res.status(404).json({
                         ok: false,
                         err
                     });
                 }
-                actions.push({action: action._id, times_required: actions_required[0].times_required});
+                actions.push({action: action._id, times_required: actions_required[i].times_required});
             })
         }
     }
+    if(challenges_required && challenges_required.length > 0){
+        for(let i = 0; i<challenges_required.length; i++){
+            await Challenge.findOne({code: challenges_required[i].challenge_code}, (err, challenge)=>{
+                if(err){
+                    return res.status(404).json({
+                        ok: false,
+                        err
+                    });
+                }
+                challenges.push({challenge: challenge._id});
+            })
+        }}
+    if(points_awards && points_awards.length > 0){
+            for(let i = 0; i<points_awards.length; i++){
+                await Point.findOne({code: points_awards[i].point_code}, (err, point)=>{
+                    if(err){
+                        return res.status(404).json({
+                            ok: false,
+                            err
+                        });
+                    }
+                    points.push({point: point._id, amount: points_awards[i].amount});
+                })
+            }
+        }
     var challenge = new Challenge({
         name: name,
         description: description,
@@ -51,8 +85,8 @@ challengeController.postChallenge = async (req, res) => {
         assign_to: assign_to,
         code: code,
         actions_required: actions,
-        challenges_required: [],
-        points_awards: []
+        challenges_required: challenges,
+        points_awards: points
     });
     await challenge.save( (err,data ) => {
         if(err){

@@ -1,0 +1,24 @@
+<div mat-dialog-content>
+  <h1 mat-dialog-title>{{data.message}}</h1>
+  <mat-form-field>
+    <mat-label>App Name</mat-label>
+    <input matInput [(ngModel)]="app.name">
+  </mat-form-field>
+  <mat-form-field *ngIf="withCode">
+    <mat-label>App Code</mat-label>
+    <input matInput [(ngModel)]="app.code">
+  </mat-form-field>
+  <mat-form-field >
+    <mat-label>Action Description</mat-label>
+    <textarea matInput
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              [(ngModel)]="app.description"
+              cdkAutosizeMinRows="1"
+              cdkAutosizeMaxRows="5"></textarea>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="app">Confirm</button>
+  <button mat-button (click)="onClickNO()">Cancel</button>
+</div>

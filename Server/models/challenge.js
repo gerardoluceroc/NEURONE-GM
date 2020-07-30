@@ -18,12 +18,14 @@ const ChallengeSchema = new Schema({
     ],
     challenges_required: [
         {
+            _id: false,
             challenge: {type: Schema.Types.ObjectId, ref: 'Challenge', required: true}
         }
     ],
     badge: { type: Schema.Types.ObjectId, ref: 'Badge'},
     points_awards: [
         {
+            _id: false,
             point: {type: Schema.Types.ObjectId, ref: 'Point', required: true},
             amount: {type: Number, required: true}
         }

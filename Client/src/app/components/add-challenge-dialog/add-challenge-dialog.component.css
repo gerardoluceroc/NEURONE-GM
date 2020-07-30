@@ -1,11 +1,14 @@
 .list-item-line-left{
   display: inline-block;
-  width: 50%;
+  font-size: small;
+  width: 20%;
+  margin-right: 10%;
 }
 
 .list-item-line-right{
   display: inline-block;
-  width: 50%;
+  width: 20%;
+  font-size: small;
   text-align: right;
 }
 

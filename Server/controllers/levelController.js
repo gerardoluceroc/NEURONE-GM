@@ -1,5 +1,6 @@
 const Level = require('../models/level');
 const Point = require('../models/point');
+const codeGenerator = require('../utils/codeGenerator');
 const levelController = {};
 
 levelController.getLevels = async (req, res) => {
@@ -21,10 +22,15 @@ levelController.getLevels = async (req, res) => {
 
 levelController.postLevel = async (req, res) => {
     const app_code = req.params.app_code;
-    const {name, description, point_required, point_threshold, code} = req.body;
-    if(!name || !description || !point_required || !point_threshold || !code){
+    const {name, description, point_required, point_threshold} = req.body;
+    if(!name || !description || !point_required || !point_threshold){
         res.status(400).send('Write all the fields');
         return;
+    }
+    let code = codeGenerator.codeGenerator(app_code, name, 'level');
+    const timesRepeated = await Level.countDocuments( { 'code' : { '$regex' : code, '$options' : 'i' } } );
+    if(timesRepeated > 0){
+        code = code+(timesRepeated+1).toString();
     }
     const point = await Point.findOne({code: point_required}, (err)=>{
         if(err){

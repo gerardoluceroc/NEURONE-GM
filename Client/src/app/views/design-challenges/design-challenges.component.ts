@@ -15,6 +15,7 @@ export class DesignChallengesComponent implements OnInit {
   table = new MatTableDataSource([]);
   challenges = [];
   actions = [];
+  points = [];
   displayedColumns: string[] = ['name'];
   selectedRow = null;
   focusApp: any = {};
@@ -34,6 +35,7 @@ export class DesignChallengesComponent implements OnInit {
         this.focusApp = data.data;
         this.getChallenges();
         this.getActions();
+        this.getPoints();
       },
       (error) => {
         console.error(error);
@@ -59,9 +61,18 @@ export class DesignChallengesComponent implements OnInit {
         console.error(error);
       });
   }
+  getPoints(){
+    this.endpointsService.getPoints(this.focusApp.code).subscribe((data: {
+        data: any[]; ok: boolean} ) => { // Success
+        this.points = data.data;
+      },
+      (error) => {
+        console.error(error);
+      });
+  }
   openAddAChallengeDialog(){
     const dialogRef = this.dialog.open(AddChallengeDialogComponent, {
-      data: {message: 'Create New Challenge', actions: this.actions},
+      data: {message: 'Create New Challenge', actions: this.actions, points: this.points, challenges: this.challenges, withCode: false},
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res){

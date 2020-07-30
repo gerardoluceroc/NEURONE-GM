@@ -28,6 +28,9 @@ import { AddLevelDialogComponent } from './components/add-level-dialog/add-level
 import { AddChallengeDialogComponent } from './components/add-challenge-dialog/add-challenge-dialog.component';
 import {MatListModule} from "@angular/material/list";
 import {MatIconModule} from "@angular/material/icon";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from '@angular/material/core';
+import { AddAppDialogComponent } from './components/add-app-dialog/add-app-dialog.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +48,7 @@ import {MatIconModule} from "@angular/material/icon";
     DesignChallengesComponent,
     AddLevelDialogComponent,
     AddChallengeDialogComponent,
+    AddAppDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,7 +64,9 @@ import {MatIconModule} from "@angular/material/icon";
     MatDialogModule,
     FormsModule,
     MatListModule,
-    MatIconModule
+    MatIconModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [EndpointsService],
   bootstrap: [AppComponent]

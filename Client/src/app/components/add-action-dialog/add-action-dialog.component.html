@@ -4,7 +4,7 @@
     <mat-label>Action Name</mat-label>
     <input matInput [(ngModel)]="action.name">
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field *ngIf="withCode">
     <mat-label>Action Code</mat-label>
     <input matInput [(ngModel)]="action.code">
   </mat-form-field>

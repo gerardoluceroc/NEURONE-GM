@@ -1,4 +1,5 @@
 const Point = require('../models/point');
+const codeGenerator = require('../utils/codeGenerator');
 
 const pointController = {};
 
@@ -20,10 +21,15 @@ pointController.getPoints = async (req, res) => {
 
 pointController.postPoint = async (req, res) => {
     const app_code = req.params.app_code;
-    const {name, abbreviation, initial_points, max_points, daily_max, is_default, hidden, code} = req.body;
-    if(!name || !abbreviation || !initial_points || !max_points || !daily_max || !is_default || !hidden || !code){
+    const {name, abbreviation, initial_points, max_points, daily_max, is_default, hidden} = req.body;
+    if(!name || !abbreviation || !initial_points || !max_points || !daily_max || !is_default || !hidden ){
         res.status(400).send('Write all the fields');
         return;
+    }
+    let code = codeGenerator.codeGenerator(app_code, name, 'point');
+    const timesRepeated = await Point.countDocuments( { 'code' : { '$regex' : code, '$options' : 'i' } } );
+    if(timesRepeated > 0){
+        code = code+(timesRepeated+1).toString();
     }
     var point = new Point({
         name: name,

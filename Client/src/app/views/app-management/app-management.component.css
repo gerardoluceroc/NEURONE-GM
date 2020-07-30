@@ -10,7 +10,7 @@
 
 .h1-1{
   font-family: Ubuntu;
-  margin-top: 2%;
+  margin-top: 1%;
 }
 
 .select-1{
@@ -27,8 +27,9 @@
   background: white;
   border: solid 1px black;
   height: 10%;
-  width: 50%;
+  width: 25%;
   border-radius: 15px;
+  display: inline-block;
 }
 
 
@@ -64,7 +65,11 @@
   margin-bottom: 3%;
   float: right;
 }
-
+.button-3{
+  display: inline-block;
+  width: 10%;
+  margin-left: 5%;
+}
 .attributes{
   margin: 4% 10% auto;
   color: black;

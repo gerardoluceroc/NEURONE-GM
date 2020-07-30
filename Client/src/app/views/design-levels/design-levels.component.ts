@@ -56,7 +56,7 @@ export class DesignLevelsComponent implements OnInit {
 
   openAddLevelDialog(){
     const dialogRef = this.dialog.open(AddLevelDialogComponent, {
-      data: {message: 'Create New Level', points: this.points},
+      data: {message: 'Create New Level', points: this.points, withCode: false},
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res){
@@ -73,7 +73,7 @@ export class DesignLevelsComponent implements OnInit {
     const dialogRef = this.dialog.open(AddLevelDialogComponent, {
       data: {message: 'Edit Action',
         name: this.selectedRow.name, description: this.selectedRow.description, point_required: this.selectedRow.point_required.code,
-        code: this.selectedRow.code, point_threshold: this.selectedRow.point_threshold, points: this.points},
+        code: this.selectedRow.code, point_threshold: this.selectedRow.point_threshold, points: this.points, withCode: true},
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res){

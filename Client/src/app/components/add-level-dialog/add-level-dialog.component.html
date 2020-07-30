@@ -4,7 +4,7 @@
     <mat-label>Level Name</mat-label>
     <input matInput [(ngModel)]="level.name">
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field *ngIf="withCode">
     <mat-label>Level Code</mat-label>
     <input matInput [(ngModel)]="level.code">
   </mat-form-field>

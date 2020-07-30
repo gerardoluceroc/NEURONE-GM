@@ -18,11 +18,12 @@ applicationController.getApps = async (req, res) => {
 };
 
 applicationController.postApp = async (req, res) => {
-    const {name, description, owner, code} = req.body;
-    if(!name || !description || !owner || !code){
+    const {name, description, owner} = req.body;
+    if(!name || !description || !owner){
         res.status(400).send('Write all the fields');
         return;
     }
+    const code = name.split(' ').join('-');
     var app = new Application({
         name: name,
         description: description,
@@ -47,7 +48,7 @@ applicationController.postApp = async (req, res) => {
 applicationController.updateApp = async (req, res) => {
     const app_code = req.params.app_code;
     const {name, description, owner, code} = req.body;
-    if(!name || !description || !owner || !code){
+    if(!name || !description){
         res.status(400).send('Write all the fields');
         return;
     }
@@ -112,6 +113,35 @@ applicationController.getFocusApp= async (req, res)=> {
         });
     })
 };
+
+applicationController.changeFocusApp = async(req, res) => {
+    const user_id = req.params.user_id;
+    const new_focus_code = req.body.app_code;
+    if(!new_focus_code){
+        res.status(400).send('Write the code of the new active app');
+        return;
+    }
+    await Application.updateOne({focus: true, owner: user_id}, {$set: {focus: false}}, (err) => {
+        if (err) {
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    });
+    await Application.updateOne({code: new_focus_code, owner: user_id},{$set: {focus: true}}, (err, data) => {
+        if (err) {
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+        res.status(200).json({
+            ok: true,
+            data
+        });
+    });
+}
 
 
 module.exports = applicationController;

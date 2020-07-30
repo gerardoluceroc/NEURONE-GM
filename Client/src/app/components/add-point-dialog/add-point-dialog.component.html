@@ -4,7 +4,7 @@
     <mat-label>Point Name</mat-label>
     <input matInput [(ngModel)]="point.name">
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field *ngIf="withCode">
     <mat-label>Point Code</mat-label>
     <input matInput [(ngModel)]="point.code">
   </mat-form-field>

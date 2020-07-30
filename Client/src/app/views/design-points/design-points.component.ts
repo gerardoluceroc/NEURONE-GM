@@ -41,7 +41,7 @@ export class DesignPointsComponent implements OnInit {
   }
   openAddPointDialog(){
     const dialogRef = this.dialog.open(AddPointDialogComponent, {
-      data: {message: 'Create New Point'},
+      data: {message: 'Create New Point', withCode: false},
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res){
@@ -58,7 +58,7 @@ export class DesignPointsComponent implements OnInit {
       data: {message: 'Edit Point',
         name: this.selectedRow.name, code: this.selectedRow.code, initial_points: this.selectedRow.initial_points,
         max_points: this.selectedRow.max_points, daily_max: this.selectedRow.daily_max, is_default: this.selectedRow.daily_max,
-        abbreviation: this.selectedRow.abbreviation},
+        abbreviation: this.selectedRow.abbreviation, withCode: true},
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res){

@@ -8,5 +8,6 @@ router.put('/applications/:app_code', applicationController.updateApp);
 router.delete('/applications/:app_code', applicationController.deleteApp);
 router.get('/applications/:app_code', applicationController.getApp);
 router.get('/applications/:user_id/focus', applicationController.getFocusApp);
+router.post('/applications/:user_id/changeActive', applicationController.changeFocusApp);
 
 module.exports = router;

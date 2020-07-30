@@ -52,7 +52,7 @@ export class DesignActionsComponent implements OnInit {
 
   openAddActionDialog(){
     const dialogRef = this.dialog.open(AddActionDialogComponent, {
-      data: {message: 'Create New Action'},
+      data: {message: 'Create New Action', withCode: false},
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res){
@@ -68,7 +68,7 @@ export class DesignActionsComponent implements OnInit {
   openEditActionDialog(){
     const dialogRef = this.dialog.open(AddActionDialogComponent, {
       data: {message: 'Edit Action',
-        name: this.selectedRow.name, description: this.selectedRow.description, repeatable: this.selectedRow.repeatable, code: this.selectedRow.code},
+        name: this.selectedRow.name, description: this.selectedRow.description, repeatable: this.selectedRow.repeatable, code: this.selectedRow.code, withCode: true},
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res){

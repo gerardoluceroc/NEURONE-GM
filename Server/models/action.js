@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const ActionSchema = new Schema({
    app_code: { type: String, required: true},
-   name: { type: String, required: true,  unique: true},
+   name: { type: String, required: true},
    description: { type: String, required: true},
    repeatable: { type: Boolean, required: true},
    code: { type: String, required: true, unique: true}

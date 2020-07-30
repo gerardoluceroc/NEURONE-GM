@@ -1,5 +1,6 @@
 const Action = require('../models/action');
 const Application = require('../models/application');
+const codeGenerator = require('../utils/codeGenerator');
 
 const actionController = {};
 
@@ -21,12 +22,17 @@ actionController.getActions = async (req, res) => {
 
 actionController.postAction = async (req, res) => {
     const app_code = req.params.app_code;
-    const {name, description, repeatable, code} = req.body;
-    if(!name || !description || !repeatable || !code){
+    const {name, description, repeatable} = req.body;
+    if(!name || !description || !repeatable){
         res.status(400).send('Write all the fields');
         return;
     }
-    var action = new Action({
+    let code = codeGenerator.codeGenerator(app_code, name, 'action');
+    const timesRepeated = await Action.countDocuments( { 'code' : { '$regex' : code, '$options' : 'i' } } );
+    if(timesRepeated > 0){
+        code = code+(timesRepeated+1).toString();
+    }
+    const action = new Action({
         name: name,
         description: description,
         app_code: app_code,

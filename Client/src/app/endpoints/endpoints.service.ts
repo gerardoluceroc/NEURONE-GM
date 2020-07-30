@@ -10,10 +10,25 @@ export class EndpointsService {
 
   rootURL = 'http://localhost:3080/api/';
 
+  /* APPS */
   getActiveApp() {
     return this.http.get(this.rootURL + 'applications/1/focus');
   }
-
+  getApps() {
+    return this.http.get(this.rootURL + 'applications');
+  }
+  changeActiveApp(newActive){
+    return this.http.post(this.rootURL + 'applications/1/changeActive', newActive);
+  }
+  postApp(newApp){
+    return this.http.post(this.rootURL + 'applications', newApp);
+  }
+  putApp(updatedApp, appCode){
+    return this.http.put(this.rootURL + 'applications/' + appCode, updatedApp);
+  }
+  deleteApp(appCode){
+    return this.http.delete(this.rootURL + 'applications/' + appCode);
+  }
   /* ACTIONS */
   getActions(appCode){
     return this.http.get(this.rootURL + appCode + '/actions');
