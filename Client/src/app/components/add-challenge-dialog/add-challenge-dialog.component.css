@@ -19,6 +19,7 @@
 .mat-icon{
   text-align: right;
   margin-left: 10%;
+  cursor: pointer;
 }
 
 .input-1{

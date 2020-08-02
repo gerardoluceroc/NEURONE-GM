@@ -40,7 +40,7 @@
 }
 .button-delete{
   width: 30%;
-  height: 10%;
+  height: 6%;
   margin-bottom: 3%;
   float: right;
   font-size: calc(0.5em + 1vmin);
@@ -48,7 +48,7 @@
 
 .button-edit{
   width: 30%;
-  height: 10%;
+  height: 6%;
   margin-bottom: 3%;
   font-size: calc(0.5em + 1vmin);
 }

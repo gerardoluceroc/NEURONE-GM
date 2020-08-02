@@ -29,6 +29,10 @@ export class EndpointsService {
   deleteApp(appCode){
     return this.http.delete(this.rootURL + 'applications/' + appCode);
   }
+  /* APPS */
+  getPlayers(appCode){
+    return this.http.get(this.rootURL + appCode + '/players');
+  }
   /* ACTIONS */
   getActions(appCode){
     return this.http.get(this.rootURL + appCode + '/actions');

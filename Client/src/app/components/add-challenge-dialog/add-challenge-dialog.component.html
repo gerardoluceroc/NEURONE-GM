@@ -40,15 +40,15 @@
   </mat-list>
   <mat-form-field appearance="standard" style="width: 50%; margin-right: 2.5%">
     <mat-label>Action</mat-label>
-    <mat-select [(ngModel)]="newAction">
+    <mat-select [(ngModel)]="newAction" [disabled]="this.data.actions.length == 0">
       <mat-option *ngFor="let action of this.data.actions" [value]="action">{{action.name}}</mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field style="width: 20%; margin-right: 5%">
     <mat-label>Amount</mat-label>
-    <input matInput [(ngModel)]="newAmount">
+    <input matInput [disabled]="this.data.actions.length == 0" [(ngModel)]="newAmount">
   </mat-form-field>
-  <button mat-button (click)="onclickAddAction()">Add</button>
+  <button mat-button [disabled]="this.data.actions.length == 0" (click)="onclickAddAction()">Add</button>
   <h2>Challenges Required</h2>
   <mat-list>
     <mat-list-item *ngFor="let challenge of challenge.challenges_required">
@@ -59,11 +59,11 @@
   </mat-list>
   <mat-form-field appearance="standard" style="width: 50%; margin-right: 2.5%">
     <mat-label>Challenge</mat-label>
-    <mat-select [(ngModel)]="newChallenge">
+    <mat-select [(ngModel)]="newChallenge" [disabled]="this.data.challenges.length == 0">
       <mat-option *ngFor="let challenge of this.data.challenges" [value]="challenge">{{challenge.name}}</mat-option>
     </mat-select>
   </mat-form-field>
-  <button mat-button (click)="onclickAddAChallenge()">Add</button>
+  <button mat-button (click)="onclickAddAChallenge()" [disabled]="this.data.challenges.length == 0">Add</button>
   <h2>Points Awards</h2>
   <mat-list>
     <mat-list-item *ngFor="let point of challenge.points_awards">
@@ -75,15 +75,15 @@
   </mat-list>
   <mat-form-field appearance="standard" style="width: 50%; margin-right: 2.5%">
     <mat-label>Point</mat-label>
-    <mat-select [(ngModel)]="newPoint">
+    <mat-select [(ngModel)]="newPoint" [disabled]="this.data.points.length == 0">
       <mat-option *ngFor="let point of this.data.points" [value]="point">{{point.name}}</mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field style="width: 20%; margin-right: 5%">
     <mat-label>Points Amount</mat-label>
-    <input matInput [(ngModel)]="newPointAmount">
+    <input matInput [(ngModel)]="newPointAmount" [disabled]="this.data.points.length == 0">
   </mat-form-field>
-  <button mat-button (click)="onclickAddPoint()">Add</button>
+  <button mat-button (click)="onclickAddPoint()" [disabled]="this.data.points.length == 0">Add</button>
 </mat-dialog-content>
 <div mat-dialog-actions>
   <button mat-button [mat-dialog-close]="challenge">Confirm</button>
