@@ -1,0 +1,66 @@
+{
+  "yes": "Yes",
+  "no": "No",
+  "confirm": "Confirm",
+  "cancel": "Cancel",
+  "challenges": "Challenges",
+  "levels": "Levels",
+  "points": "Points",
+  "actions": "Actions",
+  "users": "Users",
+  "groups": "Groups",
+  "badges": "Badges",
+  "add": "Add",
+  "edit": "Edit",
+  "delete": "Delete",
+  "filter": "Filter",
+  "name": "Name",
+  "code": "Code",
+  "description": "Description",
+  "repeatable": "Repeatable",
+  "startDate": "Start Date",
+  "endDate": "End Date",
+  "abbreviation": "Abbreviation",
+  "default": "Default",
+  "hidden": "Hidden",
+  "amount": "Amount",
+  "home": {
+    "secondTitle": "Players Summary"
+  },
+  "header": {
+    "home": "HOME",
+    "gameDesign": "GAME DESIGN",
+    "players": "PLAYERS",
+    "appManagement": "APP MANAGEMENT"
+  },
+  "action": {
+    "addActionTitle": "Add New Action",
+    "editActionTitle": "Edit Action"
+  },
+  "level": {
+    "addLevelTitle": "Add New Level",
+    "editLevelTitle": "Edit Level",
+    "pointsRequired": "Required Points",
+    "pointsThreshold": "Points Threshold"
+  },
+  "point": {
+    "addPointTitle": "Add New Point",
+    "editPointTitle": "Edit Point",
+    "initialPoints": "Initial Points",
+    "maxPoints": "Max Points",
+    "dailyMax": "Daily Max"
+  },
+  "challenge": {
+    "challenge": "Challenge",
+    "action": "Action",
+    "addChallengeTitle" : "Add New Challenge",
+    "actionsRequired": "Required Actions",
+    "challengesRequired": "Required Challenges",
+    "pointsAwards": "Reward Points",
+    "actionName": "Action Name",
+    "actionTimesRequired": "Times Required",
+    "challengeRequiredName": "Challenge Name",
+    "pointName": "Point Name",
+    "pointsAmount": "Points Amount"
+  }
+}

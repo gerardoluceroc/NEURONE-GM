@@ -1,10 +1,10 @@
 <app-design marked="levels"></app-design>
 <div class="content">
   <div class="column">
-    <button mat-raised-button class="button-add" (click)="openAddLevelDialog()">Add</button>
+    <button mat-raised-button class="button-add" (click)="openAddLevelDialog()">{{"add" | translate}}</button>
     <mat-form-field style="width: 100%">
-      <mat-label>Filter</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+      <mat-label>{{"filter"| translate}}</mat-label>
+      <input matInput (keyup)="applyFilter($event)" #input>
     </mat-form-field>
     <table mat-table [dataSource]="table" style="width: 100%">
       <ng-container matColumnDef="name">
@@ -15,14 +15,23 @@
     </table>
   </div>
   <div *ngIf="selectedRow!=null" class="display-column">
-    <button mat-raised-button class="button-edit" (click)="openEditLevelDialog()">Edit</button>
-    <button mat-raised-button class="button-delete" (click)="deleteLevel()">Delete</button>
+    <button mat-raised-button class="button-edit" (click)="openEditLevelDialog()">{{"edit" | translate}}</button>
+    <button mat-raised-button class="button-delete" (click)="deleteLevel()">{{"delete" | translate}}</button>
     <div class="points-column">
-      <p class="attributes">Name: {{selectedRow.name}}</p>
-      <p class="attributes">Code: {{selectedRow.code}}</p>
-      <p class="attributes">Description: {{selectedRow.description}}</p>
-      <p class="attributes">Points Required: {{selectedRow.point_required.name}}</p>
-      <p class="attributes">Point Threshold: {{selectedRow.point_threshold}}</p>
+      <div style="width: 30%; float: left">
+        <p class="attributes-name">{{"name" | translate}}: </p>
+        <p class="attributes-name">{{"code" | translate}}: </p>
+        <p class="attributes-name">{{"description" | translate}}: </p>
+        <p class="attributes-name">{{"level.pointsRequired" | translate}}: </p>
+        <p class="attributes-name">{{"level.pointsThreshold" | translate}}: </p>
+      </div>
+      <div style="width: 60%; float: right">
+        <p class="attributes-value">{{selectedRow.name}}</p>
+        <p class="attributes-value">{{selectedRow.code}}</p>
+        <p class="attributes-value">{{selectedRow.description}}</p>
+        <p class="attributes-value">{{selectedRow.point_required.name}}</p>
+        <p class="attributes-value">{{selectedRow.point_threshold}}</p>
+      </div>
     </div>
   </div>
 </div>

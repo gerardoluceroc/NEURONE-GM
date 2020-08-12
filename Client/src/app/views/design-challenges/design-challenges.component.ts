@@ -3,6 +3,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {EndpointsService} from '../../endpoints/endpoints.service';
 import {MatDialog} from '@angular/material/dialog';
 import {AddChallengeDialogComponent} from '../../components/add-challenge-dialog/add-challenge-dialog.component';
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-design-challenges',
@@ -11,7 +12,7 @@ import {AddChallengeDialogComponent} from '../../components/add-challenge-dialog
 })
 export class DesignChallengesComponent implements OnInit {
 
-  constructor(protected endpointsService: EndpointsService, public dialog: MatDialog) { }
+  constructor(protected endpointsService: EndpointsService, public dialog: MatDialog, public translate: TranslateService) { }
   table = new MatTableDataSource([]);
   challenges = [];
   actions = [];
@@ -70,12 +71,22 @@ export class DesignChallengesComponent implements OnInit {
         console.error(error);
       });
   }
-  openAddAChallengeDialog(){
+  async openAddAChallengeDialog() {
+    let message;
+    await this.translate.get('challenge.addChallengeTitle').subscribe(res => {
+      message = res;
+    });
     const dialogRef = this.dialog.open(AddChallengeDialogComponent, {
-      data: {message: 'Create New Challenge', actions: this.actions, points: this.points, challenges: this.challenges, withCode: false},
+      data: {
+        message: message,
+        actions: this.actions,
+        points: this.points,
+        challenges: this.challenges,
+        withCode: false
+      },
     });
     dialogRef.afterClosed().subscribe(res => {
-      if (res){
+      if (res) {
         console.log(res);
         this.endpointsService.postChallenge(res, this.focusApp.code).subscribe((data: { data: any; ok: boolean }) => {
           this.getChallenges();

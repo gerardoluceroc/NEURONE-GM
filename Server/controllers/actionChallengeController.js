@@ -15,7 +15,7 @@ actionChallengeController.getActionsChallenges = async (req, res) => {
             ok: true,
             data
         });
-    });
+    }).populate('action').populate('player');
 };
 
 actionChallengeController.test = async (req, res) => {

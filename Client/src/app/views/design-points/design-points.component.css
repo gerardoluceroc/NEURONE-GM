@@ -53,10 +53,18 @@
   font-size: calc(0.5em + 1vmin);
 }
 
-.attributes{
-  margin: 4% 10% auto;
+.attributes-name{
+  margin-top: 10px;
   color: black;
+  text-align: right;
   font-family: Ubuntu;
   font-size: calc(0.5em + 1vmin);
 }
 
+.attributes-value{
+  margin-top: 10px;
+  color: black;
+  text-align: left;
+  font-family: Ubuntu;
+  font-size: calc(0.5em + 1vmin);
+}

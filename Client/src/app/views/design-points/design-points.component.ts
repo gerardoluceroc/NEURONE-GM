@@ -3,6 +3,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {EndpointsService} from '../../endpoints/endpoints.service';
 import {MatDialog} from '@angular/material/dialog';
 import {AddPointDialogComponent} from '../../components/add-point-dialog/add-point-dialog.component';
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-design-points',
@@ -11,7 +12,7 @@ import {AddPointDialogComponent} from '../../components/add-point-dialog/add-poi
 })
 export class DesignPointsComponent implements OnInit {
 
-  constructor(protected endpointsService: EndpointsService, public dialog: MatDialog) { }
+  constructor(protected endpointsService: EndpointsService, public dialog: MatDialog, public translate: TranslateService) { }
   table = new MatTableDataSource([]);
   points = [];
   displayedColumns: string[] = ['name'];
@@ -39,12 +40,16 @@ export class DesignPointsComponent implements OnInit {
         console.error(error);
       });
   }
-  openAddPointDialog(){
+  async openAddPointDialog() {
+    let message;
+    await this.translate.get('point.addPointTitle').subscribe(res => {
+      message = res;
+    });
     const dialogRef = this.dialog.open(AddPointDialogComponent, {
-      data: {message: 'Create New Point', withCode: false},
+      data: {message, withCode: false},
     });
     dialogRef.afterClosed().subscribe(res => {
-      if (res){
+      if (res) {
         this.endpointsService.postPoint(res, this.focusApp.code).subscribe((data: { data: any; ok: boolean }) => {
           this.getPoints();
         }, (error) => {
@@ -53,15 +58,26 @@ export class DesignPointsComponent implements OnInit {
       }
     });
   }
-  openEditPointDialog(){
+  async openEditPointDialog() {
+    let message;
+    await this.translate.get('point.editPointTitle').subscribe(res => {
+      message = res;
+    });
     const dialogRef = this.dialog.open(AddPointDialogComponent, {
-      data: {message: 'Edit Point',
-        name: this.selectedRow.name, code: this.selectedRow.code, initial_points: this.selectedRow.initial_points,
-        max_points: this.selectedRow.max_points, daily_max: this.selectedRow.daily_max, is_default: this.selectedRow.daily_max,
-        abbreviation: this.selectedRow.abbreviation, withCode: true},
+      data: {
+        message,
+        name: this.selectedRow.name,
+        code: this.selectedRow.code,
+        initial_points: this.selectedRow.initial_points,
+        max_points: this.selectedRow.max_points,
+        daily_max: this.selectedRow.daily_max,
+        is_default: this.selectedRow.daily_max,
+        abbreviation: this.selectedRow.abbreviation,
+        withCode: true
+      },
     });
     dialogRef.afterClosed().subscribe(res => {
-      if (res){
+      if (res) {
         this.endpointsService.putPoint(res, this.focusApp.code, this.selectedRow.code).subscribe((data: { point: any; ok: boolean }) => {
           this.getPoints();
           this.selectedRow = null;

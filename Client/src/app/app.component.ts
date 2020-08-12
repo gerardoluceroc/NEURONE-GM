@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -8,5 +9,8 @@ import {Component} from '@angular/core';
 export class AppComponent{
   title = 'NEURONE-GM-FRONT';
 
-  constructor() { }
+  constructor(public translate: TranslateService) {
+    this.translate.addLangs(['es-CL', 'en-US']);
+    this.translate.use('es-CL');
+  }
 }

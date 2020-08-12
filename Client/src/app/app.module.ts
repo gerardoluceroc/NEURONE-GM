@@ -19,18 +19,25 @@ import {MatSelectModule} from '@angular/material/select';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { DesignActionsComponent } from './views/design-actions/design-actions.component';
 import {EndpointsService} from './endpoints/endpoints.service';
-import {HttpClientModule} from '@angular/common/http';
 import { AddActionDialogComponent } from './components/add-action-dialog/add-action-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import { DesignChallengesComponent } from './views/design-challenges/design-challenges.component';
 import { AddPointDialogComponent } from './components/add-point-dialog/add-point-dialog.component';
 import { AddLevelDialogComponent } from './components/add-level-dialog/add-level-dialog.component';
 import { AddChallengeDialogComponent } from './components/add-challenge-dialog/add-challenge-dialog.component';
-import {MatListModule} from "@angular/material/list";
-import {MatIconModule} from "@angular/material/icon";
-import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatListModule} from '@angular/material/list';
+import {MatIconModule} from '@angular/material/icon';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import { AddAppDialogComponent } from './components/add-app-dialog/add-app-dialog.component';
+
+import { TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { HttpClient, HttpClientModule} from '@angular/common/http';
+import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -66,7 +73,14 @@ import { AddAppDialogComponent } from './components/add-app-dialog/add-app-dialo
     MatListModule,
     MatIconModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [EndpointsService],
   bootstrap: [AppComponent]

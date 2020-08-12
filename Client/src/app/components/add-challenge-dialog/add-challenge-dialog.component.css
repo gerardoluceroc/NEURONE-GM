@@ -12,10 +12,6 @@
   text-align: right;
 }
 
-.container{
-  width: 50vh;
-}
-
 .mat-icon{
   text-align: right;
   margin-left: 10%;
@@ -25,3 +21,8 @@
 .input-1{
   display: block;
 }
+
+.mat-dialog-content{
+  width: 60vh;
+}
+

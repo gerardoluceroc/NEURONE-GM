@@ -1,4 +1,6 @@
 const ActionPlayer = require('../models/actionPlayer');
+const Player = require('../models/player');
+const Action = require('../models/action');
 const ActionChallenge = require('../models/actionChallenge');
 const ChallengeRequisite = require('../models/challengeRequisite');
 const ChallengePlayer = require('../models/challengePlayer');
@@ -6,9 +8,17 @@ const ChallengePlayer = require('../models/challengePlayer');
 const actionPlayerController = {};
 
 actionPlayerController.getActionsPlayer = async (req, res) => {
-    const app_name = req.params.app_name;
-    const player_id = req.params.player_id;
-    await ActionPlayer.find({ app_name: app_name, player_id: player_id }, (err, actions) => {
+    const app_code = req.params.app_code;
+    const player_code = req.params.player_code;
+    const player = await Player.findOne({code: player_code}, (err) => {
+        if (err) {
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    });
+    await ActionPlayer.find({ app_code: app_code, player: player._id }, (err, actions) => {
         if (err) {
             return res.status(404).json({
                 ok: false,
@@ -23,19 +33,35 @@ actionPlayerController.getActionsPlayer = async (req, res) => {
 };
 
 actionPlayerController.postActionPlayer = async (req, res) => {
-    const app_name = req.params.app_name;
-    const player_id = req.params.player_id;
-    const {action_name, action_id, date } = req.body;
-    if(!action_name || !action_id || !date){
+    const app_code = req.params.app_code;
+    const player_code = req.params.player_code;
+    const {action_code, date } = req.body;
+    if(!action_code || !date){
         res.status(400).send('Write all the fields');
     }
-    var actionPlayer = new ActionPlayer({
-        action_name: action_name,
-        action_id: action_id,
-        date: date,
-        player_id: player_id,
-        app_name: app_name
+    const player = await Player.findOne({code: player_code}, (err) => {
+        if (err) {
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
     });
+    const action = await Action.findOne({code: action_code}, (err) => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            })
+        }
+    });
+    var actionPlayer = new ActionPlayer({
+        app_code: app_code,
+        action: action._id,
+        player: player._id,
+        date: date
+    });
+    await ActionChallenge.updateMany({app_code: app_code, player: player._id, action: action._id, completed: false}, {$inc: {action_counter: 1}});
     await actionPlayer.save((err) => {
         if (err) {
             return res.status(404).json({
@@ -43,16 +69,8 @@ actionPlayerController.postActionPlayer = async (req, res) => {
                 err
             });
         }
-        ActionChallenge.updateMany({app_name: app_name, player_id: player_id, action_id: action_id, completed: false}, {$inc: {action_counter: 1}}, (err) => {
-            if (err) {
-                return res.status(404).json({
-                    ok: false,
-                    err
-                });
-            }
-        });
     });
-    await ActionChallenge.updateMany({app_name: app_name, player_id: player_id, action_id: action_id, $expr: {$gte:["$action_counter","$total_actions_required"]}}, {$set: {completed: true}}, (err) => {
+    await ActionChallenge.updateMany({app_code: app_code, player: player._id, action: action._id, $expr: {$gte:["$action_counter","$total_actions_required"]}}, {$set: {completed: true}}, (err) => {
         if (err) {
             return res.status(404).json({
                 ok: false,
@@ -61,8 +79,8 @@ actionPlayerController.postActionPlayer = async (req, res) => {
         }
     });
     await ActionChallenge.aggregate([
-        {$match: {player_id:player_id, active:true}},
-        {$group: { _id: "$challenge_id", status: {$min: "$completed"}}}
+        {$match: {player:player._id, active:true}},
+        {$group: { _id: "$challenge", status: {$min: "$completed"}}}
     ], (err,data) => {
         if (err) {
             return res.status(404).json({
@@ -72,7 +90,7 @@ actionPlayerController.postActionPlayer = async (req, res) => {
         }
         for(let i = 0; i<data.length; i++){
             if(data[i].status){
-                ChallengeRequisite.updateMany({app_name: app_name, player_id: player_id, challenge_required_id: data[i]._id, active: true}, {$set: {completed: true}}, (err) => {
+                ChallengeRequisite.updateMany({app_code: app_code, player: player._id, challenge_required: data[i]._id, active: true}, {$set: {completed: true}}, (err) => {
                     if (err) {
                         return res.status(404).json({
                             ok: false,
@@ -80,7 +98,7 @@ actionPlayerController.postActionPlayer = async (req, res) => {
                         });
                     }
                 });
-                ChallengePlayer.updateOne({app_name: app_name, player_id: player_id, challenge_id: data[i]._id, active: true}, {$set: {completed: true}},(err) => {
+                ChallengePlayer.updateOne({app_code: app_code, player: player._id, challenge: data[i]._id, active: true}, {$set: {completed: true}},(err) => {
                     if (err) {
                         return res.status(404).json({
                             ok: false,
@@ -88,7 +106,7 @@ actionPlayerController.postActionPlayer = async (req, res) => {
                         });
                     }
                 });
-                console.log("Notificar que "+player_id+" ha completado el desafío "+data[i]._id);
+                console.log("Notificar que "+player.name+" "+player.last_name+" ha completado el desafío "+data[i]._id);;
             }
         }
     });

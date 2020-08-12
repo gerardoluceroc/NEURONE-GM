@@ -1,9 +1,9 @@
 <app-design marked="points"></app-design>
 <div class="content">
   <div class="column">
-    <button mat-raised-button class="button-add" (click)="openAddPointDialog()">Add</button>
+    <button mat-raised-button class="button-add" (click)="openAddPointDialog()">{{"add" | translate}}</button>
     <mat-form-field style="width: 100%">
-      <mat-label>Filter</mat-label>
+      <mat-label>{{"filter"| translate}}</mat-label>
       <input matInput (keyup)="applyFilter($event)" #input>
     </mat-form-field>
     <table mat-table [dataSource]="table" style="width: 100%">
@@ -15,16 +15,29 @@
     </table>
   </div>
   <div *ngIf="selectedRow!=null" class="display-column">
-    <button mat-raised-button class="button-edit" (click)="openEditPointDialog()">Edit</button>
-    <button mat-raised-button class="button-delete" (click)="deletePoint()">Delete</button>
+    <button mat-raised-button class="button-edit" (click)="openEditPointDialog()">{{"edit" | translate}}</button>
+    <button mat-raised-button class="button-delete" (click)="deletePoint()">{{"delete" | translate}}</button>
     <div class="points-column">
-      <p class="attributes">Name: {{selectedRow.name}}</p>
-      <p class="attributes">Code: {{selectedRow.code}}</p>
-      <p class="attributes">Initial Points: {{selectedRow.initial_points}}</p>
-      <p class="attributes">Max Points: {{selectedRow.max_points}}</p>
-      <p class="attributes">Daily Max: {{selectedRow.daily_max}}</p>
-      <p class="attributes">Default: {{selectedRow.is_default}}</p>
-      <p class="attributes">Hidden: {{selectedRow.hidden}}</p>
+      <div style="width: 30%; float: left">
+        <p class="attributes-name">{{"name" | translate}}: </p>
+        <p class="attributes-name">{{"code" | translate}}: </p>
+        <p class="attributes-name">{{"abbreviation" | translate}}: </p>
+        <p class="attributes-name">{{"point.initialPoints" | translate}}: </p>
+        <p class="attributes-name">{{"point.maxPoints" | translate}}: </p>
+        <p class="attributes-name">{{"point.dailyMax" | translate}}: </p>
+        <p class="attributes-name">{{"default" | translate}}: </p>
+        <p class="attributes-name">{{"hidden" | translate}}: </p>
+      </div>
+      <div style="width: 60%; float: right">
+        <p class="attributes-value">{{selectedRow.name}}</p>
+        <p class="attributes-value">{{selectedRow.code}}</p>
+        <p class="attributes-value">{{selectedRow.abbreviation}}</p>
+        <p class="attributes-value">{{selectedRow.initial_points}}</p>
+        <p class="attributes-value">{{selectedRow.max_points}}</p>
+        <p class="attributes-value">{{selectedRow.daily_max}}</p>
+        <p class="attributes-value">{{selectedRow.is_default}}</p>
+        <p class="attributes-value">{{selectedRow.hidden}}</p>
+      </div>
     </div>
   </div>
 </div>

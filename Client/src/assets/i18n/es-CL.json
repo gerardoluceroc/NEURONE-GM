@@ -1,0 +1,64 @@
+{
+  "yes": "Sí",
+  "no": "No",
+  "confirm": "Confirmar",
+  "cancel": "Cancelar",
+  "challenges": "Desafíos",
+  "levels": "Niveles",
+  "points": "Puntos",
+  "actions": "Acciones",
+  "users": "Usuarios",
+  "groups": "Grupos",
+  "badges": "Insignias",
+  "add": "Añadir",
+  "edit": "Editar",
+  "delete": "Eliminar",
+  "filter": "Filtrar",
+  "name": "Nombre",
+  "code": "Código",
+  "description": "Descripción",
+  "repeatable": "Repetible",
+  "startDate": "Fecha de Inicio",
+  "endDate": "Fecha de Termino",
+  "abbreviation": "Abreviación",
+  "default": "Por defecto",
+  "hidden": "Oculto",
+  "amount": "Cantidad",
+  "home": {
+    "secondTitle": "Resumen Jugadores"
+  },
+  "header": {
+    "home": "INICIO",
+    "gameDesign": "DISEÑO DE JUEGO",
+    "players": "JUGADORES",
+    "appManagement": "GESTIÓN DE APPS"
+  },
+  "action": {
+    "addActionTitle": "Añadir Nueva Acción",
+    "editActionTitle": "Editar Acción"
+  },
+  "level": {
+    "addLevelTitle": "Añadir Nuevo Nivel",
+    "editLevelTitle": "Editar Nivel",
+    "pointsRequired": "Puntos Requeridos",
+    "pointsThreshold": "Umbral de Puntos"
+  },
+  "point": {
+    "addPointTitle": "Añadir Nuevo Punto",
+    "editPointTitle": "Editar Punto",
+    "initialPoints": "Puntos Iniciales",
+    "maxPoints": "Puntos Máximos",
+    "dailyMax": "Máximo Diario"
+  },
+  "challenge": {
+    "addChallengeTitle" : "Añadir Nuevo Desafío",
+    "actionsRequired": "Acciones Requeridas",
+    "challengesRequired": "Desafíos Requeridos",
+    "pointsAwards": "Puntos que entrega",
+    "actionName": "Nombre Acción",
+    "actionTimesRequired": "Veces Requerida",
+    "challengeRequiredName": "Nombre Desafío",
+    "pointName": "Nombre Punto",
+    "pointsAmount": "Cantidad de Puntos"
+  }
+}

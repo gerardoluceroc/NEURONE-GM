@@ -1,9 +1,9 @@
 <app-design marked="challenges"></app-design>
 <div class="content">
   <div class="column">
-    <button mat-raised-button class="button-add" (click)="openAddAChallengeDialog()">Add</button>
+    <button mat-raised-button class="button-add" (click)="openAddAChallengeDialog()">{{"add" | translate}}</button>
     <mat-form-field style="width: 100%">
-      <mat-label>Filter</mat-label>
+      <mat-label>{{"filter" | translate}}</mat-label>
       <input matInput (keyup)="applyFilter($event)" #input>
     </mat-form-field>
     <table mat-table [dataSource]="table" style="width: 100%">
@@ -15,20 +15,33 @@
     </table>
   </div>
   <div *ngIf="selectedRow!=null" class="display-column">
-    <button mat-raised-button class="button-edit">Edit</button>
-    <button mat-raised-button class="button-delete">Delete</button>
+    <button mat-raised-button class="button-edit">{{"edit" | translate}}</button>
+    <button mat-raised-button class="button-delete">{{"delete" | translate}}</button>
     <div class="points-column">
-      <p class="attributes">Name: {{selectedRow.name}}</p>
-      <p class="attributes">Code: {{selectedRow.code}}</p>
-      <p class="attributes">Description: {{selectedRow.description}}</p>
-      <p class="attributes">Start Date: {{selectedRow.start_date.slice(0,10)}}</p>
-      <p class="attributes">End Date: {{selectedRow.end_date.slice(0,10)}}</p>
-      <p class="attributes"><strong>Actions Required</strong></p>
-      <p class="attributes" *ngFor="let action of selectedRow.actions_required">Action Name: {{action.action.name}}, Times Required: {{action.times_required}}</p>
-      <p class="attributes" *ngIf="this.selectedRow.challenges_required.length > 0"><strong>Challenges Required</strong></p>
-      <p class="attributes" *ngFor="let challenge of selectedRow.challenges_required">Challenge Name: {{challenge.challenge.name}}</p>
-      <p class="attributes"><strong>Points Awards</strong></p>
-      <p class="attributes" *ngFor="let point of selectedRow.points_awards">Point Name: {{point.point.name}}, Amount: {{point.amount}}</p>
+      <div style="width: 33%; float: left">
+        <p class="attributes-name">{{"name" | translate}}: </p>
+        <p class="attributes-name">{{"code" | translate}}: </p>
+        <p class="attributes-name">{{"description" | translate}}: </p>
+        <p class="attributes-name">{{"startDate" | translate}}: </p>
+        <p class="attributes-name">{{"endDate" | translate}}: </p>
+      </div>
+      <div style="width: 66%; float: right">
+        <p class="attributes-value">{{selectedRow.name}}</p>
+        <p class="attributes-value">{{selectedRow.code}}</p>
+        <p class="attributes-value">{{selectedRow.description}}</p>
+        <p class="attributes-value">{{selectedRow.start_date.slice(0,10)}}</p>
+        <p class="attributes-value">{{selectedRow.end_date.slice(0,10)}}</p>
+      </div>
+      <div style="width: 100%">
+        <p class="attributes-title"><strong>{{"challenge.actionsRequired" | translate}}</strong></p>
+        <p class="attributes-title" *ngFor="let action of selectedRow.actions_required"><span style="color: #696969">{{"challenge.actionName" | translate}}:</span> &nbsp;{{action.action.name}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <span style="color: #696969">{{"challenge.actionTimesRequired" | translate}}:</span> &nbsp;{{action.times_required}}</p>
+        <p class="attributes-title" *ngIf="this.selectedRow.challenges_required.length > 0"><strong>{{"challenge.challengesRequired" | translate}}</strong></p>
+        <p class="attributes-title" *ngFor="let challenge of selectedRow.challenges_required"><span style="color: #696969">{{"challenge.challengeRequiredName" | translate}}:</span> &nbsp;{{challenge.challenge.name}}</p>
+        <p class="attributes-title"><strong>{{"challenge.pointsAwards" | translate}}</strong></p>
+        <p class="attributes-title" *ngFor="let point of selectedRow.points_awards"><span style="color: #696969">{{"challenge.pointName" | translate}}:</span> &nbsp;{{point.point.name}}  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <span style="color: #696969">{{"challenge.pointsAmount" | translate}}:</span> &nbsp;{{point.amount}}</p>
+      </div>
     </div>
   </div>
 </div>

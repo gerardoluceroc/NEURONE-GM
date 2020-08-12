@@ -3,6 +3,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {EndpointsService} from '../../endpoints/endpoints.service';
 import {MatDialog} from '@angular/material/dialog';
 import {AddLevelDialogComponent} from '../../components/add-level-dialog/add-level-dialog.component';
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-design-levels',
@@ -11,7 +12,7 @@ import {AddLevelDialogComponent} from '../../components/add-level-dialog/add-lev
 })
 export class DesignLevelsComponent implements OnInit {
 
-  constructor(protected endpointsService: EndpointsService, public dialog: MatDialog) { }
+  constructor(protected endpointsService: EndpointsService, public dialog: MatDialog, public translate: TranslateService) { }
 
   table = new MatTableDataSource([]);
   levels = [];
@@ -54,12 +55,19 @@ export class DesignLevelsComponent implements OnInit {
       });
   }
 
-  openAddLevelDialog(){
+  async openAddLevelDialog() {
+    let message;
+    await this.translate.get('level.addLevelTitle').subscribe(res => {
+      message = res;
+    });
     const dialogRef = this.dialog.open(AddLevelDialogComponent, {
-      data: {message: 'Create New Level', points: this.points, withCode: false},
+      data: {
+        message,
+        points: this.points,
+        withCode: false}
     });
     dialogRef.afterClosed().subscribe(res => {
-      if (res){
+      if (res) {
         console.log(res);
         this.endpointsService.postLevel(res, this.focusApp.code).subscribe((data: { data: any; ok: boolean }) => {
           this.getLevels();
@@ -69,14 +77,25 @@ export class DesignLevelsComponent implements OnInit {
       }
     });
   }
-  openEditLevelDialog(){
+  async openEditLevelDialog() {
+    let message;
+    await this.translate.get('level.editLevelTitle').subscribe(res => {
+      message = res;
+    });
     const dialogRef = this.dialog.open(AddLevelDialogComponent, {
-      data: {message: 'Edit Action',
-        name: this.selectedRow.name, description: this.selectedRow.description, point_required: this.selectedRow.point_required.code,
-        code: this.selectedRow.code, point_threshold: this.selectedRow.point_threshold, points: this.points, withCode: true},
+      data: {
+        message,
+        name: this.selectedRow.name,
+        description: this.selectedRow.description,
+        point_required: this.selectedRow.point_required.code,
+        code: this.selectedRow.code,
+        point_threshold: this.selectedRow.point_threshold,
+        points: this.points,
+        withCode: true
+      }
     });
     dialogRef.afterClosed().subscribe(res => {
-      if (res){
+      if (res) {
         this.endpointsService.putLevel(res, this.focusApp.code, this.selectedRow.code).subscribe((data: { data: any; ok: boolean }) => {
           this.getLevels();
           this.selectedRow = null;

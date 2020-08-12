@@ -1,15 +1,15 @@
 <h1 mat-dialog-title>{{data.message}}</h1>
 <mat-dialog-content>
   <mat-form-field class="input-1">
-    <mat-label>Challenge Name</mat-label>
+    <mat-label>{{"name" | translate}}</mat-label>
     <input matInput [(ngModel)]="challenge.name">
   </mat-form-field>
   <mat-form-field class="input-1" *ngIf="withCode" >
-    <mat-label>Challenge Code</mat-label>
+    <mat-label>{{"code" | translate}}</mat-label>
     <input matInput [(ngModel)]="challenge.code">
   </mat-form-field>
   <mat-form-field class="input-1" >
-    <mat-label>Challenge Description</mat-label>
+    <mat-label>{{"description" | translate}}</mat-label>
     <textarea matInput
               cdkTextareaAutosize
               #autosize="cdkTextareaAutosize"
@@ -18,18 +18,18 @@
               cdkAutosizeMaxRows="5"></textarea>
   </mat-form-field>
   <mat-form-field class="input-1" >
-    <mat-label>Challenge Start Date</mat-label>
+    <mat-label>{{"startDate" | translate}}</mat-label>
     <input matInput [matDatepicker]="picker" [(ngModel)]="challenge.start_date">
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
   <mat-form-field class="input-1">
-    <mat-label>Challenge End Date</mat-label>
+    <mat-label>{{"endDate" | translate}}</mat-label>
     <input matInput [matDatepicker]="picker2" [(ngModel)]="challenge.end_date">
     <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
     <mat-datepicker #picker2></mat-datepicker>
   </mat-form-field>
-  <h2>Actions Required</h2>
+  <h2>{{"challenge.actionsRequired" | translate}}</h2>
   <mat-list>
     <mat-list-item *ngFor="let action_required of challenge.actions_required">
       <div class="list-item-line-left">{{action_required.action_name}}</div>
@@ -39,17 +39,17 @@
     </mat-list-item>
   </mat-list>
   <mat-form-field appearance="standard" style="width: 50%; margin-right: 2.5%">
-    <mat-label>Action</mat-label>
-    <mat-select [(ngModel)]="newAction" [disabled]="this.data.actions.length == 0">
+    <mat-label>{{"challenge.actionName" | translate}}</mat-label>
+    <mat-select [(ngModel)]="newAction" [disabled]="this.data.actions.length < 1">
       <mat-option *ngFor="let action of this.data.actions" [value]="action">{{action.name}}</mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field style="width: 20%; margin-right: 5%">
-    <mat-label>Amount</mat-label>
-    <input matInput [disabled]="this.data.actions.length == 0" [(ngModel)]="newAmount">
+    <mat-label>{{"amount" | translate}}</mat-label>
+    <input matInput [disabled]="this.data.actions.length < 1" [(ngModel)]="newAmount">
   </mat-form-field>
-  <button mat-button [disabled]="this.data.actions.length == 0" (click)="onclickAddAction()">Add</button>
-  <h2>Challenges Required</h2>
+  <button mat-button [disabled]="this.data.actions.length < 1" (click)="onclickAddAction()">{{"add"| translate}}</button>
+  <h2>{{"challenge.challengesRequired" | translate}}</h2>
   <mat-list>
     <mat-list-item *ngFor="let challenge of challenge.challenges_required">
       <div class="list-item-line-left">{{challenge.challenge_name}}</div>
@@ -58,13 +58,13 @@
     </mat-list-item>
   </mat-list>
   <mat-form-field appearance="standard" style="width: 50%; margin-right: 2.5%">
-    <mat-label>Challenge</mat-label>
-    <mat-select [(ngModel)]="newChallenge" [disabled]="this.data.challenges.length == 0">
+    <mat-label>{{"challenge.challengeRequiredName"| translate}}</mat-label>
+    <mat-select [(ngModel)]="newChallenge" [disabled]="this.data.challenges.length < 1">
       <mat-option *ngFor="let challenge of this.data.challenges" [value]="challenge">{{challenge.name}}</mat-option>
     </mat-select>
   </mat-form-field>
-  <button mat-button (click)="onclickAddAChallenge()" [disabled]="this.data.challenges.length == 0">Add</button>
-  <h2>Points Awards</h2>
+  <button mat-button (click)="onclickAddAChallenge()" [disabled]="this.data.challenges.length < 1">{{"add"| translate}}</button>
+  <h2>{{"challenge.pointsAwards"| translate}}</h2>
   <mat-list>
     <mat-list-item *ngFor="let point of challenge.points_awards">
       <div class="list-item-line-left">{{point.point_name}}</div>
@@ -74,18 +74,18 @@
     </mat-list-item>
   </mat-list>
   <mat-form-field appearance="standard" style="width: 50%; margin-right: 2.5%">
-    <mat-label>Point</mat-label>
-    <mat-select [(ngModel)]="newPoint" [disabled]="this.data.points.length == 0">
+    <mat-label>{{"challenge.pointName"| translate}}</mat-label>
+    <mat-select [(ngModel)]="newPoint" [disabled]="this.data.points.length < 1">
       <mat-option *ngFor="let point of this.data.points" [value]="point">{{point.name}}</mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field style="width: 20%; margin-right: 5%">
-    <mat-label>Points Amount</mat-label>
-    <input matInput [(ngModel)]="newPointAmount" [disabled]="this.data.points.length == 0">
+    <mat-label>{{"challenge.pointsAmount"| translate}}</mat-label>
+    <input matInput [(ngModel)]="newPointAmount" [disabled]="this.data.points.length < 1">
   </mat-form-field>
-  <button mat-button (click)="onclickAddPoint()" [disabled]="this.data.points.length == 0">Add</button>
+  <button mat-button (click)="onclickAddPoint()" [disabled]="this.data.points.length < 1">{{"add"| translate}}</button>
 </mat-dialog-content>
 <div mat-dialog-actions>
-  <button mat-button [mat-dialog-close]="challenge">Confirm</button>
-  <button mat-button (click)="onClickNO()">Cancel</button>
+  <button mat-button [mat-dialog-close]="challenge">{{"confirm"| translate}}</button>
+  <button mat-button (click)="onClickNO()">{{"cancel"| translate}}</button>
 </div>

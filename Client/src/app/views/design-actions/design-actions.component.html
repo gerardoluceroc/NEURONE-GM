@@ -1,9 +1,9 @@
 <app-design marked="actions"></app-design>
 <div class="content">
   <div class="column">
-    <button mat-raised-button class="button-add" (click)="openAddActionDialog()">Add</button>
+    <button mat-raised-button class="button-add" (click)="openAddActionDialog()">{{"add" | translate}}</button>
     <mat-form-field style="width: 100%">
-      <mat-label>Filter</mat-label>
+      <mat-label>{{"filter"| translate}}</mat-label>
       <input matInput (keyup)="applyFilter($event)" #input>
     </mat-form-field>
     <table mat-table [dataSource]="table" style="width: 100%">
@@ -15,13 +15,21 @@
     </table>
   </div>
   <div *ngIf="selectedRow!=null" class="display-column">
-    <button mat-raised-button class="button-edit" (click)="openEditActionDialog()">Edit</button>
-    <button mat-raised-button class="button-delete" (click)="deleteAction()">Delete</button>
+    <button mat-raised-button class="button-edit" (click)="openEditActionDialog()">{{"edit" | translate}}</button>
+    <button mat-raised-button class="button-delete" (click)="deleteAction()">{{"delete"| translate}}</button>
     <div class="points-column">
-      <p class="attributes">Name: {{selectedRow.name}}</p>
-      <p class="attributes">Code: {{selectedRow.code}}</p>
-      <p class="attributes">Description: {{selectedRow.description}}</p>
-      <p class="attributes">Repeatable: {{selectedRow.repeatable}}</p>
+      <div style="width: 30%; float: left">
+        <p class="attributes-name">{{"name" | translate}}: </p>
+        <p class="attributes-name">{{"code" | translate}}: </p>
+        <p class="attributes-name">{{"description" | translate}}: </p>
+        <p class="attributes-name">{{"repeatable" | translate}}: </p>
+      </div>
+      <div style="width: 60%; float: right">
+        <p class="attributes-value">{{selectedRow.name}}</p>
+        <p class="attributes-value">{{selectedRow.code}}</p>
+        <p class="attributes-value">{{selectedRow.description}}</p>
+        <p class="attributes-value">{{selectedRow.repeatable}}</p>
+      </div>
     </div>
   </div>
 </div>

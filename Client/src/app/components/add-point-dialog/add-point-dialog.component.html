@@ -1,45 +1,45 @@
 <div mat-dialog-content>
   <h1 mat-dialog-title>{{data.message}}</h1>
   <mat-form-field>
-    <mat-label>Point Name</mat-label>
+    <mat-label>{{"name" | translate}}</mat-label>
     <input matInput [(ngModel)]="point.name">
   </mat-form-field>
   <mat-form-field *ngIf="withCode">
-    <mat-label>Point Code</mat-label>
+    <mat-label>{{"code" | translate}}</mat-label>
     <input matInput [(ngModel)]="point.code">
   </mat-form-field>
   <mat-form-field>
-    <mat-label>Point Abbreviation</mat-label>
+    <mat-label>{{"abbreviation" | translate}}</mat-label>
     <input matInput [(ngModel)]="point.abbreviation">
   </mat-form-field>
   <mat-form-field>
-    <mat-label>Initial Points</mat-label>
+    <mat-label>{{"point.initialPoints" | translate}}</mat-label>
     <input matInput [(ngModel)]="point.initial_points">
   </mat-form-field>
   <mat-form-field>
-    <mat-label>Max Points</mat-label>
+    <mat-label>{{"point.maxPoints" | translate}}</mat-label>
     <input matInput [(ngModel)]="point.max_points">
   </mat-form-field>
   <mat-form-field>
-    <mat-label>Daily Max</mat-label>
+    <mat-label>{{"point.dailyMax" | translate}}</mat-label>
     <input matInput [(ngModel)]="point.daily_max">
   </mat-form-field>
   <mat-form-field appearance="standard">
-    <mat-label>Default</mat-label>
+    <mat-label>{{"default" | translate}}</mat-label>
     <mat-select [(value)]="point.is_default" >
-      <mat-option value=true>Yes</mat-option>
-      <mat-option value=false>No</mat-option>
+      <mat-option value=true>{{"yes" | translate}}</mat-option>
+      <mat-option value=false>{{"no" | translate}}</mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field appearance="standard">
-    <mat-label>Hidden</mat-label>
+    <mat-label>{{"hidden" | translate}}</mat-label>
     <mat-select [(value)]="point.hidden" >
-      <mat-option value=true>Yes</mat-option>
-      <mat-option value=false>No</mat-option>
+      <mat-option value=true>{{"yes" | translate}}</mat-option>
+      <mat-option value=false>{{"no" | translate}}</mat-option>
     </mat-select>
   </mat-form-field>
 </div>
 <div mat-dialog-Points>
-  <button mat-button [mat-dialog-close]="point">Confirm</button>
-  <button mat-button (click)="onClickNO()">Cancel</button>
+  <button mat-button [mat-dialog-close]="point">{{"confirm" | translate}}</button>
+  <button mat-button (click)="onClickNO()">{{"cancel" | translate}}</button>
 </div>
