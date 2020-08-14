@@ -5,39 +5,46 @@
     <div class="image-box"><img src="/assets/tarea.png" alt="imagen" height="95%" width="95%"></div>
     <div class="info-box">
       <div class="box-title">{{"challenges" | translate}}</div>
-      <div class="box-amount">3</div>
+      <div class="box-amount">{{summary.challenges}}</div>
     </div>
 
-    <div class="image-box"><img src="/assets/escalera.png" alt="imagen" height="95%" width="95%"></div>
+    <div class="image-box"><img src="/assets/progress.png" alt="imagen" height="95%" width="95%"></div>
     <div class="info-box">
       <div class="box-title">{{"levels" | translate}}</div>
-      <div class="box-amount">2</div>
+      <div class="box-amount">{{summary.levels}}</div>
     </div>
 
     <div class="image-box"><img src="/assets/boligrafo.png" alt="imagen" height="95%" width="95%"></div>
     <div class="info-box">
       <div class="box-title">{{"actions" | translate}}</div>
-      <div class="box-amount">2</div>
+      <div class="box-amount">{{summary.actions}}</div>
     </div>
 
     <div class="image-box"><img src="/assets/estrella.png" alt="imagen" height="95%" width="95%"></div>
     <div class="info-box">
       <div class="box-title">{{"points" | translate}}</div>
-      <div class="box-amount">2</div>
+      <div class="box-amount">{{summary.points}}</div>
     </div>
+
+    <div class="image-box"><img src="/assets/rank.png" alt="imagen" height="95%" width="95%"></div>
+    <div class="info-box">
+      <div class="box-title">{{"leaderboards" | translate}}</div>
+      <div class="box-amount">{{summary.leaderboards}}</div>
+    </div>
+
   </div>
   <h2 class="app-title">{{"home.secondTitle"| translate}}</h2>
   <div class="row">
     <div class="image-box"><img src="/assets/usuario.png" alt="imagen" height="95%" width="95%"></div>
     <div class="info-box">
-      <div class="box-title">{{"users"| translate}}</div>
-      <div class="box-amount">10</div>
+      <div class="box-title">{{"players"| translate}}</div>
+      <div class="box-amount">{{summary.players}}</div>
     </div>
 
     <div class="image-box"><img src="/assets/equipo.png" alt="imagen" height="95%" width="95%"></div>
     <div class="info-box">
       <div class="box-title">{{"groups" | translate}}</div>
-      <div class="box-amount">1</div>
+      <div class="box-amount">{{summary.groups}}</div>
     </div>
   </div>
 </div>

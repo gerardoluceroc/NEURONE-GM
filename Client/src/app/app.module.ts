@@ -34,6 +34,11 @@ import { AddAppDialogComponent } from './components/add-app-dialog/add-app-dialo
 import { TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule} from '@angular/common/http';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import { DesignLeaderboardsComponent } from './views/design-leaderboards/design-leaderboards.component';
+import { DesignBadgesComponent } from './views/design-badges/design-badges.component';
+import { AddLeaderboardDialogComponent } from './components/add-leaderboard-dialog/add-leaderboard-dialog.component';
+import {MatStepperModule} from "@angular/material/stepper";
+import { DesignLeaderboardsSeeComponent } from './views/design-leaderboards-see/design-leaderboards-see.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -56,32 +61,37 @@ export function HttpLoaderFactory(http: HttpClient) {
     AddLevelDialogComponent,
     AddChallengeDialogComponent,
     AddAppDialogComponent,
+    DesignLeaderboardsComponent,
+    DesignBadgesComponent,
+    AddLeaderboardDialogComponent,
+    DesignLeaderboardsSeeComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatButtonModule,
-    MatTableModule,
-    MatInputModule,
-    MatCardModule,
-    MatSelectModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    MatDialogModule,
-    FormsModule,
-    MatListModule,
-    MatIconModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    })
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatButtonModule,
+        MatTableModule,
+        MatInputModule,
+        MatCardModule,
+        MatSelectModule,
+        HttpClientModule,
+        ReactiveFormsModule,
+        MatDialogModule,
+        FormsModule,
+        MatListModule,
+        MatIconModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }),
+        MatStepperModule
+    ],
   providers: [EndpointsService],
   bootstrap: [AppComponent]
 })

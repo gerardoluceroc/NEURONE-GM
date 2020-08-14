@@ -1,0 +1,54 @@
+<div mat-dialog-content>
+  <mat-vertical-stepper linear=true #stepper>
+    <mat-step [stepControl]="firstFormGroup">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>{{"leaderboard.firstStepTitle"| translate}}</ng-template>
+        <mat-form-field appearance="standard" style="width: 50%; margin-right: 2.5%">
+          <mat-label>{{"leaderboard.type"| translate}}</mat-label>
+          <mat-select formControlName="firstCtrl" (selectionChange)="onChangeType($event)" >
+            <mat-option *ngFor="let type of types" [value]="type">{{type.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperNext>{{"next" | translate}}</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+      <form [formGroup]="secondFormGroup">
+        <ng-template matStepLabel>{{"leaderboard.secondStepTitle"| translate}}</ng-template>
+        <mat-form-field appearance="standard" style="width: 50%; margin-right: 2.5%" *ngIf="type.id ==='actions'">
+          <mat-label>{{"leaderboard.action"| translate}}</mat-label>
+          <mat-select formControlName="secondCtrl" (selectionChange)="onChangeElement($event)" >
+            <mat-option *ngFor="let action of actions" [value]="action">{{action.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="standard" style="width: 50%; margin-right: 2.5%" *ngIf="type.id ==='points'">
+          <mat-label>{{"leaderboard.point"| translate}}</mat-label>
+          <mat-select formControlName="secondCtrl" (selectionChange)="onChangeElement($event)">
+            <mat-option *ngFor="let point of points" [value]="point">{{point.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>{{"back"| translate}}</button>
+          <button mat-button matStepperNext>{{"next"| translate}}</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>{{"confirm"| translate}}</ng-template>
+      <mat-form-field>
+        <mat-label>{{"name" | translate}}</mat-label>
+        <input matInput [(ngModel)]="leaderboard.name">
+      </mat-form-field>
+      <div>
+        <button mat-button [mat-dialog-close]="leaderboard" [disabled]="!leaderboard.name">{{"confirm" | translate}}</button>
+        <button mat-button matStepperPrevious>{{"back"| translate}}</button>
+        <button mat-button (click)="stepper.reset()">{{"reset"| translate}}</button>
+      </div>
+    </mat-step>
+  </mat-vertical-stepper>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onClickNO()">{{"cancel" | translate}}</button>
+</div>

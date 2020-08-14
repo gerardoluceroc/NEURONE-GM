@@ -29,6 +29,9 @@ export class EndpointsService {
   deleteApp(appCode){
     return this.http.delete(this.rootURL + 'applications/' + appCode);
   }
+  getAppSummary(appCode){
+    return this.http.get(this.rootURL + 'applications/' + appCode + '/summary');
+  }
   /* APPS */
   getPlayers(appCode){
     return this.http.get(this.rootURL + appCode + '/players');
@@ -84,5 +87,21 @@ export class EndpointsService {
   }
   deleteChallenge(appCode, challengeCode){
     return this.http.delete( this.rootURL + appCode + '/levels/' + challengeCode);
+  }
+  /* LEADERBOARDS */
+  getLeaderboards(appCode){
+    return this.http.get(this.rootURL + appCode + '/leaderboards');
+  }
+  postLeaderboards(newLeaderboard, appCode){
+    return this.http.post(this.rootURL + appCode + '/leaderboards', newLeaderboard);
+  }
+  putLeaderboard(updatedLeaderboard, appCode, leaderboardCode){
+    return this.http.put( this.rootURL + appCode + '/leaderboards/' + leaderboardCode, updatedLeaderboard);
+  }
+  deleteLeaderboard(appCode, leaderboardCode){
+    return this.http.delete( this.rootURL + appCode + '/leaderboards/' + leaderboardCode);
+  }
+  getLeaderboardData(appCode, leaderboardCode){
+    return this.http.get(this.rootURL + appCode + '/leaderboards/' + leaderboardCode + '/generate');
   }
 }

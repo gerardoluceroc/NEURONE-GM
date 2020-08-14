@@ -1,7 +1,15 @@
 const Application = require('../models/application');
+const Action = require('../models/action');
+const Player = require('../models/player');
+const Point = require('../models/point');
+const Challenge = require('../models/challenge');
+const Group = require('../models/group');
+const Level = require('../models/level');
+const Leaderboard = require('../models/leaderboard');
 
 const applicationController = {};
 
+//Este método trae todos las aplicaciones de un usuario
 applicationController.getApps = async (req, res) => {
     await Application.find({},{_id:0}, (err, data) => {
         if (err) {
@@ -98,6 +106,7 @@ applicationController.getApp = async  (req, res) => {
     })
 };
 
+//Este método trae la aplicación activa de un usuario
 applicationController.getFocusApp= async (req, res)=> {
     const user_id = req.params.user_id;
     await Application.findOne( {focus: true, owner: user_id}, (err, data) => {
@@ -140,6 +149,76 @@ applicationController.changeFocusApp = async(req, res) => {
             ok: true,
             data
         });
+    });
+};
+
+applicationController.appSummary = async(req, res) => {
+    const app_code = req.params.app_code;
+    let actions, points, levels, players, groups, challenges;
+    actions = await Action.countDocuments({app_code: app_code}, err => {
+        if (err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    });
+    points = await Point.countDocuments({app_code: app_code}, err => {
+        if (err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    });
+    levels = await Level.countDocuments({app_code: app_code}, err => {
+        if (err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    });
+    challenges = await Challenge.countDocuments({app_code: app_code}, err => {
+        if (err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    });
+    leaderboards = await Leaderboard.countDocuments({app_code: app_code}, err => {
+        if (err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    });
+    players = await Player.countDocuments({app_code: app_code}, err=> {
+        if (err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    });
+    groups = await Group.countDocuments({app_code: app_code}, err=> {
+        if (err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    });
+    res.status(200).json({
+        actions,
+        points,
+        levels,
+        challenges,
+        leaderboards,
+        players,
+        groups
     });
 }
 

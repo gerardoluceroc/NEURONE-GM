@@ -14,6 +14,7 @@ export class DesignComponent implements OnInit {
   challenges = false;
   actions = false;
   badges = false;
+  leaderboards = false;
   ngOnInit(): void {
     // con este switch se resalta la etiqueta del sidebar en la que se encuentra el usuario
     switch (this.marked) {
@@ -31,6 +32,9 @@ export class DesignComponent implements OnInit {
         break;
       case 'badges':
         this.badges = true;
+        break;
+      case 'leaderboards':
+        this.leaderboards = true;
         break;
       default:
         break;

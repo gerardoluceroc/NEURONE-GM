@@ -8,6 +8,9 @@ import {DesignActionsComponent} from './views/design-actions/design-actions.comp
 import {PlayersComponent} from './views/players/players.component';
 import {AppManagementComponent} from './views/app-management/app-management.component';
 import {DesignChallengesComponent} from './views/design-challenges/design-challenges.component';
+import {DesignLeaderboardsComponent} from './views/design-leaderboards/design-leaderboards.component';
+import {DesignBadgesComponent} from './views/design-badges/design-badges.component';
+import {DesignLeaderboardsSeeComponent} from './views/design-leaderboards-see/design-leaderboards-see.component';
 
 
 
@@ -18,6 +21,9 @@ const routes: Routes = [
   { path: 'design/levels', component:  DesignLevelsComponent},
   { path: 'design/actions', component: DesignActionsComponent},
   { path: 'design/challenges', component: DesignChallengesComponent},
+  { path: 'design/badges', component: DesignBadgesComponent},
+  { path: 'design/leaderboards', component: DesignLeaderboardsComponent},
+  { path: 'design/leaderboards/see/:code', component: DesignLeaderboardsSeeComponent},
   { path: 'players', component: PlayersComponent},
   { path: 'management', component: AppManagementComponent},
 ];

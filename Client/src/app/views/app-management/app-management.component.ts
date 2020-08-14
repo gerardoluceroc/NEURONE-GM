@@ -4,6 +4,8 @@ import {MatTableDataSource} from '@angular/material/table';
 import {EndpointsService} from '../../endpoints/endpoints.service';
 import {MatDialog} from '@angular/material/dialog';
 import {AddAppDialogComponent} from '../../components/add-app-dialog/add-app-dialog.component';
+import { Subject } from 'rxjs';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-app-management',
@@ -12,7 +14,7 @@ import {AddAppDialogComponent} from '../../components/add-app-dialog/add-app-dia
 })
 export class AppManagementComponent implements OnInit {
 
-  constructor(protected endpointsService: EndpointsService, public dialog: MatDialog) { }
+  constructor(protected endpointsService: EndpointsService, public dialog: MatDialog, public translate: TranslateService) { }
   table = new MatTableDataSource([]);
   displayedColumns: string[] = ['name'];
   apps = [];
@@ -21,15 +23,26 @@ export class AppManagementComponent implements OnInit {
   newFocusApp: any = {};
   change = false;
   appControl = new FormControl('', Validators.required);
+  eventsSubject: Subject<void> = new Subject<void>();
   ngOnInit(): void {
-    this.getApps();
     this.getActiveApp();
   }
 
+  emitEventToHeader() {
+    this.eventsSubject.next();
+  }
   getApps(){
     this.endpointsService.getApps().subscribe((data: {data: any[], ok: boolean}) => { // Success
         this.apps = data.data;
         this.table.data = this.apps;
+        let index;
+        for (let i = 0; i < this.apps.length; i++){
+          if (this.apps[i].code === this.focusApp.code){
+            index = i;
+          }
+        }
+        this.newFocusApp = this.apps[index];
+        console.log(this.newFocusApp);
       },
       (error) => {
         console.error(error);
@@ -38,6 +51,7 @@ export class AppManagementComponent implements OnInit {
   getActiveApp(){
     this.endpointsService.getActiveApp().subscribe((data: {data: object, ok: boolean}) => { // Success
         this.focusApp = data.data;
+        this.getApps();
       },
       (error) => {
         console.error(error);
@@ -52,19 +66,23 @@ export class AppManagementComponent implements OnInit {
   submitChange(){
     this.endpointsService.changeActiveApp({app_code: this.newFocusApp.code}).subscribe((data: {data: object, ok: boolean}) => { // Success
         this.getActiveApp();
+        this.emitEventToHeader();
         this.change = false;
       },
       (error) => {
         console.error(error);
       });
   }
-  openAddAppDialog(){
+  async openAddAppDialog() {
+    let message;
+    await this.translate.get('appManagement.addAppTitle').subscribe(res => {
+      message = res;
+    });
     const dialogRef = this.dialog.open(AddAppDialogComponent, {
-      data: {message: 'Create New App', withCode: false},
+      data: {message, withCode: false},
     });
     dialogRef.afterClosed().subscribe(res => {
-      if (res){
-        console.log(res);
+      if (res) {
         res.owner = 1;
         this.endpointsService.postApp(res).subscribe((data: { data: any; ok: boolean }) => {
           this.getApps();
@@ -74,13 +92,22 @@ export class AppManagementComponent implements OnInit {
       }
     });
   }
-  openEditAppDialog(){
+  async openEditAppDialog() {
+    let message;
+    await this.translate.get('appManagement.editAppTitle').subscribe(res => {
+      message = res;
+    });
     const dialogRef = this.dialog.open(AddAppDialogComponent, {
-      data: {message: 'Edit App',
-        name: this.selectedRow.name, description: this.selectedRow.description, code: this.selectedRow.code, withCode: true},
+      data: {
+        message,
+        name: this.selectedRow.name,
+        description: this.selectedRow.description,
+        code: this.selectedRow.code,
+        withCode: true
+      },
     });
     dialogRef.afterClosed().subscribe(res => {
-      if (res){
+      if (res) {
         this.endpointsService.putApp(res, this.selectedRow.code).subscribe((data: { data: any; ok: boolean }) => {
           this.getApps();
           this.selectedRow = null;

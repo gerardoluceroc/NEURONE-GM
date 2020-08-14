@@ -8,13 +8,16 @@
   "points": "Points",
   "actions": "Actions",
   "users": "Users",
+  "players": "Players",
   "groups": "Groups",
   "badges": "Badges",
+  "leaderboards": "Leaderboards",
   "add": "Add",
   "edit": "Edit",
   "delete": "Delete",
   "filter": "Filter",
   "name": "Name",
+  "lastName": "Last Name",
   "code": "Code",
   "description": "Description",
   "repeatable": "Repeatable",
@@ -24,8 +27,20 @@
   "default": "Default",
   "hidden": "Hidden",
   "amount": "Amount",
+  "change": "Change",
+  "next": "Next",
+  "back": "Back",
+  "reset": "Reset",
+  "generate": "Generate",
   "home": {
     "secondTitle": "Players Summary"
+  },
+  "appManagement": {
+    "addAppTitle": "Add New App",
+    "editAppTitle": "Edit App",
+    "activeApp": "Active App",
+    "manageApps": "Manage my Apps",
+    "owner": "Owner"
   },
   "header": {
     "home": "HOME",
@@ -62,5 +77,13 @@
     "challengeRequiredName": "Challenge Name",
     "pointName": "Point Name",
     "pointsAmount": "Points Amount"
+  },
+  "leaderboard": {
+    "firstStepTitle": "Select Parameter Type",
+    "secondStepTitle": "Specify ",
+    "type": "Parameter Type",
+    "challenge": "Challenge",
+    "action": "Action",
+    "point": "Point"
   }
 }

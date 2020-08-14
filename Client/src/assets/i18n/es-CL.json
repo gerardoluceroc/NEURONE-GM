@@ -8,13 +8,16 @@
   "points": "Puntos",
   "actions": "Acciones",
   "users": "Usuarios",
+  "players": "Jugadores",
   "groups": "Grupos",
   "badges": "Insignias",
+  "leaderboards": "Tablas de Clasificación",
   "add": "Añadir",
   "edit": "Editar",
   "delete": "Eliminar",
   "filter": "Filtrar",
   "name": "Nombre",
+  "lastName": "Apellido",
   "code": "Código",
   "description": "Descripción",
   "repeatable": "Repetible",
@@ -24,8 +27,20 @@
   "default": "Por defecto",
   "hidden": "Oculto",
   "amount": "Cantidad",
+  "change": "Cambiar",
+  "next": "Siguiente",
+  "back": "Atrás",
+  "reset": "Reiniciar",
+  "generate": "Generar",
   "home": {
     "secondTitle": "Resumen Jugadores"
+  },
+  "appManagement": {
+    "addAppTitle": "Añadir Nueva Aplicación",
+    "editAppTitle": "Editar Aplicación",
+    "activeApp": "Aplicación Activa",
+    "manageApps": "Administrar mis Aplicaciones",
+    "owner": "Propietario"
   },
   "header": {
     "home": "INICIO",
@@ -60,5 +75,14 @@
     "challengeRequiredName": "Nombre Desafío",
     "pointName": "Nombre Punto",
     "pointsAmount": "Cantidad de Puntos"
+  },
+  "leaderboard": {
+    "firstStepTitle": "Seleccionar Tipo de Parámetro",
+    "secondStepTitle": "Especificar ",
+    "type": "Tipo Parámetro",
+    "challenge": "Desafío",
+    "action": "Acción",
+    "point": "Punto",
+    "elementCode": "Código Parámetro"
   }
 }

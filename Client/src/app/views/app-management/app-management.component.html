@@ -1,8 +1,8 @@
-<app-header marked="management"></app-header>
+<app-header marked="management" [events]="eventsSubject.asObservable()"></app-header>
 <div class="main-content">
-  <h1 class="h1-1">Active Application:</h1>
-  <h1 *ngIf="!change" class="h1-1" style="display: inline-block">{{focusApp.name}}</h1>
-  <button *ngIf="!change" mat-raised-button style="display: inline-block; margin-left: 5%" (click)="changeFocus()">Change</button>
+  <h1 class="h1-1"><b>{{"appManagement.activeApp" | translate}}:</b></h1>
+  <h1 *ngIf="!change" class="h1-1"><em>{{focusApp.name}}</em></h1>
+  <button *ngIf="!change" mat-raised-button (click)="changeFocus()">{{"change" | translate}}</button>
   <div *ngIf="change" class="select-app-container">
     <mat-form-field class="select-1">
       <mat-select [(ngModel)]="newFocusApp" required>
@@ -10,13 +10,13 @@
       </mat-select>
     </mat-form-field>
   </div>
-  <button *ngIf="change" mat-raised-button class="button-3" (click)="submitChange()">Confirm</button>
-  <button *ngIf="change" mat-raised-button class="button-3" (click)="cancelChange()">Cancel</button>
-  <h1 class="h1-1">Manage my Apps</h1>
+  <button *ngIf="change" mat-raised-button class="button-3" (click)="submitChange()">{{"confirm" | translate}}</button>
+  <button *ngIf="change" mat-raised-button class="button-3" (click)="cancelChange()">{{"cancel" | translate}}</button>
+  <h1 class="h1-2"><b>{{"appManagement.manageApps" | translate}}</b></h1>
   <div class="column">
-    <button mat-raised-button class="button-1" (click)="openAddAppDialog()">Add</button>
+    <button mat-raised-button class="button-1" (click)="openAddAppDialog()">{{"add" | translate}}</button>
     <mat-form-field style="width: 100%">
-      <mat-label>Filter</mat-label>
+      <mat-label>{{"filter"|translate}}</mat-label>
       <input matInput (keyup)="applyFilter($event)" #input>
     </mat-form-field>
     <table mat-table [dataSource]="table" style="width: 100%">
@@ -28,13 +28,21 @@
     </table>
   </div>
   <div *ngIf="selectedRow!=null" class="display-column">
-    <button mat-raised-button class="button-1" (click)="openEditAppDialog()">Edit</button>
-    <button mat-raised-button class="button-2" (click)="deleteApp()">Delete</button>
+    <button mat-raised-button class="button-1" (click)="openEditAppDialog()">{{"edit" | translate}}</button>
+    <button mat-raised-button class="button-2" (click)="deleteApp()">{{"delete" | translate}}</button>
     <div class="points-column">
-      <p class="attributes">Name: {{selectedRow.name}}</p>
-      <p class="attributes">Code: {{selectedRow.code}}</p>
-      <p class="attributes">Description: {{selectedRow.description}}</p>
-      <p class="attributes">Owner: {{selectedRow.owner}}</p>
+      <div style="width: 30%; float: left">
+        <p class="attributes-name">{{"name" | translate}}: </p>
+        <p class="attributes-name">{{"code" | translate}}: </p>
+        <p class="attributes-name">{{"description" | translate}}: </p>
+        <p class="attributes-name">{{"appManagement.owner" | translate}}: </p>
+      </div>
+      <div style="width: 60%; float: right">
+        <p class="attributes-value">{{selectedRow.name}}</p>
+        <p class="attributes-value">{{selectedRow.code}}</p>
+        <p class="attributes-value">{{selectedRow.description}}</p>
+        <p class="attributes-value">{{selectedRow.owner}}</p>
+      </div>
     </div>
   </div>
 

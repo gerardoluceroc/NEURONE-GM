@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {EndpointsService} from "../../endpoints/endpoints.service";
+import {EndpointsService} from '../../endpoints/endpoints.service';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -11,7 +12,9 @@ export class HeaderComponent implements OnInit {
   constructor(protected endpointsService: EndpointsService) { }
 
   focusApp: any = {};
+  private eventsSubscription: Subscription;
   @Input() marked: string;
+  @Input() events: Observable<void>;
   design = false;
   players = false;
   management = false;
@@ -19,6 +22,9 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     // traer app activa
     this.getActiveApp();
+    if (this.events) {
+      this.eventsSubscription = this.events.subscribe(() => this.getActiveApp());
+    }
     // con este switch se resalta la etiqueta del header en la que se encuentra el usuario
     switch (this.marked) {
       case 'design':
