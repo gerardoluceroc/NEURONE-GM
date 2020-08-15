@@ -1,7 +1,7 @@
 <app-design marked="leaderboards"></app-design>
 <div class="content">
-  <h1 style="width: 60%; margin-left: 5%; margin-top: 5%">Tabla de clasificación por cantidad de acciones Say Hi</h1>
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 60%; margin-left: 5%; margin-top: 5%">
+  <h1 style="width: 60%; margin-left: 5%; margin-top: 5%">{{leaderboard.name}} - {{translation}}: {{name}}</h1>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 60%; margin-left: 5%; margin-top: 5%; table-layout: fixed">
 
     <!-- Name Column -->
     <ng-container matColumnDef="name">

@@ -123,5 +123,8 @@
       }
     }
   },
-  "defaultProject": "NEURONE-GM-FRONT"
+  "defaultProject": "NEURONE-GM-FRONT",
+  "cli": {
+    "analytics": false
+  }
 }

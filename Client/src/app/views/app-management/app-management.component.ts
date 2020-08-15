@@ -42,7 +42,6 @@ export class AppManagementComponent implements OnInit {
           }
         }
         this.newFocusApp = this.apps[index];
-        console.log(this.newFocusApp);
       },
       (error) => {
         console.error(error);

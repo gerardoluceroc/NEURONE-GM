@@ -49,6 +49,9 @@ export class EndpointsService {
   deleteAction(appCode, actionCode){
     return this.http.delete( this.rootURL + appCode + '/actions/' + actionCode);
   }
+  getOneAction(appCode, actionCode){
+    return this.http.get(this.rootURL + appCode + '/actions/' + actionCode);
+  }
   /* POINTS */
   getPoints(appCode){
     return this.http.get(this.rootURL + appCode + '/points');
@@ -103,5 +106,8 @@ export class EndpointsService {
   }
   getLeaderboardData(appCode, leaderboardCode){
     return this.http.get(this.rootURL + appCode + '/leaderboards/' + leaderboardCode + '/generate');
+  }
+  getOneLeaderboard(appCode, leaderboardCode){
+    return this.http.get(this.rootURL + appCode + '/leaderboards/' + leaderboardCode);
   }
 }

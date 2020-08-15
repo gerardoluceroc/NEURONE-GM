@@ -84,6 +84,7 @@
     "type": "Parameter Type",
     "challenge": "Challenge",
     "action": "Action",
-    "point": "Point"
+    "point": "Point",
+    "leaderboard": "Leaderboard"
   }
 }

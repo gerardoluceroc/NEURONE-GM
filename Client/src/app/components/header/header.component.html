@@ -9,5 +9,5 @@
   <a class="a-1" *ngIf="management" href="/management"><strong class="marked">{{"header.appManagement" | translate}}</strong></a>
   <a class="a-1" *ngIf="!management" href="/management">{{"header.appManagement" | translate}}</a>
   <div class="spacer"></div>
-  <span class="name-span">{{focusApp.name}}</span>
+  <span class="name-span" *ngIf="focusApp">{{focusApp.name}}</span>
 </div>

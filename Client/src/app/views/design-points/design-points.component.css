@@ -55,9 +55,9 @@
 
 .attributes-name{
   margin-top: 10px;
-  color: black;
+  color: 	#696969;
   text-align: right;
-  font-family: Ubuntu;
+  font-family: Century Gothic, sans-serif;
   font-size: calc(0.5em + 1vmin);
 }
 
@@ -65,6 +65,6 @@
   margin-top: 10px;
   color: black;
   text-align: left;
-  font-family: Ubuntu;
+  font-family: Century Gothic, sans-serif;
   font-size: calc(0.5em + 1vmin);
 }

@@ -83,6 +83,7 @@
     "challenge": "Desafío",
     "action": "Acción",
     "point": "Punto",
-    "elementCode": "Código Parámetro"
+    "elementCode": "Código Parámetro",
+    "leaderboard": "Tabla de clasificación"
   }
 }

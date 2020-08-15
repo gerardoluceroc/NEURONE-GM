@@ -53,11 +53,19 @@
   font-size: calc(0.5em + 1vmin);
 }
 
+.attributes-title{
+  margin-top: 10px;
+  color: black;
+  text-align: center;
+  font-family: Century Gothic, sans-serif;
+  font-size: calc(0.5em + 1vmin);
+}
+
 .attributes-name{
   margin-top: 10px;
   color: 	#696969;
   text-align: right;
-  font-family: Ubuntu;
+  font-family: Century Gothic, sans-serif;
   font-size: calc(0.5em + 1vmin);
 }
 
@@ -65,14 +73,7 @@
   margin-top: 10px;
   color: black;
   text-align: left;
-  font-family: Ubuntu;
+  font-family: Century Gothic, sans-serif;
   font-size: calc(0.5em + 1vmin);
 }
 
-.attributes-title{
-  margin-top: 10px;
-  color: black;
-  text-align: center;
-  font-family: Ubuntu;
-  font-size: calc(0.5em + 1vmin);
-}

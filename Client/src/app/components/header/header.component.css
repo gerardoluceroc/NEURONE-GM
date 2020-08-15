@@ -13,12 +13,12 @@
 
 .a-1{
   margin-left: 1%;
-  font-size: calc(0.4em + 1vmin);
+  font-size: calc(0.5em + 1vmin);
   margin-right: 2.5%;
   color: #9d9d9d;
   letter-spacing: 0.2em;
   text-decoration: none;
-  font-family: Ubuntu;
+  font-family: Candara, sans-serif;
   font-weight: lighter;
 }
 
@@ -36,7 +36,7 @@
   margin-right: 3%;
   color: #9d9d9d;
   text-decoration: none;
-  font-family: Ubuntu;
+  font-family: Comic Sans MS, sans-serif;
 }
 
 .name-span {
@@ -45,4 +45,5 @@
   margin-right: 0.5%;
   font-family: Ubuntu;
   letter-spacing: 0.2em;
+  font-family: Comic Sans MS, sans-serif;
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {EndpointsService} from '../../endpoints/endpoints.service';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -10,31 +11,59 @@ import {EndpointsService} from '../../endpoints/endpoints.service';
 })
 export class DesignLeaderboardsSeeComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, protected endpointsService: EndpointsService) { }
+  constructor(private route: ActivatedRoute, protected endpointsService: EndpointsService, public translate: TranslateService) { }
   code: string;
   focusApp: any = {};
+  leaderboard: any = {};
   displayedColumns: string[] = ['name', 'last_name', 'amount'];
   dataSource = [];
+  translation: string = "";
+  name: string;
   ngOnInit(): void {
     this.route.paramMap
       .subscribe((params: ParamMap) => {
         this.code = params.get('code');
       });
+    this.translate.get('action.addActionTitle').subscribe(res => {
+       // message = res;
+    });
     this.getActiveApp();
   }
   getActiveApp(){
     this.endpointsService.getActiveApp().subscribe((data: {data: object, ok: boolean}) => { // Success
         this.focusApp = data.data;
         this.getData();
+        this.getLeaderboard();
       },
       (error) => {
         console.error(error);
       });
   }
+  getLeaderboard(){
+    this.endpointsService.getOneLeaderboard(this.focusApp.code, this.code).subscribe((data: {data: any, ok: boolean})=> {
+      this.leaderboard = data.data;
+      if(this.leaderboard.parameter === "actions"){
+        this.translate.get('actions').subscribe(res => {
+          this.translation = res;
+        });
+        this.endpointsService.getOneAction(this.focusApp.code, this.leaderboard.element_code).subscribe((data: {data: any, ok:boolean}) => {
+          this.name = data.data.name
+        },(error) => {
+          console.error(error);
+        })
+      }
+      else if(this.leaderboard.parameter === "points"){
+        this.translate.get('points').subscribe(res => {
+          this.translation = res;
+        });
+      }
+    },(error) => {
+      console.error(error);
+    })
+  }
   getData(){
     this.endpointsService.getLeaderboardData(this.focusApp.code, this.code).subscribe((data: {leaderboardResult: any, ok: boolean}) => { // Success
         this.dataSource = data.leaderboardResult;
-        console.log(this.dataSource);
       },
       (error) => {
         console.error(error);
