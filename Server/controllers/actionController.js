@@ -27,7 +27,7 @@ actionController.postAction = async (req, res) => {
         res.status(400).send('Write all the fields');
         return;
     }
-    let code = codeGenerator.codeGenerator(app_code, name, 'action');
+    let code = await codeGenerator.codeGenerator(app_code, name, 'action');
     const timesRepeated = await Action.countDocuments( { 'code' : { '$regex' : code, '$options' : 'i' } } );
     if(timesRepeated > 0){
         code = code+(timesRepeated+1).toString();

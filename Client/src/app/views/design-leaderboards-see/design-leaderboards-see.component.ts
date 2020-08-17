@@ -15,7 +15,7 @@ export class DesignLeaderboardsSeeComponent implements OnInit {
   code: string;
   focusApp: any = {};
   leaderboard: any = {};
-  displayedColumns: string[] = ['name', 'last_name', 'amount'];
+  displayedColumns: string[] = ['rank', 'name', 'last_name', 'amount'];
   dataSource = [];
   translation: string = "";
   name: string;
@@ -56,6 +56,11 @@ export class DesignLeaderboardsSeeComponent implements OnInit {
         this.translate.get('points').subscribe(res => {
           this.translation = res;
         });
+        this.endpointsService.getOnePoint(this.focusApp.code, this.leaderboard.element_code).subscribe((data: {data: any, ok:boolean}) => {
+          this.name = data.data.name
+        },(error) => {
+          console.error(error);
+        })
       }
     },(error) => {
       console.error(error);

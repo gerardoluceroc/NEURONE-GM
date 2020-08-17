@@ -4,6 +4,8 @@ const Action = require('../models/action');
 const ActionChallenge = require('../models/actionChallenge');
 const ChallengeRequisite = require('../models/challengeRequisite');
 const ChallengePlayer = require('../models/challengePlayer');
+const Challenge = require('../models/challenge');
+const PointPlayer = require('../models/pointPlayer');
 
 const actionPlayerController = {};
 
@@ -39,7 +41,7 @@ actionPlayerController.postActionPlayer = async (req, res) => {
     if(!action_code || !date){
         res.status(400).send('Write all the fields');
     }
-    const player = await Player.findOne({code: player_code}, (err) => {
+    const player = await Player.findOne({code: player_code}, (err,pla) => {
         if (err) {
             return res.status(404).json({
                 ok: false,
@@ -106,7 +108,29 @@ actionPlayerController.postActionPlayer = async (req, res) => {
                         });
                     }
                 });
-                console.log("Notificar que "+player.name+" "+player.last_name+" ha completado el desafío "+data[i]._id);;
+                Challenge.findOne({_id: data[i]._id}, (err, chall) => {
+                    if (err) {
+                        return res.status(404).json({
+                            ok: false,
+                            err
+                        });
+                    }
+                    console.log("Notificar que "+player.name+" "+player.last_name+" ha completado el desafío "+ chall.name);
+                    for(let i = 0; i<chall.points_awards.length; i++){
+                        PointPlayer.findOne({point: chall.points_awards[i].point._id, player: player._id}, (err, pointPlayer)=>{
+                            if (err) {
+                                return res.status(404).json({
+                                    ok: false,
+                                    err
+                                });
+                            }
+                            if(pointPlayer){
+                                pointPlayer.amount += chall.points_awards[i].amount;
+                                pointPlayer.save();
+                            }
+                        });
+                    }
+                }).populate( 'points_awards.point')
             }
         }
     });

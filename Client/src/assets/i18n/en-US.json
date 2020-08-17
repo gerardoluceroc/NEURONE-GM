@@ -32,6 +32,7 @@
   "back": "Back",
   "reset": "Reset",
   "generate": "Generate",
+  "rank": "Rank",
   "home": {
     "secondTitle": "Players Summary"
   },
@@ -69,6 +70,7 @@
     "challenge": "Challenge",
     "action": "Action",
     "addChallengeTitle" : "Add New Challenge",
+    "editChallengeTitle" : "Edit Challenge",
     "actionsRequired": "Required Actions",
     "challengesRequired": "Required Challenges",
     "pointsAwards": "Reward Points",

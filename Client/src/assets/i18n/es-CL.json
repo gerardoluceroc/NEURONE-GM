@@ -32,6 +32,7 @@
   "back": "Atrás",
   "reset": "Reiniciar",
   "generate": "Generar",
+  "rank": "Posición",
   "home": {
     "secondTitle": "Resumen Jugadores"
   },
@@ -67,6 +68,7 @@
   },
   "challenge": {
     "addChallengeTitle" : "Añadir Nuevo Desafío",
+    "editChallengeTitle" : "Editar Desafío",
     "actionsRequired": "Acciones Requeridas",
     "challengesRequired": "Desafíos Requeridos",
     "pointsAwards": "Puntos que entrega",

@@ -21,7 +21,7 @@ playerController.getPlayers = async (req, res) => {
 playerController.postPlayer = async (req, res) => {
     const app_code = req.params.app_code;
     const {name, last_name} = req.body;
-    let code = codeGenerator.codeGenerator(app_code, name, 'player');
+    let code = await codeGenerator.codeGenerator(app_code, name, 'player');
     const timesRepeated = await Player.countDocuments( { 'code' : { '$regex' : code, '$options' : 'i' } } );
     if(timesRepeated > 0){
         code = code+(timesRepeated+1).toString();

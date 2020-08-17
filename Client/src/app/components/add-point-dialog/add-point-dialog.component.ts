@@ -45,6 +45,7 @@ export class AddPointDialogComponent implements OnInit {
     this.point.is_default = this.data.is_default;
     this.point.hidden = this.data.hidden;
     this.withCode = this.data.withCode;
+  
   }
 
   onClickNO(){

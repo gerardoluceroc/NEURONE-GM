@@ -40,15 +40,15 @@
   </mat-list>
   <mat-form-field appearance="standard" style="width: 50%; margin-right: 2.5%">
     <mat-label>{{"challenge.actionName" | translate}}</mat-label>
-    <mat-select [(ngModel)]="newAction" [disabled]="this.data.actions.length < 1">
-      <mat-option *ngFor="let action of this.data.actions" [value]="action">{{action.name}}</mat-option>
+    <mat-select [(ngModel)]="newAction" [disabled]="this.actions.length < 1">
+      <mat-option *ngFor="let action of this.actions" [value]="action">{{action.name}}</mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field style="width: 20%; margin-right: 5%">
     <mat-label>{{"amount" | translate}}</mat-label>
-    <input matInput [disabled]="this.data.actions.length < 1" [(ngModel)]="newAmount">
+    <input matInput [disabled]="this.actions.length < 1" [(ngModel)]="newAmount">
   </mat-form-field>
-  <button mat-button [disabled]="this.data.actions.length < 1" (click)="onclickAddAction()">{{"add"| translate}}</button>
+  <button mat-button [disabled]="this.actions.length < 1" (click)="onclickAddAction()">{{"add"| translate}}</button>
   <h2>{{"challenge.challengesRequired" | translate}}</h2>
   <mat-list>
     <mat-list-item *ngFor="let challenge of challenge.challenges_required">
@@ -59,11 +59,11 @@
   </mat-list>
   <mat-form-field appearance="standard" style="width: 50%; margin-right: 2.5%">
     <mat-label>{{"challenge.challengeRequiredName"| translate}}</mat-label>
-    <mat-select [(ngModel)]="newChallenge" [disabled]="this.data.challenges.length < 1">
-      <mat-option *ngFor="let challenge of this.data.challenges" [value]="challenge">{{challenge.name}}</mat-option>
+    <mat-select [(ngModel)]="newChallenge" [disabled]="this.challenges.length < 1">
+      <mat-option *ngFor="let challenge of this.challenges" [value]="challenge">{{challenge.name}}</mat-option>
     </mat-select>
   </mat-form-field>
-  <button mat-button (click)="onclickAddAChallenge()" [disabled]="this.data.challenges.length < 1">{{"add"| translate}}</button>
+  <button mat-button (click)="onclickAddAChallenge()" [disabled]="this.challenges.length < 1">{{"add"| translate}}</button>
   <h2>{{"challenge.pointsAwards"| translate}}</h2>
   <mat-list>
     <mat-list-item *ngFor="let point of challenge.points_awards">
@@ -75,15 +75,15 @@
   </mat-list>
   <mat-form-field appearance="standard" style="width: 50%; margin-right: 2.5%">
     <mat-label>{{"challenge.pointName"| translate}}</mat-label>
-    <mat-select [(ngModel)]="newPoint" [disabled]="this.data.points.length < 1">
-      <mat-option *ngFor="let point of this.data.points" [value]="point">{{point.name}}</mat-option>
+    <mat-select [(ngModel)]="newPoint" [disabled]="this.points.length < 1">
+      <mat-option *ngFor="let point of this.points" [value]="point">{{point.name}}</mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field style="width: 20%; margin-right: 5%">
     <mat-label>{{"challenge.pointsAmount"| translate}}</mat-label>
-    <input matInput [(ngModel)]="newPointAmount" [disabled]="this.data.points.length < 1">
+    <input matInput [(ngModel)]="newPointAmount" [disabled]="this.points.length < 1">
   </mat-form-field>
-  <button mat-button (click)="onclickAddPoint()" [disabled]="this.data.points.length < 1">{{"add"| translate}}</button>
+  <button mat-button (click)="onclickAddPoint()" [disabled]="this.points.length < 1">{{"add"| translate}}</button>
 </mat-dialog-content>
 <div mat-dialog-actions>
   <button mat-button [mat-dialog-close]="challenge">{{"confirm"| translate}}</button>

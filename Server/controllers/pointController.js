@@ -1,4 +1,6 @@
 const Point = require('../models/point');
+const Player = require('../models/player');
+const PointPlayer = require('../models/pointPlayer');
 const codeGenerator = require('../utils/codeGenerator');
 
 const pointController = {};
@@ -26,7 +28,7 @@ pointController.postPoint = async (req, res) => {
         res.status(400).send('Write all the fields');
         return;
     }
-    let code = codeGenerator.codeGenerator(app_code, name, 'point');
+    let code = await codeGenerator.codeGenerator(app_code, name, 'point');
     const timesRepeated = await Point.countDocuments( { 'code' : { '$regex' : code, '$options' : 'i' } } );
     if(timesRepeated > 0){
         code = code+(timesRepeated+1).toString();
@@ -42,17 +44,42 @@ pointController.postPoint = async (req, res) => {
         hidden: hidden,
         code: code
     });
-    await point.save( (err, data) => {
+    const players = await Player.find({ app_code: app_code }, (err) => {
+        if (err) {
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    });
+    const pointPlayers = [];
+    await point.save( err => {
         if(err){
             return res.status(404).json({
                 ok: false,
                 err
             });
         }
-        res.status(200).json({
-            ok: true,
-            data
-        });
+    })
+    for(let i = 0; i<players.length; i++){
+        pointPlayers.push(new PointPlayer({
+            app_code: app_code,
+            player: players[i]._id,
+            point: point._id,
+            amount: point.initial_points,
+        }));
+    }
+    await PointPlayer.insertMany(pointPlayers, err => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    });
+    res.status(200).json({
+        ok: true,
+        data: point
     })
 };
 

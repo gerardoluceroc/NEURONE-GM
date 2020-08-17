@@ -71,12 +71,14 @@ export class DesignPointsComponent implements OnInit {
         initial_points: this.selectedRow.initial_points,
         max_points: this.selectedRow.max_points,
         daily_max: this.selectedRow.daily_max,
-        is_default: this.selectedRow.daily_max,
+        is_default: this.selectedRow.is_default,
+        hidden: this.selectedRow.hidden,
         abbreviation: this.selectedRow.abbreviation,
         withCode: true
       },
     });
     dialogRef.afterClosed().subscribe(res => {
+      console.log(res);
       if (res) {
         this.endpointsService.putPoint(res, this.focusApp.code, this.selectedRow.code).subscribe((data: { point: any; ok: boolean }) => {
           this.getPoints();

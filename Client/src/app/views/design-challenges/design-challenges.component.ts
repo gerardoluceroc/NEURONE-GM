@@ -46,7 +46,6 @@ export class DesignChallengesComponent implements OnInit {
     this.endpointsService.getChallenges(this.focusApp.code).subscribe((data: {
         data: any[]; ok: boolean} ) => { // Success
         this.challenges = data.data;
-        console.log(this.challenges);
         this.table.data = this.challenges;
       },
       (error) => {
@@ -94,6 +93,40 @@ export class DesignChallengesComponent implements OnInit {
           console.error(error);
         });
       }
+    });
+  }
+  async openEditChallengeDialog() {
+    let message;
+    await this.translate.get('challenge.editChallengeTitle').subscribe(res => {
+      message = res;
+    });
+    const dialogRef = this.dialog.open(AddChallengeDialogComponent, {
+      data: {
+        message,
+        challenge: this.selectedRow,
+        actions: this.actions,
+        points: this.points,
+        challenges: this.challenges,
+        withCode: true
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.endpointsService.putChallenge(res, this.focusApp.code, this.selectedRow.code).subscribe((data: { data: any; ok: boolean }) => {
+          this.getChallenges();
+          this.selectedRow = null;
+        }, (error) => {
+          console.error(error);
+        });
+      }
+    });
+  }
+  deleteChallenge(){
+    this.endpointsService.deleteChallenge(this.focusApp.code, this.selectedRow.code).subscribe( () => {
+      this.getChallenges();
+      this.selectedRow = null;
+    },  (error) => {
+      console.error(error);
     });
   }
 }

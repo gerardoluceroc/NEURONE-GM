@@ -65,6 +65,9 @@ export class EndpointsService {
   deletePoint(appCode, pointCode){
     return this.http.delete( this.rootURL + appCode + '/points/' + pointCode);
   }
+  getOnePoint(appcode, pointCode){
+    return this.http.get( this.rootURL + appcode + '/points/' + pointCode);
+  }
   /* LEVELS */
   getLevels(appCode){
     return this.http.get(this.rootURL + appCode + '/levels');
@@ -86,10 +89,10 @@ export class EndpointsService {
     return this.http.post(this.rootURL + appCode + '/challenges', newChallenge);
   }
   putChallenge(updatedChallenge, appCode, challengeCode){
-    return this.http.put( this.rootURL + appCode + '/levels/' + challengeCode, updatedChallenge);
+    return this.http.put( this.rootURL + appCode + '/challenges/' + challengeCode, updatedChallenge);
   }
   deleteChallenge(appCode, challengeCode){
-    return this.http.delete( this.rootURL + appCode + '/levels/' + challengeCode);
+    return this.http.delete( this.rootURL + appCode + '/challenges/' + challengeCode);
   }
   /* LEADERBOARDS */
   getLeaderboards(appCode){

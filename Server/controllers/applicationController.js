@@ -7,6 +7,8 @@ const Group = require('../models/group');
 const Level = require('../models/level');
 const Leaderboard = require('../models/leaderboard');
 
+const { normalize } = require('normalize-diacritics');
+
 const applicationController = {};
 
 //Este método trae todos las aplicaciones de un usuario
@@ -31,7 +33,8 @@ applicationController.postApp = async (req, res) => {
         res.status(400).send('Write all the fields');
         return;
     }
-    const code = name.split(' ').join('-');
+    const normalize_name = await normalize(name);
+    const code = normalize_name.split(' ').join('-');
     var app = new Application({
         name: name,
         description: description,

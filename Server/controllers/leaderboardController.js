@@ -2,6 +2,8 @@ const Leaderboard = require('../models/leaderboard');
 const ActionPlayer = require('../models/actionPlayer');
 const Player = require('../models/player');
 const Action = require('../models/action');
+const Point = require('../models/point');
+const PointPlayer = require('../models/pointPlayer');
 const codeGenerator = require('../utils/codeGenerator');
 
 const leaderboardController = {};
@@ -29,7 +31,7 @@ leaderboardController.postLeaderboard = async (req, res) => {
         res.status(400).send('Write all the fields');
         return;
     }
-    let code = codeGenerator.codeGenerator(app_code, name, 'lb');
+    let code = await codeGenerator.codeGenerator(app_code, name, 'lb');
     const timesRepeated = await Leaderboard.countDocuments( { 'code' : { '$regex' : code, '$options' : 'i' } } );
     if(timesRepeated > 0){
         code = code+(timesRepeated+1).toString();
@@ -123,8 +125,8 @@ leaderboardController.makeLeaderboard = async (req, res)=> {
             });
         }
     });
+    const leaderboardResult = [];
     if(leaderboard.parameter ==='actions'){
-        const leaderboardResult = [];
         const action  = await Action.findOne({app_code: app_code, code: leaderboard.element_code}, err=>{
             if(err){
                 return res.status(404).json({
@@ -144,14 +146,49 @@ leaderboardController.makeLeaderboard = async (req, res)=> {
                 leaderboardResult.push({name: players[i].name, last_name: players[i].last_name, amount: count})
             })
         }
-        res.status(200).json({
-            ok: true,
-            leaderboardResult
+    }
+    else if (leaderboard.parameter === 'points'){
+        const point  = await Point.findOne({app_code: app_code, code: leaderboard.element_code}, err=>{
+            if(err){
+                return res.status(404).json({
+                    ok: false,
+                    err
+                });
+            }
         });
+        for(let i = 0; i<players.length; i++){
+            await PointPlayer.findOne({app_code: app_code, point: point._id, player: players[i]._id}, (err, pointPlayer)=>{
+                if(err){
+                    return res.status(404).json({
+                        ok: false,
+                        err
+                    });
+                }
+                if(pointPlayer){
+                    leaderboardResult.push({name: players[i].name, last_name: players[i].last_name, amount: pointPlayer.amount})
+                }
+                else{
+                    leaderboardResult.push({name: players[i].name, last_name: players[i].last_name, amount: 0});
+                }
+            })
+        }
     }
-    else{
-        res.status(400).send('Fail');
+    leaderboardResult.sort((a, b) => {
+        if(a.amount > b.amount){
+            return -1;
+        }
+        if(a.amount < b.amount){
+            return 1;
+        }
+        return 0;
+    })
+    for(let i = 0; i<leaderboardResult.length; i++){
+        leaderboardResult[i].rank = i+1;
     }
+    res.status(200).json({
+        ok: true,
+        leaderboardResult
+    });
 };
 
 

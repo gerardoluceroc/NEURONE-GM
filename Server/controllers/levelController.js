@@ -27,7 +27,7 @@ levelController.postLevel = async (req, res) => {
         res.status(400).send('Write all the fields');
         return;
     }
-    let code = codeGenerator.codeGenerator(app_code, name, 'level');
+    let code = await codeGenerator.codeGenerator(app_code, name, 'level');
     const timesRepeated = await Level.countDocuments( { 'code' : { '$regex' : code, '$options' : 'i' } } );
     if(timesRepeated > 0){
         code = code+(timesRepeated+1).toString();
