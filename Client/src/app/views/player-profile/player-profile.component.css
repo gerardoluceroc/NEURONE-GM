@@ -1,0 +1,27 @@
+.content{
+    position: absolute;
+    top: 9%;
+    left: 5%;
+    right: 0;
+    width: 95%;
+    height: 89vh;
+}
+
+.example-header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+    position: absolute;
+    z-index: 1;
+    margin-top: -5%;
+    margin-left: 2%;
+    width: 134px;
+    height: 134px;
+  }
+
+.player-name{
+    margin-left: 15%;
+    font-size: calc(1.5em + 1vmin);
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    font-family: Candara, sans-serif;
+}

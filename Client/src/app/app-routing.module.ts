@@ -11,6 +11,7 @@ import {DesignChallengesComponent} from './views/design-challenges/design-challe
 import {DesignLeaderboardsComponent} from './views/design-leaderboards/design-leaderboards.component';
 import {DesignBadgesComponent} from './views/design-badges/design-badges.component';
 import {DesignLeaderboardsSeeComponent} from './views/design-leaderboards-see/design-leaderboards-see.component';
+import { PlayerProfileComponent } from './views/player-profile/player-profile.component';
 
 
 
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: 'design/leaderboards', component: DesignLeaderboardsComponent},
   { path: 'design/leaderboards/see/:code', component: DesignLeaderboardsSeeComponent},
   { path: 'players', component: PlayersComponent},
+  { path: 'players/:player_code/profile', component: PlayerProfileComponent},
   { path: 'management', component: AppManagementComponent},
 ];
 

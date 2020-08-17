@@ -23,10 +23,7 @@ export class DesignLeaderboardsSeeComponent implements OnInit {
     this.route.paramMap
       .subscribe((params: ParamMap) => {
         this.code = params.get('code');
-      });
-    this.translate.get('action.addActionTitle').subscribe(res => {
-       // message = res;
-    });
+     });
     this.getActiveApp();
   }
   getActiveApp(){

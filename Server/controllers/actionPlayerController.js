@@ -92,45 +92,56 @@ actionPlayerController.postActionPlayer = async (req, res) => {
         }
         for(let i = 0; i<data.length; i++){
             if(data[i].status){
-                ChallengeRequisite.updateMany({app_code: app_code, player: player._id, challenge_required: data[i]._id, active: true}, {$set: {completed: true}}, (err) => {
+                ChallengePlayer.findOne({app_code: app_code, player: player._id, challenge: data[i]._id, active: true},(err, challPlayer) => {
                     if (err) {
                         return res.status(404).json({
                             ok: false,
                             err
                         });
                     }
-                });
-                ChallengePlayer.updateOne({app_code: app_code, player: player._id, challenge: data[i]._id, active: true}, {$set: {completed: true}},(err) => {
-                    if (err) {
-                        return res.status(404).json({
-                            ok: false,
-                            err
-                        });
-                    }
-                });
-                Challenge.findOne({_id: data[i]._id}, (err, chall) => {
-                    if (err) {
-                        return res.status(404).json({
-                            ok: false,
-                            err
-                        });
-                    }
-                    console.log("Notificar que "+player.name+" "+player.last_name+" ha completado el desafío "+ chall.name);
-                    for(let i = 0; i<chall.points_awards.length; i++){
-                        PointPlayer.findOne({point: chall.points_awards[i].point._id, player: player._id}, (err, pointPlayer)=>{
+                    if(challPlayer.completed === false){
+                        challPlayer.completed = true;
+                        challPlayer.save(err => {
                             if (err) {
                                 return res.status(404).json({
                                     ok: false,
                                     err
                                 });
                             }
-                            if(pointPlayer){
-                                pointPlayer.amount += chall.points_awards[i].amount;
-                                pointPlayer.save();
+                        })
+                        ChallengeRequisite.updateMany({app_code: app_code, player: player._id, challenge_required: data[i]._id, active: true}, {$set: {completed: true}}, (err) => {
+                            if (err) {
+                                return res.status(404).json({
+                                    ok: false,
+                                    err
+                                });
                             }
                         });
+                        Challenge.findOne({_id: data[i]._id}, (err, chall) => {
+                            if (err) {
+                                return res.status(404).json({
+                                    ok: false,
+                                    err
+                                });
+                            }
+                            console.log("Notificar que "+player.name+" "+player.last_name+" ha completado el desafío "+ chall.name);
+                            for(let i = 0; i<chall.points_awards.length; i++){
+                                PointPlayer.findOne({point: chall.points_awards[i].point._id, player: player._id}, (err, pointPlayer)=>{
+                                    if (err) {
+                                        return res.status(404).json({
+                                            ok: false,
+                                            err
+                                        });
+                                    }
+                                    if(pointPlayer){
+                                        pointPlayer.amount += chall.points_awards[i].amount;
+                                        pointPlayer.save();
+                                    }
+                                });
+                            }
+                        }).populate( 'points_awards.point')
                     }
-                }).populate( 'points_awards.point')
+                });
             }
         }
     });

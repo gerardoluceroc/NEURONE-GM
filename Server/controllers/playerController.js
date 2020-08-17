@@ -1,4 +1,6 @@
 const Player = require('../models/player');
+const ChallengePlayer = require('../models/challengePlayer');
+const PointPlayer = require('../models/pointPlayer');
 const codeGenerator = require('../utils/codeGenerator');
 const playerController = {};
 
@@ -59,8 +61,74 @@ playerController.deletePlayer = async (req, res) => {
 };
 
 playerController.getPlayer = async  (req, res) => {
-
+    const player_code = req.params.player_code;
+    await Player.findOne( { code: player_code}, {_id: 0}, (err, data) => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+        res.status(200).json({
+            ok: true,
+            data
+        });
+    })
 };
+
+playerController.getPlayerCompletedChallenges = async (req, res) => {
+    const player_code = req.params.player_code;
+    const player = await Player.findOne( { code: player_code}, err => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    })
+    await ChallengePlayer.find({player: player._id, completed: true}, (err, data) =>{
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+        res.status(200).json({
+            ok: true,
+            data
+        });
+    }).populate('challenge')
+}
+
+playerController.getPlayerPoints = async (req, res) => {
+    const player_code = req.params.player_code;
+    const player = await Player.findOne( { code: player_code}, err => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    })
+    await PointPlayer.find({player: player._id}, (err, pointPlayer) => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+        let data = [];
+        for(let i = 0; i<pointPlayer.length; i++){
+            if(pointPlayer[i].point){
+                data.push(pointPlayer[i]);
+            }
+        }
+        res.status(200).json({
+            ok: true,
+            data
+        });
+    }).populate('point')
+}
 
 
 module.exports = playerController;

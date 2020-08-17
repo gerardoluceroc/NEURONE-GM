@@ -3,7 +3,7 @@
   <div class="players-container">
     <mat-card *ngFor="let player of players" class="player-card">
       <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Avatar" class="avatar">
-      <p>{{player.name}} {{player.last_name}}</p>
+      <p [routerLink]="['/players/'+player.code+'/profile']" style="cursor: pointer;">{{player.name}} {{player.last_name}}</p  >
     </mat-card>
   </div>
 </div>

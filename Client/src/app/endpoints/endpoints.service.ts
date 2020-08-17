@@ -32,9 +32,18 @@ export class EndpointsService {
   getAppSummary(appCode){
     return this.http.get(this.rootURL + 'applications/' + appCode + '/summary');
   }
-  /* APPS */
+  /* PLAYERS */
   getPlayers(appCode){
     return this.http.get(this.rootURL + appCode + '/players');
+  }
+  getPlayer(appCode, playerCode){
+    return this.http.get(this.rootURL + appCode + '/players/' + playerCode);
+  }
+  getPlayerCompletedChallenges(appCode, playerCode){
+    return this.http.get(this.rootURL + appCode + '/players/' + playerCode + '/completed-challenges');
+  }
+  getPlayerPoints(appCode, playerCode){
+    return this.http.get(this.rootURL + appCode + '/players/' + playerCode + '/player-points');
   }
   /* ACTIONS */
   getActions(appCode){

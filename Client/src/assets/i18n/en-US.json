@@ -88,5 +88,9 @@
     "action": "Action",
     "point": "Point",
     "leaderboard": "Leaderboard"
+  },
+  "playerProfile": {
+    "completedChallenges": "Completed Challenges",
+    "totalPoints": "Total Points"
   }
 }

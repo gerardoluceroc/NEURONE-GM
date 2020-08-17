@@ -87,5 +87,9 @@
     "point": "Punto",
     "elementCode": "Código Parámetro",
     "leaderboard": "Tabla de clasificación"
+  },
+  "playerProfile": {
+    "completedChallenges": "Desafíos Completados",
+    "totalPoints": "Puntos Totales"
   }
 }
