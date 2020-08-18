@@ -2,19 +2,19 @@
 <div class="main-content">
   <h1 class="h1-1"><b>{{"appManagement.activeApp" | translate}}:</b></h1>
   <h1 *ngIf="!change && focusApp" class="h1-1"><em>{{focusApp.name}}</em></h1>
-  <button *ngIf="!change" mat-raised-button (click)="changeFocus()">{{"change" | translate}}</button>
+  <button *ngIf="!change" class="button button-add button-change" mat-raised-button (click)="changeFocus()">{{"change" | translate}}</button>
   <div *ngIf="change" class="select-app-container">
-    <mat-form-field class="select-1">
+    <mat-form-field style="width: 100%; font-size: larger;" >
       <mat-select [(ngModel)]="newFocusApp" required>
         <mat-option *ngFor="let app of this.apps" [value]="app">{{app.name}}</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
-  <button *ngIf="change" mat-raised-button class="button-3" (click)="submitChange()">{{"confirm" | translate}}</button>
-  <button *ngIf="change" mat-raised-button class="button-3" (click)="cancelChange()">{{"cancel" | translate}}</button>
+  <button *ngIf="change" mat-raised-button class="button button-add button-change-2" (click)="submitChange()">{{"confirm" | translate}}</button>
+  <button *ngIf="change" mat-raised-button class="button button-delete button-change-2" (click)="cancelChange()">{{"cancel" | translate}}</button>
   <h1 class="h1-2"><b>{{"appManagement.manageApps" | translate}}</b></h1>
   <div class="column">
-    <button mat-raised-button class="button-1" (click)="openAddAppDialog()">{{"add" | translate}}</button>
+    <button mat-raised-button class="button button-add" (click)="openAddAppDialog()">{{"add" | translate}}</button>
     <mat-form-field style="width: 100%">
       <mat-label>{{"filter"|translate}}</mat-label>
       <input matInput (keyup)="applyFilter($event)" #input>
@@ -28,8 +28,8 @@
     </table>
   </div>
   <div *ngIf="selectedRow!=null" class="display-column">
-    <button mat-raised-button class="button-1" (click)="openEditAppDialog()">{{"edit" | translate}}</button>
-    <button mat-raised-button class="button-2" (click)="deleteApp()">{{"delete" | translate}}</button>
+    <button mat-raised-button class="button button-edit" (click)="openEditAppDialog()">{{"edit" | translate}}</button>
+    <button mat-raised-button class="button button-delete" (click)="deleteApp()">{{"delete" | translate}}</button>
     <div class="points-column">
       <div style="width: 30%; float: left">
         <p class="attributes-name">{{"name" | translate}}: </p>

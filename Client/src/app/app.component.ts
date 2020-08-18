@@ -11,6 +11,13 @@ export class AppComponent{
 
   constructor(public translate: TranslateService) {
     this.translate.addLangs(['es-CL', 'en-US']);
-    this.translate.use('es-CL');
+    //Se usa la traducción a español si el navegador está en español
+    if(navigator.language.split('-')[0] === 'es'){
+      this.translate.use('es-CL');
+    }
+    //Si no por defecto se usa la traducción a inglés
+    else{
+      this.translate.use('en-US');
+    }
   }
 }

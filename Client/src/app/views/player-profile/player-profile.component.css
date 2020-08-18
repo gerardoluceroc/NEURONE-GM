@@ -1,8 +1,6 @@
-.content{
-    position: absolute;
+.main-content{
     top: 9%;
     left: 5%;
-    right: 0;
     width: 95%;
     height: 89vh;
 }
