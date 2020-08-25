@@ -10,8 +10,8 @@ const ActionChallengeSchema = new Schema({
     total_actions_required: { type: Number, required: true},
     start_date: {type: Date, required: true},
     end_date: {type: Date, required: true},
-    completed: {type: Boolean, required: true},
-    active: { type: Boolean, required: true},
+    active: {type: Boolean, required: true},
+    completed: {type: Boolean, required: true}
 });
 
 module.exports = mongoose.model('ActionChallenge', ActionChallengeSchema);

@@ -6,7 +6,9 @@ const ChallengePlayerSchema = new Schema({
     player: { type: Schema.Types.ObjectId, ref: 'Player'},
     challenge: { type: Schema.Types.ObjectId, ref: 'Challenge'},
     completed: {type: Boolean, required: true},
-    active: { type: Boolean, required: true},
+    start_date: {type: Date, required: true},
+    end_date: {type: Date, required: true},
+    active: {type: Boolean, required: true},
     badge: { type: Schema.Types.ObjectId, ref: 'Badge'},
 });
 

@@ -1,4 +1,5 @@
 const Leaderboard = require('../models/leaderboard');
+const GeneratedLeaderboard = require('../models/generatedLeaderboard');
 const ActionPlayer = require('../models/actionPlayer');
 const Player = require('../models/player');
 const Action = require('../models/action');
@@ -109,6 +110,14 @@ leaderboardController.getLeaderboard = async  (req, res) => {
 leaderboardController.makeLeaderboard = async (req, res)=> {
     const leaderboard_code = req.params.leaderboard_code;
     const app_code = req.params.app_code;
+    const generatedLeaderboard = await GeneratedLeaderboard.findOne({leaderboard_code: leaderboard_code}, (err) =>{
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    })
     const leaderboard = await Leaderboard.findOne({code: leaderboard_code}, err =>{
         if(err){
             return res.status(404).json({
@@ -185,6 +194,27 @@ leaderboardController.makeLeaderboard = async (req, res)=> {
     for(let i = 0; i<leaderboardResult.length; i++){
         leaderboardResult[i].rank = i+1;
     }
+    if( generatedLeaderboard ){
+        generatedLeaderboard.last_update = new Date();
+        generatedLeaderboard.table = leaderboardResult;
+    }
+    else{
+        generatedLeaderboard = new GeneratedLeaderboard({
+            app_code,
+            leaderboard: leaderboard._id,
+            leaderboard_code: leaderboard.code,
+            last_update: new Date(),
+            table: leaderboardResult
+        });
+    }
+    await generatedLeaderboard.save(err=>{
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    })
     res.status(200).json({
         ok: true,
         leaderboardResult

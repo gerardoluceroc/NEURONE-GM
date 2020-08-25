@@ -90,14 +90,6 @@ challengeController.postChallenge = async (req, res) => {
         challenges_required: challenges,
         points_awards: points
     });
-    await challenge.save( (err ) => {
-        if(err){
-            return res.status(404).json({
-                ok: false,
-                err
-            });
-        }
-    });
     const players = await Player.find({ app_code: app_code }, (err) => {
         if (err) {
             return res.status(404).json({
@@ -109,57 +101,71 @@ challengeController.postChallenge = async (req, res) => {
     const actionsChallenges = [];
     const challengeRequisites = [];
     const challengesPlayers = [];
-    for (let i = 0 ; i < challenge.actions_required.length ; i++){
-        for( let j = 0; j < players.length; j++){
-            actionsChallenges.push(new ActionChallenge({
+    for (let i = 0 ; i <players.length ; i++){
+        players[i].allCompleted = true;
+        for(let j = 0; j < challenge.challenges_required.length; j++){
+            await ChallengePlayer.findOne({player: players[i]._id, challenge: challenge.challenges_required[j].challenge}, (err, challPlayer)=> {
+                if (err) {
+                    return res.status(404).json({
+                        ok: false,
+                        err
+                    });
+                }
+                if(!challPlayer.completed){
+                    players[i].allCompleted = false;
+                }
+                challengeRequisites.push(new ChallengeRequisite({
+                    app_code: app_code,
+                    player: players[i]._id,
+                    challenge: challenge._id,
+                    challenge_required: challenge.challenges_required[j].challenge,
+                    completed: challPlayer.completed,
+                    start_date: start_date,
+                    end_date: end_date
+                }))
+            })
+        }
+    }
+    for (let i = 0 ; i < players.length ; i++){
+        let newChallengePlayer = new ChallengePlayer({
+            app_code: app_code,
+            player: players[i]._id,
+            challenge: challenge._id,
+            completed: false,
+            start_date: start_date,
+            end_date: end_date,
+            badge_id: badge_id,
+        });
+        if(challenges_required && challenges_required.length > 0){
+            newChallengePlayer.active = players[i].allCompleted;
+        }
+        else{
+            newChallengePlayer.active = true;
+        }
+        challengesPlayers.push(newChallengePlayer);
+        for( let j = 0; j < challenge.actions_required.length; j++){
+            let newActionChallenge = new ActionChallenge({
                 app_code: app_code,
-                player: players[j]._id,
+                player: players[i]._id,
                 challenge: challenge._id,
                 challenge_name: name,
-                action: challenge.actions_required[i].action._id,
+                action: challenge.actions_required[j].action._id,
                 action_counter: 0,
-                total_actions_required: challenge.actions_required[i].times_required,
+                total_actions_required: challenge.actions_required[j].times_required,
                 start_date: start_date,
                 end_date: end_date,
-                completed: false,
-                active: true,
-            }))
-        }
-    }
-    for (let i = 0 ; i < challenges_required.length ; i++){
-        for(let j = 0; j<players.length; j++){
-            challengeRequisites.push(new ChallengeRequisite({
-                app_code: app_code,
-                player_id: players[j]._id,
-                challenge: challenge._id,
-                challenge_required: challenges_required[i].challenge,
-                completed: false,
-                active: true,
-            }))
-        }
-    }
-    for (let i = 0 ; i < 1 ; i++){
-        for(let j = 0; j<players.length; j++){
-            challengesPlayers.push(new ChallengePlayer({
-                app_code: app_code,
-                player: players[j]._id,
-                challenge: challenge._id,
-                completed: false,
-                active: true,
-                badge_id: badge_id,
-            }))
+                completed: false
+            });
+            if(challenges_required && challenges_required.length > 0){
+                newActionChallenge.active = players[i].allCompleted;
+            }
+            else{
+                newActionChallenge.active = true;
+            }
+            actionsChallenges.push(newActionChallenge);
         }
     }
     await ActionChallenge.insertMany(actionsChallenges,(err) => {
-        if(err){
-            return res.status(404).json({
-                ok: false,
-                err
-            });
-        }
-    });
-
-    await ChallengeRequisite.insertMany(challengeRequisites,(err) => {
         if(err){
             return res.status(404).json({
                 ok: false,
@@ -175,9 +181,25 @@ challengeController.postChallenge = async (req, res) => {
             });
         }
     });
-    res.status(200).json({
-        ok: true,
-        challenge
+    await ChallengeRequisite.insertMany(challengeRequisites,(err) => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    });
+    await challenge.save( (err, challenge) => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+        res.status(200).json({
+            ok: true,
+            challenge
+        });
     });
 };
 

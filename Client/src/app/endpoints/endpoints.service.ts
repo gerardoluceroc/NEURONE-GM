@@ -117,7 +117,7 @@ export class EndpointsService {
     return this.http.delete( this.rootURL + appCode + '/leaderboards/' + leaderboardCode);
   }
   getLeaderboardData(appCode, leaderboardCode){
-    return this.http.get(this.rootURL + appCode + '/leaderboards/' + leaderboardCode + '/generate');
+    return this.http.post(this.rootURL + appCode + '/leaderboards/' + leaderboardCode + '/generate', null);
   }
   getOneLeaderboard(appCode, leaderboardCode){
     return this.http.get(this.rootURL + appCode + '/leaderboards/' + leaderboardCode);

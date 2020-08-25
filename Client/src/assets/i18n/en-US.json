@@ -87,7 +87,8 @@
     "challenge": "Challenge",
     "action": "Action",
     "point": "Point",
-    "leaderboard": "Leaderboard"
+    "leaderboard": "Leaderboard",
+    "renew": "Renew"
   },
   "playerProfile": {
     "completedChallenges": "Completed Challenges",

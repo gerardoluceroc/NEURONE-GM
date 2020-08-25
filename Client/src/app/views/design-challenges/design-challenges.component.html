@@ -38,7 +38,7 @@
           <span style="color: #696969">{{"challenge.actionTimesRequired" | translate}}:</span> &nbsp;{{action.times_required}}</p>
         <p class="attributes-title" *ngIf="this.selectedRow.challenges_required.length > 0"><strong>{{"challenge.challengesRequired" | translate}}</strong></p>
         <p class="attributes-title" *ngFor="let challenge of selectedRow.challenges_required"><span style="color: #696969">{{"challenge.challengeRequiredName" | translate}}:</span> &nbsp;{{challenge.challenge.name}}</p>
-        <p class="attributes-title"><strong>{{"challenge.pointsAwards" | translate}}</strong></p>
+        <p class="attributes-title" *ngIf="this.selectedRow.points_awards.length > 0"><strong>{{"challenge.pointsAwards" | translate}}</strong></p>
         <p class="attributes-title" *ngFor="let point of selectedRow.points_awards"><span style="color: #696969">{{"challenge.pointName" | translate}}:</span> &nbsp;{{point.point.name}}  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <span style="color: #696969">{{"challenge.pointsAmount" | translate}}:</span> &nbsp;{{point.amount}}</p>
       </div>

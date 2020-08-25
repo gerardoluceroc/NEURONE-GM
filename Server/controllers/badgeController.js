@@ -1,37 +1,41 @@
 const Badge = require('../models/badge');
-const multer = require('multer');
-var path = require('path');
+const imageStorage = require('../middlewares/imageStorage');
 
 const badgeController = {};
 
-const storage = multer.diskStorage({
-    destination: 'public/images',
-    filename: function (req, file, cb) {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-        cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname))
-    }
-});
 
-badgeController.upload = multer({
-    storage,
-    dest: 'public/images'
-});
+badgeController.xdxd = (req, res) => {
+    console.log("Hola")
+    res.json({ file: req.file});
+}
 
 
 badgeController.getBadges = async (req, res) => {
-    const app_name = req.params.app_name;
-    await Badge.find({ app_name: app_name }, (err, data) => {
-        if (err) {
+    imageStorage.gfs.find({ filename: req.params.filename}).toArray((err, files) =>{
+        if(!files || files.length === 0){
             return res.status(404).json({
-                ok: false,
-                err
-            });
+                err: 'No files exist'
+            })
         }
-        res.status(200).json({
-            ok: true,
-            data
-        });
-    });
+        if(files[0].contentType === 'image/jpeg' || files[0].contentType === 'img/png'){
+            imageStorage.gfs.openDownloadStreamByName(req.params.filename).pipe(res);
+        }else{
+            return res.status(404).json({
+                err: 'No Image'
+            })
+        }
+    })
+};
+
+badgeController.getBadges2 = async (req, res) => {
+    imageStorage.gfs.find().toArray((err, files) =>{
+        if(!files || files.length === 0){
+            return res.status(404).json({
+                err: 'No files exist'
+            })
+        }
+        return res.json(files);
+    })
 };
 
 badgeController.postBadge =  async  (req, res) => {

@@ -86,7 +86,8 @@
     "action": "Acción",
     "point": "Punto",
     "elementCode": "Código Parámetro",
-    "leaderboard": "Tabla de clasificación"
+    "leaderboard": "Tabla de clasificación",
+    "renew": "Renovar"
   },
   "playerProfile": {
     "completedChallenges": "Desafíos Completados",

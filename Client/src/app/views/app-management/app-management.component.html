@@ -2,7 +2,7 @@
 <div class="main-content">
   <h1 class="h1-1"><b>{{"appManagement.activeApp" | translate}}:</b></h1>
   <h1 *ngIf="!change && focusApp" class="h1-1"><em>{{focusApp.name}}</em></h1>
-  <button *ngIf="!change" class="button button-add button-change" mat-raised-button (click)="changeFocus()">{{"change" | translate}}</button>
+  <button *ngIf="!change" class="button button-edit button-change" mat-raised-button (click)="changeFocus()">{{"change" | translate}}</button>
   <div *ngIf="change" class="select-app-container">
     <mat-form-field style="width: 100%; font-size: larger;" >
       <mat-select [(ngModel)]="newFocusApp" required>

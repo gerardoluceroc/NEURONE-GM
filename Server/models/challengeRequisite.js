@@ -7,7 +7,8 @@ const ChallengeRequisiteSchema = new Schema({
     challenge: {type: Schema.Types.ObjectId, ref: 'Challenge'},
     challenge_required: { type: Schema.Types.ObjectId, ref: 'Challenge'},
     completed: {type: Boolean, required: true},
-    active: { type: Boolean, required: true},
+    start_date: {type: Date, required: true},
+    end_date: {type: Date, required: true},
 });
 
 module.exports = mongoose.model('ChallengeRequisite', ChallengeRequisiteSchema);

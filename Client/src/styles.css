@@ -31,7 +31,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .button-add{
     width: 30%;
     height: 5%;
-    background-color: #008148;
+    background-color: #3c763d;
   }
 
 .button-delete{
@@ -68,7 +68,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .button-edit{
     width: 30%;
     height: 10%;
-    background-color: #C6C013;
+    background-color: #0c5460;
 }
 
 .attributes-name{

@@ -3,7 +3,7 @@ const express = require('express');
 var cors = require('cors')
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const multer = require("multer");
+
 
 /** Internal modules **/
 require('./config/config');
@@ -24,8 +24,7 @@ const badgesPlayerRoutes = require("./api/badgePlayerRoutes");
 const actionChallengeRoutes = require("./api/actionChallengeRoutes");
 
 /** Database setup **/
-const URI = 'mongodb://localhost:27017/neuronegm';
-mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
+mongoose.connect(process.env.URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
     .then(db => console.log('DB is connected '))
     .catch(err => console.error(err));
 
