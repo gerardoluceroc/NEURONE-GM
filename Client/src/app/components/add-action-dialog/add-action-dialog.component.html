@@ -24,6 +24,12 @@
       <mat-option value=false>{{"no" | translate}}</mat-option>
     </mat-select>
   </mat-form-field>
+  <div class="form-group">
+    <label for="file" style="margin-right: 2%;">{{"action.chooseImage" | translate}}</label>
+    <input type="file"
+           id="file"
+           (change)="handleFileInput($event.target.files)">
+  </div>
 </div>
 <div mat-dialog-actions>
   <button mat-button [mat-dialog-close]="action">{{"confirm" | translate}}</button>

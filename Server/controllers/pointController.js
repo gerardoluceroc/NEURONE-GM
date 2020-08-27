@@ -2,6 +2,7 @@ const Point = require('../models/point');
 const Player = require('../models/player');
 const PointPlayer = require('../models/pointPlayer');
 const codeGenerator = require('../utils/codeGenerator');
+const imageStorage = require('../middlewares/imageStorage');
 
 const pointController = {};
 
@@ -24,16 +25,12 @@ pointController.getPoints = async (req, res) => {
 pointController.postPoint = async (req, res) => {
     const app_code = req.params.app_code;
     const {name, abbreviation, initial_points, max_points, daily_max, is_default, hidden} = req.body;
-    if(!name || !abbreviation || !initial_points || !max_points || !daily_max || !is_default || !hidden ){
-        res.status(400).send('Write all the fields');
-        return;
-    }
     let code = await codeGenerator.codeGenerator(app_code, name, 'point');
     const timesRepeated = await Point.countDocuments( { 'code' : { '$regex' : code, '$options' : 'i' } } );
     if(timesRepeated > 0){
         code = code+(timesRepeated+1).toString();
     }
-    var point = new Point({
+    const point = new Point({
         name: name,
         abbreviation: abbreviation,
         app_code: app_code,
@@ -44,6 +41,11 @@ pointController.postPoint = async (req, res) => {
         hidden: hidden,
         code: code
     });
+    if(req.file){
+        let image_url = 'http://localhost:3080/api/image/'+req.file.filename;
+        point.image_url = image_url;
+        point.image_id = req.file.id;
+    }
     const players = await Player.find({ app_code: app_code }, (err) => {
         if (err) {
             return res.status(404).json({
@@ -86,27 +88,74 @@ pointController.postPoint = async (req, res) => {
 pointController.updatePoint = async (req, res) => {
     const point_code = req.params.point_code;
     const {name, abbreviation, initial_points, max_points, daily_max, is_default, hidden, code} = req.body;
-    if(!name || !abbreviation || !initial_points || !max_points || !daily_max || !is_default || !hidden || !code){
-        res.status(400).send('Write all the fields');
-        return;
-    }
-    await Point.updateOne( { code: point_code}, req.body, (err, data) => {
+    await Point.findOne( { code: point_code}, (err, point) => {
         if(err){
             return res.status(404).json({
                 ok: false,
                 err
             });
         }
-        res.status(200).json({
-            ok: true,
-            data
-        });
+        if(name){
+            point.name = name;
+        }
+        if(code){
+            point.code = code;
+        }
+        if(abbreviation){
+            point.abbreviation = abbreviation;
+        }
+        if(initial_points){
+            point.initial_points = initial_points;
+        }
+        if(max_points){
+            point.max_points = max_points;
+        }
+        if(daily_max){
+            point.daily_max = daily_max;
+        }
+        if(is_default){
+            point.is_default = is_default;
+        }
+        if(hidden){
+            point.hidden = hidden;
+        }
+        if(req.file){
+            if(point.image_id){
+                imageStorage.gfs.delete(point.image_id);
+            }
+            let image_url = 'http://localhost:3080/api/image/'+req.file.filename;
+            point.image_url = image_url;
+            point.image_id = req.file.id;
+        }
+        point.save((err , data) => {
+            if(err){
+                return res.status(404).json({
+                    ok: false,
+                    err
+                });
+            }
+            res.status(200).json({
+                ok: true,
+                data
+            });
+        })
     })
 };
 
 pointController.deletePoint = async (req, res) => {
     const point_code = req.params.point_code;
-    await Point.deleteOne( { code: point_code}, (err, data) => {
+    const point = await Point.findOne( { code: point_code}, err => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    })
+    if(point.image_id){
+        imageStorage.gfs.delete(point.image_id);
+    }
+    await Point.deleteOne( { _id: point._id}, (err, data) => {
         if(err){
             return res.status(404).json({
                 ok: false,

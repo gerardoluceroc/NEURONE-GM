@@ -8,7 +8,6 @@ import {EndpointsService} from '../../endpoints/endpoints.service';
 export class Leaderboard {
   name: string;
   parameter: string;
-  // tslint:disable-next-line:variable-name
   element_code: string;
 }
 

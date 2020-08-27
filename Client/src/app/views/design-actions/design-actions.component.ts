@@ -51,9 +51,9 @@ export class DesignActionsComponent implements OnInit {
       });
   }
 
-  async openAddActionDialog() {
+  openAddActionDialog() {
     let message;
-    await this.translate.get('action.addActionTitle').subscribe(res => {
+    this.translate.get('action.addActionTitle').subscribe(res => {
       message = res;
     });
     const dialogRef = this.dialog.open(AddActionDialogComponent, {
@@ -61,8 +61,12 @@ export class DesignActionsComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        console.log(res);
-        this.endpointsService.postAction(res, this.focusApp.code).subscribe((data: { action: any; ok: boolean }) => {
+        const formData = new FormData();
+        formData.append('name', res.name);
+        formData.append('description', res.description);
+        formData.append('repeatable', res.repeatable.toString());
+        formData.append('file', res.file);
+        this.endpointsService.postAction(formData, this.focusApp.code).subscribe((data: { action: any; ok: boolean }) => {
           this.getActions();
         }, (error) => {
           console.error(error);
@@ -70,9 +74,9 @@ export class DesignActionsComponent implements OnInit {
       }
     });
   }
-  async openEditActionDialog() {
+  openEditActionDialog() {
     let message;
-    await this.translate.get('action.editActionTitle').subscribe(res => {
+    this.translate.get('action.editActionTitle').subscribe(res => {
       message = res;
     });
     const dialogRef = this.dialog.open(AddActionDialogComponent, {
@@ -87,7 +91,13 @@ export class DesignActionsComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        this.endpointsService.putAction(res, this.focusApp.code, this.selectedRow.code).subscribe((data: { action: any; ok: boolean }) => {
+        const formData = new FormData();
+        formData.append('name', res.name);
+        formData.append('description', res.description);
+        formData.append('repeatable', res.repeatable.toString());
+        formData.append('file', res.file);
+        formData.append('code', res.code);
+        this.endpointsService.putAction(formData, this.focusApp.code, this.selectedRow.code).subscribe((data: { action: any; ok: boolean }) => {
           this.getActions();
           this.selectedRow = null;
         }, (error) => {

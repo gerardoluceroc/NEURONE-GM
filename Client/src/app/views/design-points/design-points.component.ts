@@ -40,9 +40,9 @@ export class DesignPointsComponent implements OnInit {
         console.error(error);
       });
   }
-  async openAddPointDialog() {
+  openAddPointDialog() {
     let message;
-    await this.translate.get('point.addPointTitle').subscribe(res => {
+    this.translate.get('point.addPointTitle').subscribe(res => {
       message = res;
     });
     const dialogRef = this.dialog.open(AddPointDialogComponent, {
@@ -50,7 +50,16 @@ export class DesignPointsComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        this.endpointsService.postPoint(res, this.focusApp.code).subscribe((data: { data: any; ok: boolean }) => {
+        const formData = new FormData();
+        formData.append('name', res.name);
+        formData.append('abbreviation', res.abbreviation);
+        formData.append('initial_points', res.initial_points);
+        formData.append('max_points', res.max_points);
+        formData.append('daily_max', res.daily_max);
+        formData.append('is_default', res.is_default.toString());
+        formData.append('hidden', res.hidden.toString());
+        formData.append('file', res.file);
+        this.endpointsService.postPoint(formData, this.focusApp.code).subscribe((data: { data: any; ok: boolean }) => {
           this.getPoints();
         }, (error) => {
           console.error(error);
@@ -58,9 +67,9 @@ export class DesignPointsComponent implements OnInit {
       }
     });
   }
-  async openEditPointDialog() {
+  openEditPointDialog() {
     let message;
-    await this.translate.get('point.editPointTitle').subscribe(res => {
+    this.translate.get('point.editPointTitle').subscribe(res => {
       message = res;
     });
     const dialogRef = this.dialog.open(AddPointDialogComponent, {
@@ -78,9 +87,18 @@ export class DesignPointsComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe(res => {
-      console.log(res);
       if (res) {
-        this.endpointsService.putPoint(res, this.focusApp.code, this.selectedRow.code).subscribe((data: { point: any; ok: boolean }) => {
+        const formData = new FormData();
+        formData.append('name', res.name);
+        formData.append('code', res.code);
+        formData.append('abbreviation', res.abbreviation);
+        formData.append('initial_points', res.initial_points);
+        formData.append('max_points', res.max_points);
+        formData.append('daily_max', res.daily_max);
+        formData.append('is_default', res.is_default.toString());
+        formData.append('hidden', res.hidden.toString());
+        formData.append('file', res.file);
+        this.endpointsService.putPoint(formData, this.focusApp.code, this.selectedRow.code).subscribe((data: { point: any; ok: boolean }) => {
           this.getPoints();
           this.selectedRow = null;
         }, (error) => {

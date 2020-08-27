@@ -1,1 +1,41 @@
 <app-design marked="badges"></app-design>
+<div class="design-content">
+    <div class="column">
+      <button mat-raised-button class="button button-add" (click)="openAddBadgeDialog()">{{"add" | translate}}</button>
+      <mat-form-field style="width: 100%">
+        <mat-label>{{"filter"| translate}}</mat-label>
+        <input matInput (keyup)="applyFilter($event)" #input>
+      </mat-form-field>
+      <table mat-table [dataSource]="table" style="width: 100%">
+        <ng-container matColumnDef="title">
+          <mat-cell *matCellDef="let element"> {{element.title}} </mat-cell>
+        </ng-container>
+  
+        <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="select(row)" style="cursor:pointer"></mat-row>
+      </table>
+    </div>
+    <div *ngIf="selectedRow!=null" class="display-column">
+      <button mat-raised-button class="button button-edit" (click)="openEditBadgeDialog()">{{"edit" | translate}}</button>
+      <button mat-raised-button class="button button-delete" (click)="deleteBadge()">{{"delete"| translate}}</button>
+      <div class="points-column">
+        <div style="width: 30%; float: left">
+          <p class="attributes-name">{{"title" | translate}}: </p>
+          <p class="attributes-name">{{"code" | translate}}: </p>
+          <p class="attributes-name">{{"description" | translate}}: </p>
+          <p class="attributes-name">{{"badge.timesEarned" | translate}}: </p>
+          <p class="attributes-name" *ngIf="selectedRow.last_time_earned">{{"badge.lastTimeEarned" | translate}}: </p>
+          <p class="attributes-name" *ngIf="selectedRow.image_url">{{"icon" | translate}}: </p>
+        </div>
+        <div style="width: 60%; float: right">
+          <p class="attributes-value">{{selectedRow.title}}</p>
+          <p class="attributes-value">{{selectedRow.code}}</p>
+          <p class="attributes-value">{{selectedRow.description}}</p>
+          <p class="attributes-value">{{selectedRow.times_earned}}</p>
+          <p class="attributes-value" *ngIf="selectedRow.last_time_earned">{{selectedRow.last_time_earned}}</p>
+          <img class="display-img" [src]="selectedRow.image_url" *ngIf="selectedRow.image_url">
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  

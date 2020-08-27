@@ -11,6 +11,8 @@ const PointSchema = new Schema({
     daily_max: { type: Number, required: true},
     is_default: { type: Boolean, required: true},
     hidden: { type: Boolean, required: true},
+    image_url: { type: String},
+    image_id: { type: Schema.Types.ObjectId},
 });
 
 module.exports = mongoose.model('Point', PointSchema);

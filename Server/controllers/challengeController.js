@@ -1,12 +1,12 @@
 const Challenge = require('../models/challenge');
 const Action = require('../models/action');
 const Point = require('../models/point');
+const Badge = require('../models/badge');
 const Player = require('../models/player');
 const ActionChallenge = require('../models/actionChallenge');
 const ChallengeRequisite = require('../models/challengeRequisite');
 const ChallengePlayer = require('../models/challengePlayer');
 const codeGenerator = require('../utils/codeGenerator');
-const challenge = require('../models/challenge');
 const challengeController = {};
 
 challengeController.getChallenges = async (req, res) => {
@@ -22,12 +22,12 @@ challengeController.getChallenges = async (req, res) => {
             ok: true,
             data
         });
-    }).populate('actions_required.action').populate('challenges_required.challenge').populate( 'points_awards.point')
+    }).populate('actions_required.action').populate('challenges_required.challenge').populate( 'points_awards.point').populate('badge')
 };
 
 challengeController.postChallenge = async (req, res) => {
     const app_code = req.params.app_code;
-    const {name, description, start_date, end_date, assign_to, actions_required, challenges_required, badge_id, points_awards} = req.body;
+    const {name, description, start_date, end_date, assign_to, actions_required, challenges_required, badge_id, points_awards, badge_award} = req.body;
     if(!name || !description || !start_date || !end_date || !assign_to){
         res.status(400).send('Write all the fields');
         return;
@@ -78,7 +78,7 @@ challengeController.postChallenge = async (req, res) => {
                 })
             }
     }
-    var challenge = new Challenge({
+    const challenge = new Challenge({
         name: name,
         description: description,
         app_code: app_code,
@@ -88,8 +88,19 @@ challengeController.postChallenge = async (req, res) => {
         code: code,
         actions_required: actions,
         challenges_required: challenges,
-        points_awards: points
+        points_awards: points,
     });
+    if(badge_award){
+        badge = await Badge.findOne({code: badge_award}, (err, badge) => {
+            if(err){
+                return res.status(404).json({
+                    ok: false,
+                    err
+                });
+            }
+            challenge.badge = badge._id;
+        })
+    }
     const players = await Player.find({ app_code: app_code }, (err) => {
         if (err) {
             return res.status(404).json({

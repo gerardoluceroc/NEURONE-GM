@@ -33,6 +33,8 @@
   "reset": "Reset",
   "generate": "Generate",
   "rank": "Rank",
+  "icon": "Icon",
+  "title": "Title",
   "home": {
     "secondTitle": "Players Summary"
   },
@@ -51,7 +53,8 @@
   },
   "action": {
     "addActionTitle": "Add New Action",
-    "editActionTitle": "Edit Action"
+    "editActionTitle": "Edit Action",
+    "chooseImage": "Choose Image (optional)"
   },
   "level": {
     "addLevelTitle": "Add New Level",
@@ -78,7 +81,9 @@
     "actionTimesRequired": "Times Required",
     "challengeRequiredName": "Challenge Name",
     "pointName": "Point Name",
-    "pointsAmount": "Points Amount"
+    "pointsAmount": "Points Amount",
+    "rewardBadge": "Reward Badge",
+    "rewardBadgeName": "Badge Title"
   },
   "leaderboard": {
     "firstStepTitle": "Select Parameter Type",
@@ -93,5 +98,12 @@
   "playerProfile": {
     "completedChallenges": "Completed Challenges",
     "totalPoints": "Total Points"
+  },
+  "badge": {
+    "addBadgeTitle": "Add New Badge",
+    "editBadgeTitle": "Edit Badge",
+    "chooseBadge": "Choose Badge",
+    "timesEarned": "Times Earned",
+    "lastTimeEarned": "Last Time Earned"
   }
 }

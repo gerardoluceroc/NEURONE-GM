@@ -122,4 +122,18 @@ export class EndpointsService {
   getOneLeaderboard(appCode, leaderboardCode){
     return this.http.get(this.rootURL + appCode + '/leaderboards/' + leaderboardCode);
   }
+
+   /* BADGES */
+   getBadges(appCode){
+    return this.http.get(this.rootURL + appCode + '/badges');
+  }
+  postBadges(newBadge, appCode){
+    return this.http.post(this.rootURL + appCode + '/badges', newBadge);
+  }
+  putBadge(updatedLevel, appCode, badgeCode){
+    return this.http.put( this.rootURL + appCode + '/badges/' + badgeCode, updatedLevel);
+  }
+  deleteBadge(appCode, badgeCode){
+    return this.http.delete( this.rootURL + appCode + '/badges/' + badgeCode);
+  }
 }

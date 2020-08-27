@@ -1,6 +1,7 @@
 const Action = require('../models/action');
 const Application = require('../models/application');
 const codeGenerator = require('../utils/codeGenerator');
+const imageStorage = require('../middlewares/imageStorage');
 
 const actionController = {};
 
@@ -23,10 +24,6 @@ actionController.getActions = async (req, res) => {
 actionController.postAction = async (req, res) => {
     const app_code = req.params.app_code;
     const {name, description, repeatable} = req.body;
-    if(!name || !description || !repeatable){
-        res.status(400).send('Write all the fields');
-        return;
-    }
     let code = await codeGenerator.codeGenerator(app_code, name, 'action');
     const timesRepeated = await Action.countDocuments( { 'code' : { '$regex' : code, '$options' : 'i' } } );
     if(timesRepeated > 0){
@@ -39,6 +36,11 @@ actionController.postAction = async (req, res) => {
         repeatable: repeatable,
         code: code
     });
+    if(req.file){
+        let image_url = 'http://localhost:3080/api/image/'+req.file.filename;
+        action.image_url = image_url;
+        action.image_id = req.file.id;
+    }
     await action.save( (err, data) => {
         if(err){
             return res.status(404).json({
@@ -55,28 +57,63 @@ actionController.postAction = async (req, res) => {
 
 actionController.updateAction = async (req, res) => {
     const action_code = req.params.action_code;
-    const {name, description, repeatable} = req.body;
-    if(!name || !description || !repeatable){
-        res.status(400).send('Write all the fields');
-        return;
-    }
-    await Action.updateOne( { code: action_code}, req.body, (err, data) => {
+    const {name, description, repeatable, code} = req.body;
+    await Action.findOne( { code: action_code}, (err, action) => {
         if(err){
             return res.status(404).json({
                 ok: false,
                 err
             });
         }
-        res.status(200).json({
-            ok: true,
-            data
-        });
+        if(name){
+            action.name = name;
+        }
+        if(code){
+            action.code = code;
+        }
+        if(description){
+            action.description = description;
+        }
+        if(repeatable){
+            action.repeatable = repeatable;
+        }
+        if(req.file){
+            if(action.image_id){
+                imageStorage.gfs.delete(action.image_id);
+            }
+            let image_url = 'http://localhost:3080/api/image/'+req.file.filename;
+            action.image_url = image_url;
+            action.image_id = req.file.id;
+        }
+        action.save((err , data) => {
+            if(err){
+                return res.status(404).json({
+                    ok: false,
+                    err
+                });
+            }
+            res.status(200).json({
+                ok: true,
+                data
+            });
+        })
     })
 };
 
 actionController.deleteAction = async (req, res) => {
     const action_code = req.params.action_code;
-    await Action.deleteOne( { code: action_code}, (err, data) => {
+    const action = await Action.findOne( { code: action_code}, err => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    })
+    if(action.image_id){
+        imageStorage.gfs.delete(action.image_id);
+    }
+    await Action.deleteOne( { _id: action._id}, (err, data) => {
         if(err){
             return res.status(404).json({
                 ok: false,

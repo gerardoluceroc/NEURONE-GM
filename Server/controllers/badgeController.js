@@ -1,58 +1,45 @@
 const Badge = require('../models/badge');
+const codeGenerator = require('../utils/codeGenerator');
 const imageStorage = require('../middlewares/imageStorage');
 
 const badgeController = {};
 
-
-badgeController.xdxd = (req, res) => {
-    console.log("Hola")
-    res.json({ file: req.file});
-}
-
-
 badgeController.getBadges = async (req, res) => {
-    imageStorage.gfs.find({ filename: req.params.filename}).toArray((err, files) =>{
-        if(!files || files.length === 0){
+    const app_code = req.params.app_code;
+    await Badge.find({ app_code: app_code }, {_id: 0}, (err, badges) => {
+        if (err) {
             return res.status(404).json({
-                err: 'No files exist'
-            })
+                ok: false,
+                err
+            });
         }
-        if(files[0].contentType === 'image/jpeg' || files[0].contentType === 'img/png'){
-            imageStorage.gfs.openDownloadStreamByName(req.params.filename).pipe(res);
-        }else{
-            return res.status(404).json({
-                err: 'No Image'
-            })
-        }
-    })
-};
-
-badgeController.getBadges2 = async (req, res) => {
-    imageStorage.gfs.find().toArray((err, files) =>{
-        if(!files || files.length === 0){
-            return res.status(404).json({
-                err: 'No files exist'
-            })
-        }
-        return res.json(files);
-    })
+        res.status(200).json({
+            ok: true,
+            badges
+        });
+    });
 };
 
 badgeController.postBadge =  async  (req, res) => {
-    const app_name = req.params.app_name;
-    const {title, description, identifier} = req.body;
-    if(!title || !description || !identifier){
-        res.status(400).send('Write all the fields');
-        return;
+    const app_code = req.params.app_code;
+    const {title, description} = req.body;
+    console.log(title);
+    let code = await codeGenerator.codeGenerator(app_code, title, 'badge');
+    const timesRepeated = await Badge.countDocuments( { 'code' : { '$regex' : code, '$options' : 'i' } } );
+    if(timesRepeated > 0){
+        code = code+(timesRepeated+1).toString();
     }
+    console.log(code);
+    let image_url = 'http://localhost:3080/api/image/'+req.file.filename;
     var badge = new Badge({
         title: title,
         description: description,
-        app_name: app_name,
-        image_path: req.file.path,
+        code: code,
+        app_code: app_code,
+        image_url: image_url,
+        image_id: req.file.id,
         times_earned: 0,
-        last_time_earned: null,
-        identifier: identifier
+        last_time_earned: null
     });
     await badge.save( (err, data) => {
         if(err){
@@ -69,29 +56,61 @@ badgeController.postBadge =  async  (req, res) => {
 };
 
 badgeController.updateBadge = async (req, res) => {
-    const badge_id = req.params.badge_id;
-    const {title, times_earned, image_path, description, last_time_earned} = req.body;
-    if(!title || !times_earned || !image_path || !description || !last_time_earned){
-        res.status(400).send('Write all the fields');
-        return;
-    }
-    await Badge.updateOne( { _id: badge_id}, req.body, (err, data) => {
+    const badge_code = req.params.badge_code;
+    const {title, description, code} = req.body;
+    await Badge.findOne( { code: badge_code}, (err, badge) => {
         if(err){
             return res.status(404).json({
                 ok: false,
                 err
             });
         }
-        res.status(200).json({
-            ok: true,
-            data
-        });
+        if(title){
+            badge.title = title;
+        }
+        if(code){
+            badge.code = code;
+        }
+        if(description){
+            badge.description = description;
+        }
+        if(req.file){
+            if(badge.image_id){
+                imageStorage.gfs.delete(badge.image_id);
+            }
+            let image_url = 'http://localhost:3080/api/image/'+req.file.filename;
+            badge.image_url = image_url;
+            badge.image_id = req.file.id;
+        }
+        badge.save((err , data) => {
+            if(err){
+                return res.status(404).json({
+                    ok: false,
+                    err
+                });
+            }
+            res.status(200).json({
+                ok: true,
+                data
+            });
+        })
     })
 };
 
 badgeController.deleteBadge = async (req, res) => {
-    const badge_id = req.params.badge_id;
-    await Badge.deleteOne( { _id: badge_id}, (err, data) => {
+    const badge_code = req.params.badge_code;
+    const badge = await Badge.findOne( { code: badge_code}, err => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    })
+    if(badge.image_id){
+        imageStorage.gfs.delete(badge.image_id);
+    }
+    await Badge.deleteOne( { _id: badge._id}, (err, data) => {
         if(err){
             return res.status(404).json({
                 ok: false,
@@ -106,8 +125,8 @@ badgeController.deleteBadge = async (req, res) => {
 };
 
 badgeController.getBadge = async  (req, res) => {
-    const badge_id = req.params.badge_id;
-    await Badge.findOne( { _id: badge_id}, (err, data) => {
+    const badge_code = req.params.badge_code;
+    await Badge.findOne( { code: badge_code}, (err, data) => {
         if(err){
             return res.status(404).json({
                 ok: false,

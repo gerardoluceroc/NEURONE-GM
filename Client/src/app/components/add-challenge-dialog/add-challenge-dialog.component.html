@@ -29,6 +29,12 @@
     <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
     <mat-datepicker #picker2></mat-datepicker>
   </mat-form-field>
+  <mat-form-field class="input-1" appearance="standard">
+    <mat-label>{{"challenge.rewardBadge" | translate}}</mat-label>
+    <mat-select [(ngModel)]="challenge.badge_award" >
+      <mat-option *ngFor="let badge of badges" [value]="badge.code">{{badge.title}}</mat-option>
+    </mat-select>
+  </mat-form-field>
   <h2>{{"challenge.actionsRequired" | translate}}</h2>
   <mat-list>
     <mat-list-item *ngFor="let action_required of challenge.actions_required">

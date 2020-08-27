@@ -33,6 +33,8 @@
   "reset": "Reiniciar",
   "generate": "Generar",
   "rank": "Posición",
+  "icon": "Ícono",
+  "title": "Título",
   "home": {
     "secondTitle": "Resumen Jugadores"
   },
@@ -51,7 +53,8 @@
   },
   "action": {
     "addActionTitle": "Añadir Nueva Acción",
-    "editActionTitle": "Editar Acción"
+    "editActionTitle": "Editar Acción",
+    "chooseImage": "Seleccionar Imágen (opcional)"
   },
   "level": {
     "addLevelTitle": "Añadir Nuevo Nivel",
@@ -76,7 +79,9 @@
     "actionTimesRequired": "Veces Requerida",
     "challengeRequiredName": "Nombre Desafío",
     "pointName": "Nombre Punto",
-    "pointsAmount": "Cantidad de Puntos"
+    "pointsAmount": "Cantidad de Puntos",
+    "rewardBadge": "Insignia de Recompensa",
+    "rewardBadgeName": "Título Insignia"
   },
   "leaderboard": {
     "firstStepTitle": "Seleccionar Tipo de Parámetro",
@@ -92,5 +97,12 @@
   "playerProfile": {
     "completedChallenges": "Desafíos Completados",
     "totalPoints": "Puntos Totales"
+  },
+  "badge": {
+    "addBadgeTitle": "Añadir Nueva Insignia",
+    "editBadgeTitle": "Editar Insignia",
+    "chooseBadge": "Seleccionar Insignia",
+    "timesEarned": "Veces Obtenida",
+    "lastTimeEarned": "Última Vez Obtenida"
   }
 }

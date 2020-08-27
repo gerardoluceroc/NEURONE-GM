@@ -1,0 +1,31 @@
+<div mat-dialog-content>
+    <h1 mat-dialog-title>{{data.message}}</h1>
+    <mat-form-field>
+      <mat-label>{{"title" | translate}}</mat-label>
+      <input matInput [(ngModel)]="badge.title">
+    </mat-form-field>
+    <mat-form-field *ngIf="withCode">
+      <mat-label>{{"code" | translate}}</mat-label>
+      <input matInput [(ngModel)]="badge.code">
+    </mat-form-field>
+    <mat-form-field >
+      <mat-label>{{"description" | translate}}</mat-label>
+      <textarea matInput
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                [(ngModel)]="badge.description"
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="5"></textarea>
+    </mat-form-field>
+    <div class="form-group">
+      <label for="file" style="margin-right: 2%;">{{"badge.chooseBadge" | translate}}</label>
+      <input type="file"
+             id="file"
+             (change)="handleFileInput($event.target.files)">
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="badge">{{"confirm" | translate}}</button>
+    <button mat-button (click)="onClickNO()">{{"cancel" | translate}}</button>
+  </div>
+  

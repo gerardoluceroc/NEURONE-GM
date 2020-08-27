@@ -22,6 +22,7 @@ const pointsPlayerRoutes = require("./api/pointPlayerRoutes");
 const levelsPlayerRoutes = require("./api/levelPlayerRoutes");
 const badgesPlayerRoutes = require("./api/badgePlayerRoutes");
 const actionChallengeRoutes = require("./api/actionChallengeRoutes");
+const imageRoutes = require("./api/imageRoutes");
 
 /** Database setup **/
 mongoose.connect(process.env.URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
@@ -50,6 +51,7 @@ app.use('/api', pointsPlayerRoutes);
 app.use('/api', levelsPlayerRoutes);
 app.use('/api', badgesPlayerRoutes);
 app.use('/api', actionChallengeRoutes);
+app.use('/api', imageRoutes);
 
 app.get('/', function (req, res) {
     res.send('Hello World!');

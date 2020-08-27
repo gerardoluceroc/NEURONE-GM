@@ -27,6 +27,7 @@
         <p class="attributes-name">{{"point.dailyMax" | translate}}: </p>
         <p class="attributes-name">{{"default" | translate}}: </p>
         <p class="attributes-name">{{"hidden" | translate}}: </p>
+        <p class="attributes-name" *ngIf="selectedRow.image_url">{{"icon" | translate}}: </p>
       </div>
       <div style="width: 60%; float: right">
         <p class="attributes-value">{{selectedRow.name}}</p>
@@ -37,6 +38,7 @@
         <p class="attributes-value">{{selectedRow.daily_max}}</p>
         <p class="attributes-value">{{selectedRow.is_default}}</p>
         <p class="attributes-value">{{selectedRow.hidden}}</p>
+        <img class="display-img" [src]="selectedRow.image_url" *ngIf="selectedRow.image_url">
       </div>
     </div>
   </div>

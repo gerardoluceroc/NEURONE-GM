@@ -24,6 +24,8 @@
         <p class="attributes-name">{{"description" | translate}}: </p>
         <p class="attributes-name">{{"startDate" | translate}}: </p>
         <p class="attributes-name">{{"endDate" | translate}}: </p>
+        <p class="attributes-name" *ngIf="selectedRow.badge">{{"challenge.rewardBadgeName" | translate}}: </p>
+        <p class="attributes-name" *ngIf="selectedRow.badge">{{"challenge.rewardBadge" | translate}}: </p>
       </div>
       <div style="width: 66%; float: right">
         <p class="attributes-value">{{selectedRow.name}}</p>
@@ -31,9 +33,12 @@
         <p class="attributes-value">{{selectedRow.description}}</p>
         <p class="attributes-value">{{selectedRow.start_date.slice(0,10)}}</p>
         <p class="attributes-value">{{selectedRow.end_date.slice(0,10)}}</p>
+        <p class="attributes-value" *ngIf="selectedRow.badge">{{selectedRow.badge.title}}</p>
+        <img class="display-img" [src]="selectedRow.badge.image_url" *ngIf="selectedRow.badge">
       </div>
+      <div *ngIf="selectedRow.badge" style="margin-top: 55%;"></div>
       <div style="width: 100%">
-        <p class="attributes-title"><strong>{{"challenge.actionsRequired" | translate}}</strong></p>
+        <p class="attributes-title" *ngIf="this.selectedRow.actions_required.length > 0"><strong>{{"challenge.actionsRequired" | translate}}</strong></p>
         <p class="attributes-title" *ngFor="let action of selectedRow.actions_required"><span style="color: #696969">{{"challenge.actionName" | translate}}:</span> &nbsp;{{action.action.name}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <span style="color: #696969">{{"challenge.actionTimesRequired" | translate}}:</span> &nbsp;{{action.times_required}}</p>
         <p class="attributes-title" *ngIf="this.selectedRow.challenges_required.length > 0"><strong>{{"challenge.challengesRequired" | translate}}</strong></p>

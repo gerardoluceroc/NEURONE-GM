@@ -6,6 +6,8 @@ const ActionSchema = new Schema({
    name: { type: String, required: true},
    description: { type: String, required: true},
    repeatable: { type: Boolean, required: true},
+   image_url: { type: String},
+   image_id: { type: Schema.Types.ObjectId},
    code: { type: String, required: true, unique: true}
 });
 

@@ -24,6 +24,7 @@
         <p class="attributes-name">{{"description" | translate}}: </p>
         <p class="attributes-name">{{"level.pointsRequired" | translate}}: </p>
         <p class="attributes-name">{{"level.pointsThreshold" | translate}}: </p>
+        <p class="attributes-name" *ngIf="selectedRow.image_url">{{"icon" | translate}}: </p>
       </div>
       <div style="width: 60%; float: right">
         <p class="attributes-value">{{selectedRow.name}}</p>
@@ -31,6 +32,7 @@
         <p class="attributes-value">{{selectedRow.description}}</p>
         <p class="attributes-value">{{selectedRow.point_required.name}}</p>
         <p class="attributes-value">{{selectedRow.point_threshold}}</p>
+        <img class="display-img" [src]="selectedRow.image_url" *ngIf="selectedRow.image_url">
       </div>
     </div>
   </div>

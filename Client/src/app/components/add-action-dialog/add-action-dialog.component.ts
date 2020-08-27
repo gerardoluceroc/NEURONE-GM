@@ -15,6 +15,7 @@ export class Action {
   description: string;
   repeatable: boolean;
   code: string;
+  file: File;
 }
 
 @Component({
@@ -33,6 +34,10 @@ export class AddActionDialogComponent implements OnInit {
     this.action.repeatable = this.data.repeatable;
     this.action.code = this.data.code;
     this.withCode = this.data.withCode;
+  }
+
+  handleFileInput(files: FileList) {
+    this.action.file = files.item(0);
   }
 
   onClickNO(){

@@ -40,6 +40,7 @@ import { AddLeaderboardDialogComponent } from './components/add-leaderboard-dial
 import {MatStepperModule} from "@angular/material/stepper";
 import { DesignLeaderboardsSeeComponent } from './views/design-leaderboards-see/design-leaderboards-see.component';
 import { PlayerProfileComponent } from './views/player-profile/player-profile.component';
+import { AddBadgeDialogComponent } from './components/add-badge-dialog/add-badge-dialog.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -67,6 +68,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AddLeaderboardDialogComponent,
     DesignLeaderboardsSeeComponent,
     PlayerProfileComponent,
+    AddBadgeDialogComponent,
   ],
     imports: [
         BrowserModule,

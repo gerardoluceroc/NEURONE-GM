@@ -28,6 +28,7 @@ export class Level {
   description: string;
   point_required: string;
   point_threshold: number;
+  file: File;
 }
 @Component({
   selector: 'app-add-level-dialog',
@@ -48,6 +49,10 @@ export class AddLevelDialogComponent implements OnInit {
     this.level.point_required = this.data.points[0].code;
     this.level.point_threshold = this.data.point_threshold;
     this.withCode = this.data.withCode;
+  }
+
+  handleFileInput(files: FileList) {
+    this.level.file = files.item(0);
   }
 
   onClickNO(){

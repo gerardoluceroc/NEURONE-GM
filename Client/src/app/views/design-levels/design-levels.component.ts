@@ -55,9 +55,9 @@ export class DesignLevelsComponent implements OnInit {
       });
   }
 
-  async openAddLevelDialog() {
+  openAddLevelDialog() {
     let message;
-    await this.translate.get('level.addLevelTitle').subscribe(res => {
+    this.translate.get('level.addLevelTitle').subscribe(res => {
       message = res;
     });
     const dialogRef = this.dialog.open(AddLevelDialogComponent, {
@@ -68,8 +68,13 @@ export class DesignLevelsComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        console.log(res);
-        this.endpointsService.postLevel(res, this.focusApp.code).subscribe((data: { data: any; ok: boolean }) => {
+        const formData = new FormData();
+        formData.append('name', res.name);
+        formData.append('description', res.description);
+        formData.append('point_required', res.point_required);
+        formData.append('point_threshold', res.point_threshold);
+        formData.append('file', res.file);
+        this.endpointsService.postLevel(formData, this.focusApp.code).subscribe((data: { data: any; ok: boolean }) => {
           this.getLevels();
         }, (error) => {
           console.error(error);
@@ -77,9 +82,9 @@ export class DesignLevelsComponent implements OnInit {
       }
     });
   }
-  async openEditLevelDialog() {
+  openEditLevelDialog() {
     let message;
-    await this.translate.get('level.editLevelTitle').subscribe(res => {
+    this.translate.get('level.editLevelTitle').subscribe(res => {
       message = res;
     });
     const dialogRef = this.dialog.open(AddLevelDialogComponent, {
@@ -96,7 +101,14 @@ export class DesignLevelsComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        this.endpointsService.putLevel(res, this.focusApp.code, this.selectedRow.code).subscribe((data: { data: any; ok: boolean }) => {
+        const formData = new FormData();
+        formData.append('name', res.name);
+        formData.append('code', res.code);
+        formData.append('description', res.description);
+        formData.append('point_required', res.point_required);
+        formData.append('point_threshold', res.point_threshold);
+        formData.append('file', res.file);
+        this.endpointsService.putLevel(formData, this.focusApp.code, this.selectedRow.code).subscribe((data: { data: any; ok: boolean }) => {
           this.getLevels();
           this.selectedRow = null;
         }, (error) => {

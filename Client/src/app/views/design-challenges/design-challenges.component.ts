@@ -17,6 +17,7 @@ export class DesignChallengesComponent implements OnInit {
   challenges = [];
   actions = [];
   points = [];
+  badges = [];
   displayedColumns: string[] = ['name'];
   selectedRow = null;
   focusApp: any = {};
@@ -37,6 +38,7 @@ export class DesignChallengesComponent implements OnInit {
         this.getChallenges();
         this.getActions();
         this.getPoints();
+        this.getBadges();
       },
       (error) => {
         console.error(error);
@@ -70,6 +72,15 @@ export class DesignChallengesComponent implements OnInit {
         console.error(error);
       });
   }
+  getBadges(){
+    this.endpointsService.getBadges(this.focusApp.code).subscribe((data: {
+        badges: any[]; ok: boolean} ) => { // Success
+        this.badges = data.badges;
+      },
+      (error) => {
+        console.error(error);
+      });
+  }
   async openAddAChallengeDialog() {
     let message;
     await this.translate.get('challenge.addChallengeTitle').subscribe(res => {
@@ -81,6 +92,7 @@ export class DesignChallengesComponent implements OnInit {
         actions: this.actions,
         points: this.points,
         challenges: this.challenges,
+        badges: this.badges,
         withCode: false
       },
     });
@@ -106,6 +118,7 @@ export class DesignChallengesComponent implements OnInit {
         challenge: this.selectedRow,
         actions: this.actions,
         points: this.points,
+        badges: this.badges,
         challenges: this.challenges,
         withCode: true
       },

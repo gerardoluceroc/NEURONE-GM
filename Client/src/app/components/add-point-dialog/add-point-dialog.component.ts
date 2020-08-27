@@ -24,6 +24,7 @@ export class Point {
   daily_max: number;
   is_default: boolean;
   hidden: boolean;
+  file: File;
 }
 @Component({
   selector: 'app-add-point-dialog',
@@ -46,6 +47,10 @@ export class AddPointDialogComponent implements OnInit {
     this.point.hidden = this.data.hidden;
     this.withCode = this.data.withCode;
   
+  }
+
+  handleFileInput(files: FileList) {
+    this.point.file = files.item(0);
   }
 
   onClickNO(){

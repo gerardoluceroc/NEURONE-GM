@@ -7,6 +7,7 @@ export interface DialogData {
   points: [Point];
   challenge: any;
   challenges: [Challenge];
+  badges: [];
   withCode: boolean;
 }
 
@@ -16,6 +17,7 @@ export class Challenge {
   code: string;
   start_date: string;
   end_date: string;
+  badge_award: string;
   assign_to = 'everyone';
   actions_required: {action_code: string, times_required: number, action_name: string}[] = [];
   challenges_required: {challenge_code: string, challenge_name: string}[] = [];
@@ -54,6 +56,7 @@ export class AddChallengeDialogComponent implements OnInit {
   actions = new Array();
   challenges = new Array();
   points = new Array();
+  badges = [];
   newAction: Action;
   newChallenge: Challenge;
   newPoint: Point;
@@ -65,6 +68,7 @@ export class AddChallengeDialogComponent implements OnInit {
     this.actions = Object.create(this.data.actions);
     this.challenges = Object.create(this.data.challenges);
     this.points = Object.create(this.data.points);
+    this.badges = this.data.badges;
     //Se llena el formulario de edición con los datos provenientes del desafío que se quiere editar
     if(this.data.challenge){
       this.challenge.name = this.data.challenge.name;
