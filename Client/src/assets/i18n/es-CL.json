@@ -96,7 +96,9 @@
   },
   "playerProfile": {
     "completedChallenges": "Desafíos Completados",
-    "totalPoints": "Puntos Totales"
+    "totalPoints": "Puntos Totales",
+    "lastActions": "Últimas acciones",
+    "badges": "Insignias obtenidas"
   },
   "badge": {
     "addBadgeTitle": "Añadir Nueva Insignia",

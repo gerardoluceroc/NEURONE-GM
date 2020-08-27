@@ -13,6 +13,8 @@ export class PlayerProfileComponent implements OnInit {
   player: any = {};
   completedChallenges = [];
   playerPoints = [];
+  playerActions = [];
+  playerBadges = [];
   focusApp: any = {}
   code: string;
   ngOnInit(): void {
@@ -29,6 +31,8 @@ export class PlayerProfileComponent implements OnInit {
         this.getPlayer();
         this.getPlayerCompletedChallenges();
         this.getPlayerPoints();
+        this.getPlayerActions();
+        this.getPlayerBadges();
       },
       (error) => {
         console.error(error);
@@ -54,6 +58,22 @@ export class PlayerProfileComponent implements OnInit {
   getPlayerPoints(){
     this.endpointsService.getPlayerPoints(this.focusApp.code, this.code).subscribe((data: {data: any[], ok: boolean}) => { // Success
       this.playerPoints = data.data;
+    },
+    (error) => {
+      console.error(error);
+    });
+  }
+  getPlayerActions(){
+    this.endpointsService.getPlayerActions(this.focusApp.code, this.code).subscribe((data: {actions: any[], ok: boolean}) => { // Success
+      this.playerActions = data.actions;
+    },
+    (error) => {
+      console.error(error);
+    });
+  }
+  getPlayerBadges(){
+    this.endpointsService.getPlayerBadges(this.focusApp.code, this.code).subscribe((data: {data: any[], ok: boolean}) => { // Success
+      this.playerBadges = data.data;
     },
     (error) => {
       console.error(error);

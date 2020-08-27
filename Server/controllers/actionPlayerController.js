@@ -6,6 +6,8 @@ const ChallengeRequisite = require('../models/challengeRequisite');
 const ChallengePlayer = require('../models/challengePlayer');
 const Challenge = require('../models/challenge');
 const PointPlayer = require('../models/pointPlayer');
+const BadgePlayer = require('../models/badgePlayer');
+const challenge = require('../models/challenge');
 
 const actionPlayerController = {};
 
@@ -31,7 +33,7 @@ actionPlayerController.getActionsPlayer = async (req, res) => {
             ok: true,
             actions
         });
-    });
+    }).sort({date: -1}).populate('action');
 };
 
 actionPlayerController.postActionPlayer = async (req, res) => {
@@ -188,6 +190,23 @@ actionPlayerController.postActionPlayer = async (req, res) => {
                                 });
                             }
                             console.log("Notificar que "+player.name+" "+player.last_name+" ha completado el desafío "+ chall.name);
+                            if(chall.badge){
+                                const badgePlayer = new BadgePlayer({
+                                    app_code: app_code,
+                                    player: player._id,
+                                    badge: chall.badge._id,
+                                    acquisition_date: date,
+                                })
+                                badgePlayer.save(err =>{
+                                    if (err) {
+                                        return res.status(404).json({
+                                            ok: false,
+                                            err
+                                        });
+                                    }
+                                    console.log(+player.name+" "+player.last_name+" ha obtenido insignia "+chall.badge.name);
+                                })
+                            }
                             for(let i = 0; i<chall.points_awards.length; i++){
                                 PointPlayer.findOne({point: chall.points_awards[i].point._id, player: player._id}, (err, pointPlayer)=>{
                                     if (err) {
@@ -205,11 +224,12 @@ actionPlayerController.postActionPlayer = async (req, res) => {
                                                     err
                                                 });
                                             }
+                                            console.log(player.name+" "+player.last_name+" ha obtenido "+pointPlayer.amount.toString() +" "+ chall.points_awards[i].point.name);
                                         });
                                     }
                                 });
                             }
-                        }).populate( 'points_awards.point')
+                        }).populate('points_awards.point').populate('badge')
                     }
                 });
             }

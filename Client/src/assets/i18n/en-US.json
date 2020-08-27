@@ -97,7 +97,9 @@
   },
   "playerProfile": {
     "completedChallenges": "Completed Challenges",
-    "totalPoints": "Total Points"
+    "totalPoints": "Total Points",
+    "lastActions": "Last Actions",
+    "badges": "Badges Earned"
   },
   "badge": {
     "addBadgeTitle": "Add New Badge",

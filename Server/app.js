@@ -45,7 +45,7 @@ app.use('/api', levelRoutes);
 app.use('/api', challengeRoutes);
 app.use('/api', badgeRoutes);
 app.use('/api', groupRoutes);
-app.use('/api', userRoutes);
+app.use('/auth', userRoutes);
 app.use('/api', actionsPlayerRoutes);
 app.use('/api', pointsPlayerRoutes);
 app.use('/api', levelsPlayerRoutes);

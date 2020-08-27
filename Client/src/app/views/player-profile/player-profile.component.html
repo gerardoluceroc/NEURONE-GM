@@ -7,7 +7,7 @@
         <h1 class="player-name">{{player.name}} {{player.last_name}}</h1>
     </mat-card-content>
     </mat-card>
-    <div style="width: 45%; margin-top: 1%; display: inline-block;">
+    <div style="width: 45%; margin-top: 1%; display: inline-block; vertical-align:top;">
         <h1 class="player-name">{{"playerProfile.completedChallenges" | translate}}</h1>
         <mat-card *ngFor="let playerChallenge of completedChallenges">
             <mat-card-content>
@@ -15,11 +15,27 @@
             </mat-card-content>
         </mat-card>
     </div>
-    <div style="width: 45%; margin-top: 1%; margin-left: 2%; display: inline-block;">
+    <div style="width: 45%; margin-top: 1%; margin-left: 2%; display: inline-block; vertical-align:top;">
         <h1 class="player-name">{{"playerProfile.totalPoints" | translate}}</h1>
         <mat-card *ngFor="let playerPoint of playerPoints">
             <mat-card-content *ngIf="playerPoint.point">
                 <span>{{playerPoint.point.name}}</span> <span style="float: right;">{{playerPoint.amount}}</span>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div style="width: 45%; margin-top: 1%; display: inline-block; vertical-align:top;">
+        <h1 class="player-name">{{"playerProfile.lastActions" | translate}}</h1>
+        <mat-card *ngFor="let playerAction of playerActions">
+            <mat-card-content>
+                {{playerAction.action.name}} <span style="float: right;">{{playerAction.date.slice(0,10)}}</span>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div style="width: 45%; margin-top: 1%;  margin-left: 2%; display: inline-block;  vertical-align:top;" >
+        <h1 class="player-name">{{"playerProfile.badges" | translate}}</h1>
+        <mat-card *ngFor="let playerBadge of playerBadges" style="height: 40px;">
+            <mat-card-content>
+                <img [src]="playerBadge.badge.image_url" style="width: 40px; height: 40px; float: left;"> <span style="float: left; margin-left: 5%;">{{playerBadge.badge.title}}</span> <span style="float: right;">{{playerBadge.acquisition_date.slice(0,10)}}</span>
             </mat-card-content>
         </mat-card>
     </div>

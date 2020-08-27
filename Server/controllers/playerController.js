@@ -2,6 +2,7 @@ const Player = require('../models/player');
 const ChallengePlayer = require('../models/challengePlayer');
 const PointPlayer = require('../models/pointPlayer');
 const codeGenerator = require('../utils/codeGenerator');
+const BadgePlayer = require('../models/badgePlayer');
 const playerController = {};
 
 playerController.getPlayers = async (req, res) => {
@@ -128,6 +129,30 @@ playerController.getPlayerPoints = async (req, res) => {
             data
         });
     }).populate('point')
+}
+
+playerController.getPlayerBadges = async (req, res) => {
+    const player_code = req.params.player_code;
+    const player = await Player.findOne( { code: player_code}, err => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    })
+    await BadgePlayer.find({player: player._id}, (err, data) => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+        res.status(200).json({
+            ok: true,
+            data
+        });
+    }).populate('badge')
 }
 
 

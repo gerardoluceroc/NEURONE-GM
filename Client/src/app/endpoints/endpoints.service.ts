@@ -45,6 +45,12 @@ export class EndpointsService {
   getPlayerPoints(appCode, playerCode){
     return this.http.get(this.rootURL + appCode + '/players/' + playerCode + '/player-points');
   }
+  getPlayerActions(appCode, playerCode){
+    return this.http.get(this.rootURL + appCode + '/players/' + playerCode + '/actions');
+  }
+  getPlayerBadges(appCode, playerCode){
+    return this.http.get(this.rootURL + appCode + '/players/' + playerCode + '/badges');
+  }
   /* ACTIONS */
   getActions(appCode){
     return this.http.get(this.rootURL + appCode + '/actions');

@@ -10,5 +10,6 @@ router.delete('/:app_code/players/:player_code', playerController.deletePlayer);
 router.get('/:app_code/players/:player_code', playerController.getPlayer);
 router.get('/:app_code/players/:player_code/completed-challenges', playerController.getPlayerCompletedChallenges);
 router.get('/:app_code/players/:player_code/player-points', playerController.getPlayerPoints);
+router.get('/:app_code/players/:player_code/badges', playerController.getPlayerBadges);
 
 module.exports = router;
