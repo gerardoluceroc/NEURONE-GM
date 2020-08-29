@@ -1,21 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 export interface DialogData {
   message: string;
-  name: string;
-  description: string;
-  repeatable: boolean;
-  code: string;
+  editData: any;
   withCode: boolean;
-}
-
-export class Action {
-  name: string;
-  description: string;
-  repeatable: boolean;
-  code: string;
-  file: File;
 }
 
 @Component({
@@ -25,19 +15,45 @@ export class Action {
 })
 export class AddActionDialogComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<AddActionDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
-  action: Action = new Action();
+  constructor(public dialogRef: MatDialogRef<AddActionDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData, private formBuilder: FormBuilder) { }
+  file: File;
+  formGroup: FormGroup;
+  repeatable = [true, false]
   withCode: boolean;
   ngOnInit(): void {
-    this.action.name = this.data.name;
-    this.action.description = this.data.description;
-    this.action.repeatable = this.data.repeatable;
-    this.action.code = this.data.code;
     this.withCode = this.data.withCode;
+    this.createForm();
+  }
+
+  createForm() {
+    let action = this.data.editData
+    if(action){
+      this.formGroup = this.formBuilder.group({
+        'name': [action.name, [Validators.required]],
+        'code': [action.code, []],
+        'description': [action.description, [Validators.required]],
+        'repeatable': [this.repeatable[0], [Validators.required]],
+        'file': [null, []]
+      });
+    }
+    else{
+      this.formGroup = this.formBuilder.group({
+        'name': [null, [Validators.required]],
+        'code': [null, []],
+        'description': [null, [Validators.required]],
+        'repeatable': [null, [Validators.required]]
+      });
+    }
   }
 
   handleFileInput(files: FileList) {
-    this.action.file = files.item(0);
+    this.file = files.item(0);
+  }
+
+  submitForm(){
+    let res = this.formGroup.value;
+    res.file = this.file;
+    this.dialogRef.close(res);
   }
 
   onClickNO(){

@@ -5,6 +5,7 @@ const Point = require('../models/point');
 const Challenge = require('../models/challenge');
 const Group = require('../models/group');
 const Level = require('../models/level');
+const Badge = require('../models/badge');
 const Leaderboard = require('../models/leaderboard');
 
 const { normalize } = require('normalize-diacritics');
@@ -157,7 +158,7 @@ applicationController.changeFocusApp = async(req, res) => {
 
 applicationController.appSummary = async(req, res) => {
     const app_code = req.params.app_code;
-    let actions, points, levels, players, groups, challenges;
+    let actions, points, levels, players, groups, challenges, badges;
     actions = await Action.countDocuments({app_code: app_code}, err => {
         if (err){
             return res.status(404).json({
@@ -214,6 +215,14 @@ applicationController.appSummary = async(req, res) => {
             });
         }
     });
+    badges = await Badge.countDocuments({app_code: app_code}, err=> {
+        if (err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    });
     res.status(200).json({
         actions,
         points,
@@ -221,7 +230,8 @@ applicationController.appSummary = async(req, res) => {
         challenges,
         leaderboards,
         players,
-        groups
+        groups,
+        badges
     });
 }
 

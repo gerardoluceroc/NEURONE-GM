@@ -46,7 +46,6 @@ export class AddLevelDialogComponent implements OnInit {
     this.level.code = this.data.code;
     this.level.description = this.data.description;
     this.level.point_required = this.data.point_required;
-    this.level.point_required = this.data.points[0].code;
     this.level.point_threshold = this.data.point_threshold;
     this.withCode = this.data.withCode;
   }

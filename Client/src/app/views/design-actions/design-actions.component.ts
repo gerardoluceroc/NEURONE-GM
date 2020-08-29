@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {EndpointsService} from '../../endpoints/endpoints.service';
 import { AddActionDialogComponent} from '../../components/add-action-dialog/add-action-dialog.component';
@@ -18,6 +18,7 @@ export class DesignActionsComponent implements OnInit {
   displayedColumns: string[] = ['name'];
   selectedRow = null;
   focusApp: any = {};
+  @ViewChild('secondDialog') secondDialog: TemplateRef<any>;
   ngOnInit(): void {
     this.getActiveApp();
   }
@@ -60,7 +61,9 @@ export class DesignActionsComponent implements OnInit {
       data: {message, withCode: false},
     });
     dialogRef.afterClosed().subscribe(res => {
+      this.dialog.open(this.secondDialog);
       if (res) {
+        console.log(res);
         const formData = new FormData();
         formData.append('name', res.name);
         formData.append('description', res.description);
@@ -82,10 +85,7 @@ export class DesignActionsComponent implements OnInit {
     const dialogRef = this.dialog.open(AddActionDialogComponent, {
       data: {
         message,
-        name: this.selectedRow.name,
-        description: this.selectedRow.description,
-        repeatable: this.selectedRow.repeatable,
-        code: this.selectedRow.code,
+        editData: this.selectedRow,
         withCode: true
       },
     });

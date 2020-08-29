@@ -35,6 +35,7 @@
   "rank": "Rank",
   "icon": "Icon",
   "title": "Title",
+  "fieldRequired": "This field is required.",
   "home": {
     "secondTitle": "Players Summary"
   },
