@@ -4,6 +4,7 @@ import {EndpointsService} from '../../endpoints/endpoints.service';
 import {MatDialog} from '@angular/material/dialog';
 import {AddPointDialogComponent} from '../../components/add-point-dialog/add-point-dialog.component';
 import {TranslateService} from "@ngx-translate/core";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-design-points',
@@ -12,7 +13,7 @@ import {TranslateService} from "@ngx-translate/core";
 })
 export class DesignPointsComponent implements OnInit {
 
-  constructor(protected endpointsService: EndpointsService, public dialog: MatDialog, public translate: TranslateService) { }
+  constructor(protected endpointsService: EndpointsService, public dialog: MatDialog, public translate: TranslateService, private toastr: ToastrService) { }
   table = new MatTableDataSource([]);
   points = [];
   displayedColumns: string[] = ['name'];
@@ -41,9 +42,12 @@ export class DesignPointsComponent implements OnInit {
       });
   }
   openAddPointDialog() {
-    let message;
+    let message, successMessage;
     this.translate.get('point.addPointTitle').subscribe(res => {
       message = res;
+    });
+    this.translate.get('point.addSuccess').subscribe(res => {
+      successMessage = res;
     });
     const dialogRef = this.dialog.open(AddPointDialogComponent, {
       data: {message, withCode: false},
@@ -60,7 +64,13 @@ export class DesignPointsComponent implements OnInit {
         formData.append('hidden', res.hidden.toString());
         formData.append('file', res.file);
         this.endpointsService.postPoint(formData, this.focusApp.code).subscribe((data: { data: any; ok: boolean }) => {
-          this.getPoints();
+          if(data.ok){
+            this.toastr.success(successMessage, null, {
+              timeOut: 3000,
+              positionClass: 'toast-center-center'
+            });
+            this.getPoints();
+          }
         }, (error) => {
           console.error(error);
         });
@@ -68,21 +78,17 @@ export class DesignPointsComponent implements OnInit {
     });
   }
   openEditPointDialog() {
-    let message;
+    let message, successMessage;
     this.translate.get('point.editPointTitle').subscribe(res => {
       message = res;
+    });
+    this.translate.get('point.editSuccess').subscribe(res => {
+      successMessage = res;
     });
     const dialogRef = this.dialog.open(AddPointDialogComponent, {
       data: {
         message,
-        name: this.selectedRow.name,
-        code: this.selectedRow.code,
-        initial_points: this.selectedRow.initial_points,
-        max_points: this.selectedRow.max_points,
-        daily_max: this.selectedRow.daily_max,
-        is_default: this.selectedRow.is_default,
-        hidden: this.selectedRow.hidden,
-        abbreviation: this.selectedRow.abbreviation,
+        editData: this.selectedRow,
         withCode: true
       },
     });
@@ -99,8 +105,14 @@ export class DesignPointsComponent implements OnInit {
         formData.append('hidden', res.hidden.toString());
         formData.append('file', res.file);
         this.endpointsService.putPoint(formData, this.focusApp.code, this.selectedRow.code).subscribe((data: { point: any; ok: boolean }) => {
-          this.getPoints();
-          this.selectedRow = null;
+          if(data.ok){
+            this.toastr.info(successMessage, null, {
+              timeOut: 3000,
+              positionClass: 'toast-center-center'
+            });
+            this.getPoints();
+            this.selectedRow = null;
+          }
         }, (error) => {
           console.error(error);
         });
@@ -108,12 +120,25 @@ export class DesignPointsComponent implements OnInit {
     });
   }
   deletePoint(){
-    this.endpointsService.deletePoint(this.focusApp.code, this.selectedRow.code).subscribe( () => {
-      this.getPoints();
-      this.selectedRow = null;
-    },  (error) => {
-      console.error(error);
+    let successMessage, confirmMessage;
+    this.translate.get('point.deleteSuccess').subscribe(res => {
+      successMessage = res;
     });
+    this.translate.get('point.deleteConfirm').subscribe(res => {
+      confirmMessage = res;
+    });
+    if(confirm(confirmMessage)){
+      this.endpointsService.deletePoint(this.focusApp.code, this.selectedRow.code).subscribe( () => {
+        this.toastr.error(successMessage, null, {
+          timeOut: 3000,
+          positionClass: 'toast-center-center'
+        });
+        this.getPoints();
+        this.selectedRow = null;
+      },  (error) => {
+        console.error(error);
+      });
+    }
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

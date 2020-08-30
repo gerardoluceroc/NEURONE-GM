@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {EndpointsService} from '../../endpoints/endpoints.service';
 import { AddActionDialogComponent} from '../../components/add-action-dialog/add-action-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {TranslateService} from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-design-actions',
@@ -12,13 +13,12 @@ import {TranslateService} from '@ngx-translate/core';
 })
 export class DesignActionsComponent implements OnInit {
 
-  constructor(protected endpointsService: EndpointsService, public dialog: MatDialog, public translate: TranslateService) { }
+  constructor(protected endpointsService: EndpointsService, public dialog: MatDialog, public translate: TranslateService, private toastr: ToastrService) { }
   table = new MatTableDataSource([]);
   actions = [];
   displayedColumns: string[] = ['name'];
   selectedRow = null;
   focusApp: any = {};
-  @ViewChild('secondDialog') secondDialog: TemplateRef<any>;
   ngOnInit(): void {
     this.getActiveApp();
   }
@@ -54,23 +54,31 @@ export class DesignActionsComponent implements OnInit {
 
   openAddActionDialog() {
     let message;
+    let successMessage;
     this.translate.get('action.addActionTitle').subscribe(res => {
       message = res;
+    });
+    this.translate.get('action.addSuccess').subscribe(res => {
+      successMessage = res;
     });
     const dialogRef = this.dialog.open(AddActionDialogComponent, {
       data: {message, withCode: false},
     });
     dialogRef.afterClosed().subscribe(res => {
-      this.dialog.open(this.secondDialog);
       if (res) {
-        console.log(res);
         const formData = new FormData();
         formData.append('name', res.name);
         formData.append('description', res.description);
         formData.append('repeatable', res.repeatable.toString());
         formData.append('file', res.file);
         this.endpointsService.postAction(formData, this.focusApp.code).subscribe((data: { action: any; ok: boolean }) => {
-          this.getActions();
+          if(data.ok){
+            this.toastr.success(successMessage, null, {
+              timeOut: 3000,
+              positionClass: 'toast-center-center'
+            });
+            this.getActions();
+          }
         }, (error) => {
           console.error(error);
         });
@@ -79,8 +87,12 @@ export class DesignActionsComponent implements OnInit {
   }
   openEditActionDialog() {
     let message;
+    let successMessage;
     this.translate.get('action.editActionTitle').subscribe(res => {
       message = res;
+    });
+    this.translate.get('action.editSuccess').subscribe(res => {
+      successMessage = res;
     });
     const dialogRef = this.dialog.open(AddActionDialogComponent, {
       data: {
@@ -98,8 +110,14 @@ export class DesignActionsComponent implements OnInit {
         formData.append('file', res.file);
         formData.append('code', res.code);
         this.endpointsService.putAction(formData, this.focusApp.code, this.selectedRow.code).subscribe((data: { action: any; ok: boolean }) => {
-          this.getActions();
-          this.selectedRow = null;
+          if(data.ok){
+            this.toastr.info(successMessage, null, {
+              timeOut: 3000,
+              positionClass: 'toast-center-center'
+            });
+            this.getActions();
+            this.selectedRow = null;
+          }
         }, (error) => {
           console.error(error);
         });
@@ -107,12 +125,26 @@ export class DesignActionsComponent implements OnInit {
     });
   }
   deleteAction(){
-    this.endpointsService.deleteAction(this.focusApp.code, this.selectedRow.code).subscribe( () => {
-      this.getActions();
-      this.selectedRow = null;
-    },  (error) => {
-      console.error(error);
+    let successMessage;
+    let confirmMessage;
+    this.translate.get('action.deleteSuccess').subscribe(res => {
+      successMessage = res;
     });
+    this.translate.get('action.deleteConfirm').subscribe(res => {
+      confirmMessage = res;
+    });
+    if(confirm(confirmMessage)) {
+      this.endpointsService.deleteAction(this.focusApp.code, this.selectedRow.code).subscribe( () => {
+        this.toastr.error(successMessage, null, {
+          timeOut: 3000,
+          positionClass: 'toast-center-center'
+        });
+        this.getActions();
+        this.selectedRow = null;
+      },  (error) => {
+        console.error(error);
+      });
+    }
   }
 
 

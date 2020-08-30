@@ -36,6 +36,7 @@
   "icon": "Ícono",
   "title": "Título",
   "fieldRequired": "Este campo es requerido.",
+  "chooseImage": "Seleccionar Imágen (opcional)",
   "home": {
     "secondTitle": "Resumen Jugadores"
   },
@@ -55,7 +56,11 @@
   "action": {
     "addActionTitle": "Añadir Nueva Acción",
     "editActionTitle": "Editar Acción",
-    "chooseImage": "Seleccionar Imágen (opcional)"
+    "chooseImage": "Seleccionar Imágen (opcional)",
+    "addSuccess": "Acción añadida correctamente.",
+    "editSuccess": "Acción actualizada correctamente.",
+    "deleteSuccess": "Acción eliminada correctamente.",
+    "deleteConfirm": "¿Estás seguro de eliminar esta acción? Esta operación es irreversible."
   },
   "level": {
     "addLevelTitle": "Añadir Nuevo Nivel",
@@ -68,7 +73,11 @@
     "editPointTitle": "Editar Punto",
     "initialPoints": "Puntos Iniciales",
     "maxPoints": "Puntos Máximos",
-    "dailyMax": "Máximo Diario"
+    "dailyMax": "Máximo Diario",
+    "addSuccess": "Punto añadido correctamente.",
+    "editSuccess": "Punto actualizado correctamente.",
+    "deleteSuccess": "Punto eliminado correctamente.",
+    "deleteConfirm": "¿Estás seguro de eliminar este punto? Esta operación es irreversible."
   },
   "challenge": {
     "addChallengeTitle" : "Añadir Nuevo Desafío",

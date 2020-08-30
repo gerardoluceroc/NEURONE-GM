@@ -36,6 +36,7 @@
   "icon": "Icon",
   "title": "Title",
   "fieldRequired": "This field is required.",
+  "chooseImage": "Choose Image (optional)",
   "home": {
     "secondTitle": "Players Summary"
   },
@@ -55,7 +56,10 @@
   "action": {
     "addActionTitle": "Add New Action",
     "editActionTitle": "Edit Action",
-    "chooseImage": "Choose Image (optional)"
+    "addSuccess": "Action added successfully.",
+    "editSuccess": "Action updated successfully.",
+    "deleteSuccess": "Action deleted successfully.",
+    "deleteConfirm": "Are you sure to delete this action? This operation is irreversible."
   },
   "level": {
     "addLevelTitle": "Add New Level",
@@ -68,7 +72,11 @@
     "editPointTitle": "Edit Point",
     "initialPoints": "Initial Points",
     "maxPoints": "Max Points",
-    "dailyMax": "Daily Max"
+    "dailyMax": "Daily Max",
+    "addSuccess": "Point added successfully.",
+    "editSuccess": "Point updated successfully.",
+    "deleteSuccess": "Point deleted successfully.",
+    "deleteConfirm": "Are you sure to delete this point? This operation is irreversible."
   },
   "challenge": {
     "challenge": "Challenge",

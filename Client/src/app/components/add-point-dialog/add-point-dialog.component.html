@@ -1,51 +1,85 @@
 <div mat-dialog-content>
   <h1 mat-dialog-title>{{data.message}}</h1>
+  <form [formGroup]="formGroup">
+
   <mat-form-field>
     <mat-label>{{"name" | translate}}</mat-label>
-    <input matInput [(ngModel)]="point.name">
+    <input matInput type="text" formControlName="name">
+    <mat-error>
+      {{"fieldRequired" | translate}}
+    </mat-error>
   </mat-form-field>
+
   <mat-form-field *ngIf="withCode">
     <mat-label>{{"code" | translate}}</mat-label>
-    <input matInput [(ngModel)]="point.code">
+    <input matInput type="text" formControlName="code">
+    <mat-error>
+      {{"fieldRequired" | translate}}
+    </mat-error>
   </mat-form-field>
+
   <mat-form-field>
     <mat-label>{{"abbreviation" | translate}}</mat-label>
-    <input matInput [(ngModel)]="point.abbreviation">
+    <input matInput type="text" formControlName="abbreviation">
+    <mat-error>
+      {{"fieldRequired" | translate}}
+    </mat-error>
   </mat-form-field>
+
   <mat-form-field>
     <mat-label>{{"point.initialPoints" | translate}}</mat-label>
-    <input matInput [(ngModel)]="point.initial_points">
+    <input matInput type="number" formControlName="initial_points">
+    <mat-error>
+      {{"fieldRequired" | translate}}
+    </mat-error>
   </mat-form-field>
+
   <mat-form-field>
     <mat-label>{{"point.maxPoints" | translate}}</mat-label>
-    <input matInput [(ngModel)]="point.max_points">
+    <input matInput type="number" formControlName="max_points">
+    <mat-error>
+      {{"fieldRequired" | translate}}
+    </mat-error>
   </mat-form-field>
+
   <mat-form-field>
     <mat-label>{{"point.dailyMax" | translate}}</mat-label>
-    <input matInput [(ngModel)]="point.daily_max">
+    <input matInput type="number" formControlName="daily_max">
+    <mat-error>
+      {{"fieldRequired" | translate}}
+    </mat-error>
   </mat-form-field>
+
   <mat-form-field appearance="standard">
     <mat-label>{{"default" | translate}}</mat-label>
-    <mat-select [(value)]="point.is_default" >
-      <mat-option value=true>{{"yes" | translate}}</mat-option>
-      <mat-option value=false>{{"no" | translate}}</mat-option>
+    <mat-select formControlName="is_default" >
+      <mat-option *ngFor="let d of default" [value]="d">{{d}}</mat-option>
     </mat-select>
+    <mat-error>
+      {{"fieldRequired" | translate}}
+    </mat-error>
   </mat-form-field>
+
   <mat-form-field appearance="standard">
-    <mat-label>{{"hidden" | translate}}</mat-label>
-    <mat-select [(value)]="point.hidden" >
-      <mat-option value=true>{{"yes" | translate}}</mat-option>
-      <mat-option value=false>{{"no" | translate}}</mat-option>
+    <mat-label>{{"default" | translate}}</mat-label>
+    <mat-select formControlName="hidden" >
+      <mat-option *ngFor="let h of hidden" [value]="h">{{h}}</mat-option>
     </mat-select>
+    <mat-error>
+      {{"fieldRequired" | translate}}
+    </mat-error>
   </mat-form-field>
+
   <div class="form-group">
-    <label for="file" style="margin-right: 2%;">{{"action.chooseImage" | translate}}</label>
+    <label for="file" style="margin-right: 2%;">{{"chooseImage" | translate}}</label>
     <input type="file"
            id="file"
            (change)="handleFileInput($event.target.files)">
   </div>
+  </form>
+
 </div>
 <div mat-dialog-Points>
-  <button mat-button [mat-dialog-close]="point">{{"confirm" | translate}}</button>
+  <button mat-button (click)="submitForm()" [disabled]="!formGroup.valid">{{"confirm" | translate}}</button>
   <button mat-button (click)="onClickNO()">{{"cancel" | translate}}</button>
 </div>

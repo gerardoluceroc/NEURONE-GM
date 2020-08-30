@@ -1,5 +1,7 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser'; 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -7,7 +9,6 @@ import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './views/home/home.component';
 import { DesignComponent } from './views/design/design.component';
 import { DesignPointsComponent } from './views/design-points/design-points.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
@@ -34,6 +35,7 @@ import { AddAppDialogComponent } from './components/add-app-dialog/add-app-dialo
 import { TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule} from '@angular/common/http';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import { ToastrModule } from 'ngx-toastr';
 import { DesignLeaderboardsComponent } from './views/design-leaderboards/design-leaderboards.component';
 import { DesignBadgesComponent } from './views/design-badges/design-badges.component';
 import { AddLeaderboardDialogComponent } from './components/add-leaderboard-dialog/add-leaderboard-dialog.component';
@@ -71,9 +73,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     AddBadgeDialogComponent,
   ],
     imports: [
+        CommonModule,
         BrowserModule,
-        AppRoutingModule,
         BrowserAnimationsModule,
+        ToastrModule.forRoot(), // ToastrModule 
+        AppRoutingModule,
         MatButtonModule,
         MatTableModule,
         MatInputModule,

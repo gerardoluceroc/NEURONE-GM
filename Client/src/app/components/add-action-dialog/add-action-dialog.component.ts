@@ -30,10 +30,9 @@ export class AddActionDialogComponent implements OnInit {
     if(action){
       this.formGroup = this.formBuilder.group({
         'name': [action.name, [Validators.required]],
-        'code': [action.code, []],
+        'code': [action.code, [Validators.required]],
         'description': [action.description, [Validators.required]],
-        'repeatable': [this.repeatable[0], [Validators.required]],
-        'file': [null, []]
+        'repeatable': [action.repeatable, [Validators.required]]
       });
     }
     else{

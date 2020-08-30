@@ -1,31 +1,14 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 
 export interface DialogData {
   message: string;
-  name: string;
-  code: string;
-  abbreviation: string;
-  initial_points: number;
-  max_points: number;
-  daily_max: number;
-  is_default: boolean;
-  hidden: boolean;
+  editData: any;
   withCode: boolean;
 }
 
-export class Point {
-  name: string;
-  code: string;
-  abbreviation: string;
-  initial_points: number;
-  max_points: number;
-  daily_max: number;
-  is_default: boolean;
-  hidden: boolean;
-  file: File;
-}
 @Component({
   selector: 'app-add-point-dialog',
   templateUrl: './add-point-dialog.component.html',
@@ -33,24 +16,54 @@ export class Point {
 })
 export class AddPointDialogComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<AddPointDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
-  point: Point = new Point();
+  constructor(public dialogRef: MatDialogRef<AddPointDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData, private formBuilder: FormBuilder) { }
+  formGroup: FormGroup;
+  file: File;
+  hidden = [true, false]
+  default = [true, false]
   withCode: boolean;
   ngOnInit(): void {
-    this.point.name = this.data.name;
-    this.point.code = this.data.code;
-    this.point.abbreviation = this.data.abbreviation;
-    this.point.initial_points = this.data.initial_points;
-    this.point.max_points = this.data.max_points;
-    this.point.daily_max = this.data.daily_max;
-    this.point.is_default = this.data.is_default;
-    this.point.hidden = this.data.hidden;
     this.withCode = this.data.withCode;
+    this.createForm();
   
   }
 
+  createForm() {
+    let point = this.data.editData
+    if(point){
+      this.formGroup = this.formBuilder.group({
+        'name': [point.name, [Validators.required]],
+        'code': [point.code, [Validators.required]],
+        'abbreviation': [point.abbreviation, [Validators.required]],
+        'initial_points': [point.initial_points, [Validators.required]],
+        'max_points': [point.max_points, [Validators.required]],
+        'daily_max': [point.daily_max, [Validators.required]],
+        'is_default': [point.is_default, [Validators.required]],
+        'hidden': [point.hidden, [Validators.required]],
+      });
+    }
+    else{
+      this.formGroup = this.formBuilder.group({
+        'name': [null, [Validators.required]],
+        'code': [null, []],
+        'abbreviation': [null, [Validators.required]],
+        'initial_points': [null, [Validators.required]],
+        'max_points': [null, [Validators.required]],
+        'daily_max': [null, [Validators.required]],
+        'is_default': [null, [Validators.required]],
+        'hidden': [null, [Validators.required]],
+      });
+    }
+  }
+
   handleFileInput(files: FileList) {
-    this.point.file = files.item(0);
+    this.file = files.item(0);
+  }
+
+  submitForm(){
+    let res = this.formGroup.value;
+    res.file = this.file;
+    this.dialogRef.close(res);
   }
 
   onClickNO(){
