@@ -4,6 +4,7 @@ import {EndpointsService} from '../../endpoints/endpoints.service';
 import {MatDialog} from '@angular/material/dialog';
 import {AddLevelDialogComponent} from '../../components/add-level-dialog/add-level-dialog.component';
 import {TranslateService} from "@ngx-translate/core";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-design-levels',
@@ -12,7 +13,7 @@ import {TranslateService} from "@ngx-translate/core";
 })
 export class DesignLevelsComponent implements OnInit {
 
-  constructor(protected endpointsService: EndpointsService, public dialog: MatDialog, public translate: TranslateService) { }
+  constructor(protected endpointsService: EndpointsService, public dialog: MatDialog, public translate: TranslateService,  private toastr: ToastrService) { }
 
   table = new MatTableDataSource([]);
   levels = [];
@@ -56,9 +57,12 @@ export class DesignLevelsComponent implements OnInit {
   }
 
   openAddLevelDialog() {
-    let message;
+    let message, successMessage;
     this.translate.get('level.addLevelTitle').subscribe(res => {
       message = res;
+    });
+    this.translate.get('level.addSuccess').subscribe(res => {
+      successMessage = res;
     });
     const dialogRef = this.dialog.open(AddLevelDialogComponent, {
       data: {
@@ -75,7 +79,13 @@ export class DesignLevelsComponent implements OnInit {
         formData.append('point_threshold', res.point_threshold);
         formData.append('file', res.file);
         this.endpointsService.postLevel(formData, this.focusApp.code).subscribe((data: { data: any; ok: boolean }) => {
-          this.getLevels();
+          if(data.ok){
+            this.toastr.success(successMessage, null, {
+              timeOut: 3000,
+              positionClass: 'toast-center-center'
+            });
+            this.getLevels();
+          }
         }, (error) => {
           console.error(error);
         });
@@ -83,18 +93,17 @@ export class DesignLevelsComponent implements OnInit {
     });
   }
   openEditLevelDialog() {
-    let message;
+    let message, successMessage;
     this.translate.get('level.editLevelTitle').subscribe(res => {
       message = res;
+    });
+    this.translate.get('level.editSuccess').subscribe(res => {
+      successMessage = res;
     });
     const dialogRef = this.dialog.open(AddLevelDialogComponent, {
       data: {
         message,
-        name: this.selectedRow.name,
-        description: this.selectedRow.description,
-        point_required: this.selectedRow.point_required.code,
-        code: this.selectedRow.code,
-        point_threshold: this.selectedRow.point_threshold,
+        editData: this.selectedRow,
         points: this.points,
         withCode: true
       }
@@ -109,8 +118,14 @@ export class DesignLevelsComponent implements OnInit {
         formData.append('point_threshold', res.point_threshold);
         formData.append('file', res.file);
         this.endpointsService.putLevel(formData, this.focusApp.code, this.selectedRow.code).subscribe((data: { data: any; ok: boolean }) => {
-          this.getLevels();
-          this.selectedRow = null;
+          if(data.ok){
+            this.toastr.info(successMessage, null, {
+              timeOut: 3000,
+              positionClass: 'toast-center-center'
+            });
+            this.getLevels();
+            this.selectedRow = null;
+          }
         }, (error) => {
           console.error(error);
         });
@@ -118,12 +133,26 @@ export class DesignLevelsComponent implements OnInit {
     });
   }
   deleteLevel(){
-    this.endpointsService.deleteLevel(this.focusApp.code, this.selectedRow.code).subscribe( () => {
-      this.getLevels();
-      this.selectedRow = null;
-    },  (error) => {
-      console.error(error);
+    let successMessage;
+    let confirmMessage;
+    this.translate.get('level.deleteSuccess').subscribe(res => {
+      successMessage = res;
     });
+    this.translate.get('level.deleteConfirm').subscribe(res => {
+      confirmMessage = res;
+    });
+    if(confirm(confirmMessage)) {
+      this.endpointsService.deleteLevel(this.focusApp.code, this.selectedRow.code).subscribe( () => {
+        this.toastr.error(successMessage, null, {
+          timeOut: 3000,
+          positionClass: 'toast-center-center'
+        });
+        this.getLevels();
+        this.selectedRow = null;
+      },  (error) => {
+        console.error(error);
+      });
+    }
   }
 
   applyFilter(event: Event) {

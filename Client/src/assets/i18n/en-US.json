@@ -37,6 +37,7 @@
   "title": "Title",
   "fieldRequired": "This field is required.",
   "chooseImage": "Choose Image (optional)",
+  "logout": "Log Out",
   "home": {
     "secondTitle": "Players Summary"
   },
@@ -65,7 +66,13 @@
     "addLevelTitle": "Add New Level",
     "editLevelTitle": "Edit Level",
     "pointsRequired": "Required Points",
-    "pointsThreshold": "Points Threshold"
+    "pointsThreshold": "Points Threshold",
+    "pointRequiredWarning": "You must select a point type to measure level progress.",
+    "pointThresholdWarning": "You must specify the number of points required to reach this level.",
+    "addSuccess": "Level added successfully.",
+    "editSuccess": "Level updated successfully.",
+    "deleteSuccess": "Level deleted successfully.",
+    "deleteConfirm": "Are you sure to delete this level? This operation is irreversible."
   },
   "point": {
     "addPointTitle": "Add New Point",
@@ -92,7 +99,11 @@
     "pointName": "Point Name",
     "pointsAmount": "Points Amount",
     "rewardBadge": "Reward Badge",
-    "rewardBadgeName": "Badge Title"
+    "rewardBadgeName": "Badge Title",
+    "addSuccess": "Challenge added successfully.",
+    "editSuccess": "Challenge updated successfully.",
+    "deleteSuccess": "Challenge deleted successfully.",
+    "deleteConfirm": "Are you sure to delete this challenge? This operation is irreversible and may affect other data."
   },
   "leaderboard": {
     "firstStepTitle": "Select Parameter Type",
@@ -113,8 +124,12 @@
   "badge": {
     "addBadgeTitle": "Add New Badge",
     "editBadgeTitle": "Edit Badge",
-    "chooseBadge": "Choose Badge",
+    "chooseBadge": "Choose Badge (REQUIRED)",
     "timesEarned": "Times Earned",
-    "lastTimeEarned": "Last Time Earned"
+    "lastTimeEarned": "Last Time Earned",
+    "addSuccess": "Badge added successfully.",
+    "editSuccess": "Badge updated successfully.",
+    "deleteSuccess": "Badge deleted successfully.",
+    "deleteConfirm": "Are you sure to delete this badge? This operation is irreversible and may affect other data."
   }
 }

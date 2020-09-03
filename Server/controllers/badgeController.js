@@ -1,4 +1,6 @@
 const Badge = require('../models/badge');
+const Challenge = require('../models/challenge');
+const BadgePlayer = require('../models/badgePlayer');
 const codeGenerator = require('../utils/codeGenerator');
 const imageStorage = require('../middlewares/imageStorage');
 
@@ -23,13 +25,11 @@ badgeController.getBadges = async (req, res) => {
 badgeController.postBadge =  async  (req, res) => {
     const app_code = req.params.app_code;
     const {title, description} = req.body;
-    console.log(title);
     let code = await codeGenerator.codeGenerator(app_code, title, 'badge');
     const timesRepeated = await Badge.countDocuments( { 'code' : { '$regex' : code, '$options' : 'i' } } );
     if(timesRepeated > 0){
         code = code+(timesRepeated+1).toString();
     }
-    console.log(code);
     let image_url = 'http://localhost:3080/api/image/'+req.file.filename;
     var badge = new Badge({
         title: title,
@@ -110,6 +110,24 @@ badgeController.deleteBadge = async (req, res) => {
     if(badge.image_id){
         imageStorage.gfs.delete(badge.image_id);
     }
+    await BadgePlayer.deleteMany({badge: badge._id}, err => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    });
+    await Challenge.updateMany({
+        badge: badge._id},
+        {$set: {badge: null}}, (err) => {
+        if (err) {
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    });
     await Badge.deleteOne( { _id: badge._id}, (err, data) => {
         if(err){
             return res.status(404).json({

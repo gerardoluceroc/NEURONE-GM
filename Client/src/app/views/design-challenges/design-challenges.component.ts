@@ -4,6 +4,7 @@ import {EndpointsService} from '../../endpoints/endpoints.service';
 import {MatDialog} from '@angular/material/dialog';
 import {AddChallengeDialogComponent} from '../../components/add-challenge-dialog/add-challenge-dialog.component';
 import {TranslateService} from "@ngx-translate/core";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-design-challenges',
@@ -12,7 +13,7 @@ import {TranslateService} from "@ngx-translate/core";
 })
 export class DesignChallengesComponent implements OnInit {
 
-  constructor(protected endpointsService: EndpointsService, public dialog: MatDialog, public translate: TranslateService) { }
+  constructor(protected endpointsService: EndpointsService, public dialog: MatDialog, public translate: TranslateService, private toastr: ToastrService) { }
   table = new MatTableDataSource([]);
   challenges = [];
   actions = [];
@@ -81,10 +82,13 @@ export class DesignChallengesComponent implements OnInit {
         console.error(error);
       });
   }
-  async openAddAChallengeDialog() {
-    let message;
-    await this.translate.get('challenge.addChallengeTitle').subscribe(res => {
+  openAddAChallengeDialog() {
+    let message, successMessage;
+    this.translate.get('challenge.addChallengeTitle').subscribe(res => {
       message = res;
+    });
+    this.translate.get('challenge.addSuccess').subscribe(res => {
+      successMessage = res;
     });
     const dialogRef = this.dialog.open(AddChallengeDialogComponent, {
       data: {
@@ -98,19 +102,27 @@ export class DesignChallengesComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        console.log(res);
         this.endpointsService.postChallenge(res, this.focusApp.code).subscribe((data: { data: any; ok: boolean }) => {
-          this.getChallenges();
+          if(data.ok){
+            this.toastr.success(successMessage, null, {
+              timeOut: 3000,
+              positionClass: 'toast-center-center'
+            });
+            this.getChallenges();
+          }
         }, (error) => {
           console.error(error);
         });
       }
     });
   }
-  async openEditChallengeDialog() {
-    let message;
-    await this.translate.get('challenge.editChallengeTitle').subscribe(res => {
+  openEditChallengeDialog() {
+    let message, successMessage;
+    this.translate.get('challenge.editChallengeTitle').subscribe(res => {
       message = res;
+    });
+    this.translate.get('challenge.editSuccess').subscribe(res => {
+      successMessage = res;
     });
     const dialogRef = this.dialog.open(AddChallengeDialogComponent, {
       data: {
@@ -126,8 +138,14 @@ export class DesignChallengesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
         this.endpointsService.putChallenge(res, this.focusApp.code, this.selectedRow.code).subscribe((data: { data: any; ok: boolean }) => {
-          this.getChallenges();
-          this.selectedRow = null;
+          if(data.ok){
+            this.toastr.info(successMessage, null, {
+              timeOut: 3000,
+              positionClass: 'toast-center-center'
+            });
+            this.getChallenges();
+            this.selectedRow = null;
+          }
         }, (error) => {
           console.error(error);
         });
@@ -135,11 +153,24 @@ export class DesignChallengesComponent implements OnInit {
     });
   }
   deleteChallenge(){
-    this.endpointsService.deleteChallenge(this.focusApp.code, this.selectedRow.code).subscribe( () => {
-      this.getChallenges();
-      this.selectedRow = null;
-    },  (error) => {
-      console.error(error);
+    let successMessage, confirmMessage;
+    this.translate.get('challenge.deleteSuccess').subscribe(res => {
+      successMessage = res;
     });
+    this.translate.get('challenge.deleteConfirm').subscribe(res => {
+      confirmMessage = res;
+    });
+    if(confirm(confirmMessage)){
+      this.endpointsService.deleteChallenge(this.focusApp.code, this.selectedRow.code).subscribe( () => {
+        this.toastr.error(successMessage, null, {
+          timeOut: 3000,
+          positionClass: 'toast-center-center'
+        });
+        this.getChallenges();
+        this.selectedRow = null;
+      },  (error) => {
+        console.error(error);
+      });
+    }
   }
 }

@@ -33,7 +33,7 @@ import {MatNativeDateModule} from '@angular/material/core';
 import { AddAppDialogComponent } from './components/add-app-dialog/add-app-dialog.component';
 
 import { TranslateHttpLoader} from '@ngx-translate/http-loader';
-import { HttpClient, HttpClientModule} from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import { ToastrModule } from 'ngx-toastr';
 import { DesignLeaderboardsComponent } from './views/design-leaderboards/design-leaderboards.component';
@@ -43,6 +43,8 @@ import {MatStepperModule} from "@angular/material/stepper";
 import { DesignLeaderboardsSeeComponent } from './views/design-leaderboards-see/design-leaderboards-see.component';
 import { PlayerProfileComponent } from './views/player-profile/player-profile.component';
 import { AddBadgeDialogComponent } from './components/add-badge-dialog/add-badge-dialog.component';
+import { LoginComponent } from './views/login/login.component';
+import { JwtInterceptor, ErrorInterceptor } from './helpers';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -71,6 +73,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     DesignLeaderboardsSeeComponent,
     PlayerProfileComponent,
     AddBadgeDialogComponent,
+    LoginComponent,
   ],
     imports: [
         CommonModule,
@@ -100,7 +103,10 @@ export function HttpLoaderFactory(http: HttpClient) {
         }),
         MatStepperModule
     ],
-  providers: [EndpointsService],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    EndpointsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

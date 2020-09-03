@@ -27,11 +27,7 @@ challengeController.getChallenges = async (req, res) => {
 
 challengeController.postChallenge = async (req, res) => {
     const app_code = req.params.app_code;
-    const {name, description, start_date, end_date, assign_to, actions_required, challenges_required, badge_id, points_awards, badge_award} = req.body;
-    if(!name || !description || !start_date || !end_date || !assign_to){
-        res.status(400).send('Write all the fields');
-        return;
-    }
+    const {name, description, start_date, end_date, actions_required, challenges_required, badge_id, points_awards, badge_award} = req.body;
     let code = await codeGenerator.codeGenerator(app_code, name, 'chall');
     const timesRepeated = await Challenge.countDocuments( { 'code' : { '$regex' : code, '$options' : 'i' } } );
     if(timesRepeated > 0){
@@ -49,6 +45,9 @@ challengeController.postChallenge = async (req, res) => {
                         err
                     });
                 }
+                if(!action){
+                    return res.status(400).send("Action Required with code: "+actions_required[i].action_code+" doesn't exist!");
+                }
                 actions.push({action: action._id, times_required: actions_required[i].times_required});
             })
         }
@@ -62,6 +61,9 @@ challengeController.postChallenge = async (req, res) => {
                         err
                     });
                 }
+                if(!challenge){
+                    return res.status(400).send("Prerequisite Challenge with code: "+challenge_required[i].challenge_code+" doesn't exist!");
+                }
                 challenges.push({challenge: challenge._id});
             })
         }}
@@ -74,6 +76,9 @@ challengeController.postChallenge = async (req, res) => {
                             err
                         });
                     }
+                    if(!point){
+                        return res.status(400).send("Reward Point with code: "+points_awards[i].point_code+" doesn't exist!");
+                    }
                     points.push({point: point._id, amount: points_awards[i].amount});
                 })
             }
@@ -84,7 +89,6 @@ challengeController.postChallenge = async (req, res) => {
         app_code: app_code,
         start_date: start_date,
         end_date: end_date,
-        assign_to: assign_to,
         code: code,
         actions_required: actions,
         challenges_required: challenges,
@@ -97,6 +101,9 @@ challengeController.postChallenge = async (req, res) => {
                     ok: false,
                     err
                 });
+            }
+            if(!badge){
+                return res.status(400).send("Reward Badge with code: "+badge_award+" doesn't exist!");
             }
             challenge.badge = badge._id;
         })
@@ -256,6 +263,20 @@ challengeController.updateChallenge = async (req, res) => {
     if(req.body.end_date){
         challenge.end_date = req.body.end_date;
     }
+    if(req.body.badge_award){
+        badge = await Badge.findOne({code: req.body.badge_award}, (err, badge) => {
+            if(err){
+                return res.status(404).json({
+                    ok: false,
+                    err
+                });
+            }
+            if(!badge){
+                return res.status(400).send("Reward Badge with code: "+badge_award+" doesn't exist!");
+            }
+            challenge.badge = badge._id;
+        })
+    }
     let actions = [];
     let challenges = [];
     let points = [];
@@ -267,6 +288,9 @@ challengeController.updateChallenge = async (req, res) => {
                         ok: false,
                         err
                     });
+                }
+                if(!action){
+                    return res.status(400).send("Action Required with code: "+actions_required[i].action_code+" doesn't exist!");
                 }
                 actions.push({action: action._id, times_required: req.body.actions_required[i].times_required});
             })
@@ -282,6 +306,12 @@ challengeController.updateChallenge = async (req, res) => {
                         err
                     });
                 }
+                if(!challenge){
+                    return res.status(400).send("Prerequisite Challenge with code: "+challenge_required[i].challenge_code+" doesn't exist!");
+                }
+                if(challenge.code.equals(challenge_code)){
+                    return res.status(400).send("You can't have the challenge as a prerequisite of the challenge itself");
+                }
                 challenges.push({challenge: challenge._id});
             })
         }
@@ -295,6 +325,9 @@ challengeController.updateChallenge = async (req, res) => {
                         ok: false,
                         err
                     });
+                }
+                if(!point){
+                    return res.status(400).send("Reward Point with code: "+points_awards[i].point_code+" doesn't exist!");
                 }
                 points.push({point: point._id, amount: req.body.points_awards[i].amount});
             })
@@ -317,6 +350,46 @@ challengeController.updateChallenge = async (req, res) => {
 
 challengeController.deleteChallenge = async (req, res) => {
     const challenge_code = req.params.challenge_code;
+    const challenge = await Challenge.findOne( { code: challenge_code}, err => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    })
+    await ActionChallenge.deleteMany({challenge: challenge._id}, err => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    });
+    await ChallengePlayer.deleteMany({challenge: challenge._id}, err => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    });
+    await ChallengeRequisite.deleteMany({challenge: challenge._id}, err => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    });
+    await ChallengeRequisite.deleteMany({challenge_required: challenge._id}, err => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    });
     await Challenge.deleteOne( { code: challenge_code}, (err, data) => {
         if(err){
             return res.status(404).json({

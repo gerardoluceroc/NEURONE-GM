@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {EndpointsService} from '../../endpoints/endpoints.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +9,7 @@ import {EndpointsService} from '../../endpoints/endpoints.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(protected endpointsService: EndpointsService) { }
+  constructor(protected endpointsService: EndpointsService, private router: Router) { }
   focusApp: any = {};
   summary: any = {};
   ngOnInit(): void {

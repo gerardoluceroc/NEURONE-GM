@@ -1,5 +1,7 @@
 const Action = require('../models/action');
-const Application = require('../models/application');
+const ActionPlayer = require('../models/actionPlayer');
+const Challenge = require('../models/challenge');
+const ActionChallenge = require('../models/actionChallenge');
 const codeGenerator = require('../utils/codeGenerator');
 const imageStorage = require('../middlewares/imageStorage');
 
@@ -113,6 +115,49 @@ actionController.deleteAction = async (req, res) => {
     if(action.image_id){
         imageStorage.gfs.delete(action.image_id);
     }
+    await ActionChallenge.deleteMany({action: action._id}, err => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    });
+    await Challenge.find({"actions_required":{ $elemMatch: {action: action._id}}}, (err, challenges) => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+        for(let i = 0; i<challenges.length; i++){
+            let index;
+            let challActions = challenges[i].actions_required;
+            for(let j = 0; j<challActions.length; j++){
+                if(challActions[j].action.equals(action._id)){
+                    index = j;
+                    break;
+                }
+            }
+            challenges[i].actions_required.splice(index, 1);
+            challenges[i].save(err=>{
+                if(err){
+                    return res.status(404).json({
+                        ok: false,
+                        err
+                    });
+                }
+            })
+        }
+    })
+    await ActionPlayer.deleteMany({action: action._id}, err => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    });
     await Action.deleteOne( { _id: action._id}, (err, data) => {
         if(err){
             return res.status(404).json({

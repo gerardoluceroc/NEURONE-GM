@@ -1,19 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 export interface DialogData {
   message: string;
-  title: string;
-  description: string;
-  code: string;
+  editData: any;
   withCode: boolean;
-}
-
-export class Badge {
-  title: string;
-  description: string;
-  code: string;
-  file: File;
 }
 
 @Component({
@@ -23,18 +15,43 @@ export class Badge {
 })
 export class AddBadgeDialogComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<AddBadgeDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
-  badge: Badge = new Badge();
+  constructor(public dialogRef: MatDialogRef<AddBadgeDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData, private formBuilder: FormBuilder) { }
+  formGroup: FormGroup;
   withCode: boolean;
+  file: File;
   ngOnInit(): void {
-    this.badge.title = this.data.title;
-    this.badge.description = this.data.description;
-    this.badge.code = this.data.code;
     this.withCode = this.data.withCode;
+    this.createForm();
+  }
+
+  createForm() {
+    let badge = this.data.editData
+    if(badge){
+      this.formGroup = this.formBuilder.group({
+        'title': [badge.title, [Validators.required]],
+        'code': [badge.code, [Validators.required]],
+        'description': [badge.description, [Validators.required]],
+        'file': [null, [Validators.required]]
+      });
+    }
+    else{
+      this.formGroup = this.formBuilder.group({
+        'title': [null, [Validators.required]],
+        'code': [null, []],
+        'description': [null, [Validators.required]],
+        'file': [null, [Validators.required]],
+      });
+    }
   }
 
   handleFileInput(files: FileList) {
-    this.badge.file = files.item(0);
+    this.file = files.item(0);
+  }
+
+  submitForm(){
+    let res = this.formGroup.value;
+    res.file = this.file;
+    this.dialogRef.close(res);
   }
 
   onClickNO(){

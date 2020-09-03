@@ -37,6 +37,7 @@
   "title": "Título",
   "fieldRequired": "Este campo es requerido.",
   "chooseImage": "Seleccionar Imágen (opcional)",
+  "logout": "Cerrar Sesión",
   "home": {
     "secondTitle": "Resumen Jugadores"
   },
@@ -66,7 +67,13 @@
     "addLevelTitle": "Añadir Nuevo Nivel",
     "editLevelTitle": "Editar Nivel",
     "pointsRequired": "Puntos Requeridos",
-    "pointsThreshold": "Umbral de Puntos"
+    "pointsThreshold": "Umbral de Puntos",
+    "pointRequiredWarning": "Debes seleccionar un tipo de punto para medir el progreso del nivel.",
+    "pointThresholdWarning": "Debes especificar la cantidad de puntos necesarios para alcanzar este nivel.",
+    "addSuccess": "Nivel añadido correctamente.",
+    "editSuccess": "Nivel actualizado correctamente.",
+    "deleteSuccess": "Nivel eliminado correctamente.",
+    "deleteConfirm": "¿Estás seguro de eliminar este nivel? Esta operación es irreversible."
   },
   "point": {
     "addPointTitle": "Añadir Nuevo Punto",
@@ -91,7 +98,11 @@
     "pointName": "Nombre Punto",
     "pointsAmount": "Cantidad de Puntos",
     "rewardBadge": "Insignia de Recompensa",
-    "rewardBadgeName": "Título Insignia"
+    "rewardBadgeName": "Título Insignia",
+    "addSuccess": "Desafío añadido correctamente.",
+    "editSuccess": "Desafío actualizado correctamente.",
+    "deleteSuccess": "Desafío eliminado correctamente.",
+    "deleteConfirm": "¿Estás seguro de eliminar este desafío? Esta operación es irreversible y puede afectar otros datos."
   },
   "leaderboard": {
     "firstStepTitle": "Seleccionar Tipo de Parámetro",
@@ -113,8 +124,12 @@
   "badge": {
     "addBadgeTitle": "Añadir Nueva Insignia",
     "editBadgeTitle": "Editar Insignia",
-    "chooseBadge": "Seleccionar Insignia",
+    "chooseBadge": "Seleccionar Insignia (REQUERIDO)",
     "timesEarned": "Veces Obtenida",
-    "lastTimeEarned": "Última Vez Obtenida"
+    "lastTimeEarned": "Última Vez Obtenida",
+    "addSuccess": "Insignia añadida correctamente.",
+    "editSuccess": "Insignia actualizada correctamente.",
+    "deleteSuccess": "Insignia eliminada correctamente.",
+    "deleteConfirm": "¿Estás seguro de eliminar esta insignia? Esta operación es irreversible y puede afectar otros datos."
   }
 }

@@ -1,5 +1,6 @@
 const Point = require('../models/point');
 const Player = require('../models/player');
+const Challenge = require('../models/challenge');
 const PointPlayer = require('../models/pointPlayer');
 const codeGenerator = require('../utils/codeGenerator');
 const imageStorage = require('../middlewares/imageStorage');
@@ -155,6 +156,41 @@ pointController.deletePoint = async (req, res) => {
     if(point.image_id){
         imageStorage.gfs.delete(point.image_id);
     }
+    await PointPlayer.deleteMany({point: point._id}, err => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    });
+    await Challenge.find({"points_awards":{ $elemMatch: {point: point._id}}}, (err, challenges) => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+        for(let i = 0; i<challenges.length; i++){
+            let index;
+            let challPoints = challenges[i].points_awards;
+            for(let j = 0; j<challPoints.length; j++){
+                if(challActions[j].point.equals(point._id)){
+                    index = j;
+                    break;
+                }
+            }
+            challenges[i].points_awards.splice(index, 1);
+            challenges[i].save(err=>{
+                if(err){
+                    return res.status(404).json({
+                        ok: false,
+                        err
+                    });
+                }
+            })
+        }
+    })
     await Point.deleteOne( { _id: point._id}, (err, data) => {
         if(err){
             return res.status(404).json({

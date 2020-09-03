@@ -18,7 +18,7 @@
     <button mat-raised-button class="button button-edit" (click)="openEditChallengeDialog()">{{"edit" | translate}}</button>
     <button mat-raised-button class="button button-delete" (click)="deleteChallenge()">{{"delete" | translate}}</button>
     <div class="points-column">
-      <div style="width: 33%; float: left">
+      <div style="width: 40%; float: left">
         <p class="attributes-name">{{"name" | translate}}: </p>
         <p class="attributes-name">{{"code" | translate}}: </p>
         <p class="attributes-name">{{"description" | translate}}: </p>
@@ -27,7 +27,7 @@
         <p class="attributes-name" *ngIf="selectedRow.badge">{{"challenge.rewardBadgeName" | translate}}: </p>
         <p class="attributes-name" *ngIf="selectedRow.badge">{{"challenge.rewardBadge" | translate}}: </p>
       </div>
-      <div style="width: 66%; float: right">
+      <div style="width: 58%; float: right">
         <p class="attributes-value">{{selectedRow.name}}</p>
         <p class="attributes-value">{{selectedRow.code}}</p>
         <p class="attributes-value">{{selectedRow.description}}</p>

@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { AddBadgeDialogComponent } from 'src/app/components/add-badge-dialog/add-badge-dialog.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-design-badges',
@@ -12,7 +13,7 @@ import { AddBadgeDialogComponent } from 'src/app/components/add-badge-dialog/add
 })
 export class DesignBadgesComponent implements OnInit {
 
-  constructor(protected endpointsService: EndpointsService, public dialog: MatDialog, public translate: TranslateService) { }
+  constructor(protected endpointsService: EndpointsService, public dialog: MatDialog, public translate: TranslateService, private toastr: ToastrService) { }
   table = new MatTableDataSource([]);
   badges = [];
   displayedColumns: string[] = ['title'];
@@ -53,9 +54,12 @@ export class DesignBadgesComponent implements OnInit {
   }
 
   openAddBadgeDialog() {
-    let message;
+    let message, successMessage;
     this.translate.get('badge.addBadgeTitle').subscribe(res => {
       message = res;
+    });
+    this.translate.get('badge.addSuccess').subscribe(res => {
+      successMessage = res;
     });
     const dialogRef = this.dialog.open(AddBadgeDialogComponent, {
       data: {message, withCode: false},
@@ -67,7 +71,13 @@ export class DesignBadgesComponent implements OnInit {
         formData.append('description', res.description);
         formData.append('file', res.file);
         this.endpointsService.postBadges(formData, this.focusApp.code).subscribe((data: { data: any; ok: boolean }) => {
-          this.getBadges();
+          if(data.ok){
+            this.toastr.success(successMessage, null, {
+              timeOut: 3000,
+              positionClass: 'toast-center-center'
+            });
+            this.getBadges();
+          }
         }, (error) => {
           console.error(error);
         });
@@ -75,16 +85,17 @@ export class DesignBadgesComponent implements OnInit {
     });
   }
   openEditBadgeDialog() {
-    let message;
-    this.translate.get('badge.editBadgeTitle').subscribe(res => {
+    let message, successMessage;
+    this.translate.get('badge.editPointTitle').subscribe(res => {
       message = res;
+    });
+    this.translate.get('badge.editSuccess').subscribe(res => {
+      successMessage = res;
     });
     const dialogRef = this.dialog.open(AddBadgeDialogComponent, {
       data: {
         message,
-        title: this.selectedRow.title,
-        description: this.selectedRow.description,
-        code: this.selectedRow.code,
+        editData: this.selectedRow,
         withCode: true
       },
     });
@@ -95,9 +106,15 @@ export class DesignBadgesComponent implements OnInit {
         formData.append('description', res.description);
         formData.append('file', res.file);
         formData.append('code', res.code);
-        this.endpointsService.putBadge(formData, this.focusApp.code, this.selectedRow.code).subscribe((data: { action: any; ok: boolean }) => {
-          this.getBadges();
-          this.selectedRow = null;
+        this.endpointsService.putBadge(formData, this.focusApp.code, this.selectedRow.code).subscribe((data: { data: any; ok: boolean }) => {
+          if(data.ok){
+            this.toastr.info(successMessage, null, {
+              timeOut: 3000,
+              positionClass: 'toast-center-center'
+            });
+            this.getBadges();
+            this.selectedRow = null;
+          }
         }, (error) => {
           console.error(error);
         });
@@ -105,12 +122,25 @@ export class DesignBadgesComponent implements OnInit {
     });
   }
   deleteBadge(){
-    this.endpointsService.deleteBadge(this.focusApp.code, this.selectedRow.code).subscribe( () => {
-      this.getBadges();
-      this.selectedRow = null;
-    },  (error) => {
-      console.error(error);
+    let successMessage, confirmMessage;
+    this.translate.get('badge.deleteSuccess').subscribe(res => {
+      successMessage = res;
     });
+    this.translate.get('badge.deleteConfirm').subscribe(res => {
+      confirmMessage = res;
+    });
+    if(confirm(confirmMessage)){
+      this.endpointsService.deleteBadge(this.focusApp.code, this.selectedRow.code).subscribe( () => {
+        this.toastr.error(successMessage, null, {
+          timeOut: 3000,
+          positionClass: 'toast-center-center'
+        });
+        this.getBadges();
+        this.selectedRow = null;
+      },  (error) => {
+        console.error(error);
+      });
+    }
   }
 
 }

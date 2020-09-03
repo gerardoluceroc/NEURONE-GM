@@ -110,7 +110,7 @@ leaderboardController.getLeaderboard = async  (req, res) => {
 leaderboardController.makeLeaderboard = async (req, res)=> {
     const leaderboard_code = req.params.leaderboard_code;
     const app_code = req.params.app_code;
-    const generatedLeaderboard = await GeneratedLeaderboard.findOne({leaderboard_code: leaderboard_code}, (err) =>{
+    let generatedLeaderboard = await GeneratedLeaderboard.findOne({leaderboard_code: leaderboard_code}, (err) =>{
         if(err){
             return res.status(404).json({
                 ok: false,

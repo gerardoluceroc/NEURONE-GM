@@ -8,7 +8,6 @@ const ChallengeSchema = new Schema({
     description: { type: String, required: true},
     start_date: { type: Date, required: true},
     end_date: { type: Date, required: true},
-    assign_to: { type: String, required: true},
     actions_required: [
         {
             _id: false,

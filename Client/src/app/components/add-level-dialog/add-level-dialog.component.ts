@@ -1,35 +1,14 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 export interface DialogData {
   message: string;
-  name: string;
-  code: string;
-  description: string;
-  point_required: string;
-  point_threshold: number;
-  points: [Point];
+  editData: any;
+  points: [];
   withCode: boolean;
 }
 
-export class Point {
-  name: string;
-  code: string;
-  abbreviation: string;
-  initial_points: number;
-  max_points: number;
-  daily_max: number;
-  is_default: boolean;
-  hidden: boolean;
-}
-export class Level {
-  name: string;
-  code: string;
-  description: string;
-  point_required: string;
-  point_threshold: number;
-  file: File;
-}
 @Component({
   selector: 'app-add-level-dialog',
   templateUrl: './add-level-dialog.component.html',
@@ -37,21 +16,46 @@ export class Level {
 })
 export class AddLevelDialogComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<AddLevelDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+  constructor(public dialogRef: MatDialogRef<AddLevelDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData, private formBuilder: FormBuilder) { }
 
-  level: Level = new Level();
+  formGroup: FormGroup;
+  file: File;
   withCode: boolean;
   ngOnInit(): void {
-    this.level.name = this.data.name;
-    this.level.code = this.data.code;
-    this.level.description = this.data.description;
-    this.level.point_required = this.data.point_required;
-    this.level.point_threshold = this.data.point_threshold;
     this.withCode = this.data.withCode;
+    this.createForm();
+  }
+
+  createForm() {
+    let level = this.data.editData;
+    if(level){
+      this.formGroup = this.formBuilder.group({
+        'name': [level.name, [Validators.required]],
+        'code': [level.code, [Validators.required]],
+        'description': [level.description, [Validators.required]],
+        'point_required': [level.point_required.code, [Validators.required]],
+        'point_threshold': [level.point_threshold, [Validators.required]]
+      });
+    }
+    else{
+      this.formGroup = this.formBuilder.group({
+        'name': [null, [Validators.required]],
+        'code': [null, []],
+        'description': [null, [Validators.required]],
+        'point_required': [null, [Validators.required]],
+        'point_threshold': [null, [Validators.required]]
+      });
+    }
   }
 
   handleFileInput(files: FileList) {
-    this.level.file = files.item(0);
+    this.file = files.item(0);
+  }
+
+  submitForm(){
+    let res = this.formGroup.value;
+    res.file = this.file;
+    this.dialogRef.close(res);
   }
 
   onClickNO(){

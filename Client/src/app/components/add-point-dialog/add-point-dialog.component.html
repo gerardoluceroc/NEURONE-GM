@@ -76,8 +76,8 @@
            id="file"
            (change)="handleFileInput($event.target.files)">
   </div>
-  </form>
 
+  </form>
 </div>
 <div mat-dialog-Points>
   <button mat-button (click)="submitForm()" [disabled]="!formGroup.valid">{{"confirm" | translate}}</button>
