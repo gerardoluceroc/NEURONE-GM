@@ -12,7 +12,8 @@ export class EndpointsService {
 
   /* APPS */
   getActiveApp() {
-    return this.http.get(this.rootURL + 'applications/1/focus');
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+    return this.http.get(this.rootURL + 'applications/'+ user.username + '/focus');
   }
   getApps() {
     return this.http.get(this.rootURL + 'applications');

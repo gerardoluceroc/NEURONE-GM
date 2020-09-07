@@ -37,7 +37,11 @@
   "title": "Título",
   "fieldRequired": "Este campo es requerido.",
   "chooseImage": "Seleccionar Imágen (opcional)",
+  "login": "Iniciar Sesión",
   "logout": "Cerrar Sesión",
+  "username": "Nombre de Usuario",
+  "password": "Contraseña",
+  "enter": "Entrar",
   "home": {
     "secondTitle": "Resumen Jugadores"
   },
@@ -46,7 +50,11 @@
     "editAppTitle": "Editar Aplicación",
     "activeApp": "Aplicación Activa",
     "manageApps": "Administrar mis Aplicaciones",
-    "owner": "Propietario"
+    "owner": "Propietario",
+    "addSuccess": "Aplicación añadida correctamente.",
+    "editSuccess": "Aplicación actualizada correctamente.",
+    "deleteSuccess": "Aplicación eliminada correctamente.",
+    "deleteConfirm": "¿Estás seguro de eliminar esta aplicación? Esta operación es irreversible y perderás toda su gamificación vinculada."
   },
   "header": {
     "home": "INICIO",
@@ -113,7 +121,13 @@
     "point": "Punto",
     "elementCode": "Código Parámetro",
     "leaderboard": "Tabla de clasificación",
-    "renew": "Renovar"
+    "renew": "Renovar",
+    "addSuccess": "Tabla de clasificación añadida correctamente.",
+    "editSuccess": "Tabla de clasificación actualizada correctamente.",
+    "deleteSuccess": "Tabla de clasificación eliminada correctamente.",
+    "deleteConfirm": "¿Estás seguro de eliminar esta tabla de clasificación? Esta operación es irreversible.",
+    "addLeaderboardTitle" : "Añadir Nueva Tabla de Clasificación",
+    "editLeaderboardTitle" : "Editar Tabla de Clasificación"
   },
   "playerProfile": {
     "completedChallenges": "Desafíos Completados",

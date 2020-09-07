@@ -81,7 +81,7 @@ export class DesignLevelsComponent implements OnInit {
         this.endpointsService.postLevel(formData, this.focusApp.code).subscribe((data: { data: any; ok: boolean }) => {
           if(data.ok){
             this.toastr.success(successMessage, null, {
-              timeOut: 3000,
+              timeOut: 10000,
               positionClass: 'toast-center-center'
             });
             this.getLevels();
@@ -120,7 +120,7 @@ export class DesignLevelsComponent implements OnInit {
         this.endpointsService.putLevel(formData, this.focusApp.code, this.selectedRow.code).subscribe((data: { data: any; ok: boolean }) => {
           if(data.ok){
             this.toastr.info(successMessage, null, {
-              timeOut: 3000,
+              timeOut: 10000,
               positionClass: 'toast-center-center'
             });
             this.getLevels();
@@ -144,7 +144,7 @@ export class DesignLevelsComponent implements OnInit {
     if(confirm(confirmMessage)) {
       this.endpointsService.deleteLevel(this.focusApp.code, this.selectedRow.code).subscribe( () => {
         this.toastr.error(successMessage, null, {
-          timeOut: 3000,
+          timeOut: 10000,
           positionClass: 'toast-center-center'
         });
         this.getLevels();

@@ -6,6 +6,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {AddAppDialogComponent} from '../../components/add-app-dialog/add-app-dialog.component';
 import { Subject } from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-app-management',
@@ -14,7 +15,11 @@ import {TranslateService} from '@ngx-translate/core';
 })
 export class AppManagementComponent implements OnInit {
 
-  constructor(protected endpointsService: EndpointsService, public dialog: MatDialog, public translate: TranslateService) { }
+  constructor(
+    protected endpointsService: EndpointsService,
+    public dialog: MatDialog,
+    public translate: TranslateService,
+    private toastr: ToastrService) { }
   table = new MatTableDataSource([]);
   displayedColumns: string[] = ['name'];
   apps = [];
@@ -73,43 +78,60 @@ export class AppManagementComponent implements OnInit {
       });
   }
   async openAddAppDialog() {
-    let message;
-    await this.translate.get('appManagement.addAppTitle').subscribe(res => {
+    let message, successMessage;
+    this.translate.get('appManagement.addAppTitle').subscribe(res => {
       message = res;
+    });
+    this.translate.get('appManagement.addSuccess').subscribe(res => {
+      successMessage = res;
     });
     const dialogRef = this.dialog.open(AddAppDialogComponent, {
       data: {message, withCode: false},
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        res.owner = 1;
+        const user = JSON.parse(localStorage.getItem('currentUser'));
+        res.owner = user.username;
         this.endpointsService.postApp(res).subscribe((data: { data: any; ok: boolean }) => {
-          this.getApps();
+          if(data.ok){
+            this.toastr.success(successMessage, null, {
+              timeOut: 10000,
+              positionClass: 'toast-center-center'
+            });
+            this.getApps();
+          }
         }, (error) => {
           console.error(error);
         });
       }
     });
   }
-  async openEditAppDialog() {
-    let message;
-    await this.translate.get('appManagement.editAppTitle').subscribe(res => {
+  openEditAppDialog() {
+    let message, successMessage;
+    this.translate.get('appManagement.editAppTitle').subscribe(res => {
       message = res;
+    });
+    this.translate.get('appManagement.editSuccess').subscribe(res => {
+      successMessage = res;
     });
     const dialogRef = this.dialog.open(AddAppDialogComponent, {
       data: {
         message,
-        name: this.selectedRow.name,
-        description: this.selectedRow.description,
-        code: this.selectedRow.code,
+        editData: this.selectedRow,
         withCode: true
       },
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
         this.endpointsService.putApp(res, this.selectedRow.code).subscribe((data: { data: any; ok: boolean }) => {
-          this.getApps();
-          this.selectedRow = null;
+          if(data.ok){
+            this.toastr.info(successMessage, null, {
+              timeOut: 10000,
+              positionClass: 'toast-center-center'
+            });
+            this.getApps();
+            this.selectedRow = null;
+          }
         }, (error) => {
           console.error(error);
         });
@@ -117,12 +139,25 @@ export class AppManagementComponent implements OnInit {
     });
   }
   deleteApp(){
-    this.endpointsService.deleteApp( this.selectedRow.code).subscribe( () => {
-      this.getApps();
-      this.selectedRow = null;
-    },  (error) => {
-      console.error(error);
+    let successMessage, confirmMessage;
+    this.translate.get('appManagement.deleteSuccess').subscribe(res => {
+      successMessage = res;
     });
+    this.translate.get('appManagement.deleteConfirm').subscribe(res => {
+      confirmMessage = res;
+    });
+    if(confirm(confirmMessage)){
+      this.endpointsService.deleteApp( this.selectedRow.code).subscribe( () => {
+        this.toastr.error(successMessage, null, {
+          timeOut: 10000,
+          positionClass: 'toast-center-center'
+        });
+        this.getApps();
+        this.selectedRow = null;
+      },  (error) => {
+        console.error(error);
+      });
+    }
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

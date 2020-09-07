@@ -1,22 +1,12 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 export interface DialogData {
   message: string;
-  name: string;
-  description: string;
-  owner: number;
-  code: string;
+  editData: any;
   withCode: boolean;
 }
-
-export class App {
-  name: string;
-  description: string;
-  owner: number;
-  code: string;
-}
-
 
 @Component({
   selector: 'app-add-app-dialog',
@@ -25,16 +15,39 @@ export class App {
 })
 export class AddAppDialogComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<AddAppDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
-  app: App = new App();
+  constructor(public dialogRef: MatDialogRef<AddAppDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData, private formBuilder: FormBuilder) { }
   withCode: boolean;
+  formGroup: FormGroup;
   ngOnInit(): void {
-    this.app.name = this.data.name;
-    this.app.description = this.data.description;
-    this.app.code = this.data.code;
+    this.createForm();
     this.withCode = this.data.withCode;
   }
+
+  createForm() {
+    let app = this.data.editData
+    if(app){
+      this.formGroup = this.formBuilder.group({
+        'name': [app.name, [Validators.required]],
+        'code': [app.code, [Validators.required]],
+        'description': [app.description, [Validators.required]]
+      });
+    }
+    else{
+      this.formGroup = this.formBuilder.group({
+        'name': [null, [Validators.required]],
+        'code': [null, []],
+        'description': [null, [Validators.required]]
+      });
+    }
+  }
+
+
   onClickNO(){
     this.dialogRef.close();
+  }
+
+  submitForm(){
+    let res = this.formGroup.value;
+    this.dialogRef.close(res);
   }
 }

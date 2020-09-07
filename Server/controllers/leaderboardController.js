@@ -60,7 +60,6 @@ leaderboardController.postLeaderboard = async (req, res) => {
 
 leaderboardController.updateLeaderboard = async (req, res) => {
     const leaderboard_code = req.params.leaderboard_code;
-    const {name, abbreviation, initial_points, max_points, daily_max, is_default, hidden, code} = req.body;
     await Leaderboard.updateOne( { code: leaderboard_code}, req.body, (err, data) => {
         if(err){
             return res.status(404).json({
@@ -77,6 +76,14 @@ leaderboardController.updateLeaderboard = async (req, res) => {
 
 leaderboardController.deleteLeaderboard = async (req, res) => {
     const leaderboard_code = req.params.leaderboard_code;
+    await GeneratedLeaderboard.deleteOne({leaderboard_code: leaderboard_code}, (err) =>{
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    })
     await Leaderboard.deleteOne( { code: leaderboard_code}, (err, data) => {
         if(err){
             return res.status(404).json({

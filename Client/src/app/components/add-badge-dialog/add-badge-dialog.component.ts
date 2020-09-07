@@ -31,7 +31,7 @@ export class AddBadgeDialogComponent implements OnInit {
         'title': [badge.title, [Validators.required]],
         'code': [badge.code, [Validators.required]],
         'description': [badge.description, [Validators.required]],
-        'file': [null, [Validators.required]]
+        'file': [null, []]
       });
     }
     else{

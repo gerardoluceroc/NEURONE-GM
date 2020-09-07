@@ -74,7 +74,7 @@ export class DesignActionsComponent implements OnInit {
         this.endpointsService.postAction(formData, this.focusApp.code).subscribe((data: { action: any; ok: boolean }) => {
           if(data.ok){
             this.toastr.success(successMessage, null, {
-              timeOut: 3000,
+              timeOut: 10000,
               positionClass: 'toast-center-center'
             });
             this.getActions();
@@ -112,7 +112,7 @@ export class DesignActionsComponent implements OnInit {
         this.endpointsService.putAction(formData, this.focusApp.code, this.selectedRow.code).subscribe((data: { action: any; ok: boolean }) => {
           if(data.ok){
             this.toastr.info(successMessage, null, {
-              timeOut: 3000,
+              timeOut: 10000,
               positionClass: 'toast-center-center'
             });
             this.getActions();
@@ -136,7 +136,7 @@ export class DesignActionsComponent implements OnInit {
     if(confirm(confirmMessage)) {
       this.endpointsService.deleteAction(this.focusApp.code, this.selectedRow.code).subscribe( () => {
         this.toastr.error(successMessage, null, {
-          timeOut: 3000,
+          timeOut: 10000,
           positionClass: 'toast-center-center'
         });
         this.getActions();

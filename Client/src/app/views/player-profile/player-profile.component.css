@@ -23,3 +23,12 @@
     text-decoration: none;
     font-family: Candara, sans-serif;
 }
+
+.attribute-title{
+    margin-left: 15%;
+    margin-top: 2%;
+    font-size: calc(1.5em + 1vmin);
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    font-family: Candara, sans-serif;
+}

@@ -66,7 +66,7 @@ export class DesignPointsComponent implements OnInit {
         this.endpointsService.postPoint(formData, this.focusApp.code).subscribe((data: { data: any; ok: boolean }) => {
           if(data.ok){
             this.toastr.success(successMessage, null, {
-              timeOut: 3000,
+              timeOut: 10000,
               positionClass: 'toast-center-center'
             });
             this.getPoints();
@@ -107,7 +107,7 @@ export class DesignPointsComponent implements OnInit {
         this.endpointsService.putPoint(formData, this.focusApp.code, this.selectedRow.code).subscribe((data: { point: any; ok: boolean }) => {
           if(data.ok){
             this.toastr.info(successMessage, null, {
-              timeOut: 3000,
+              timeOut: 10000,
               positionClass: 'toast-center-center'
             });
             this.getPoints();
@@ -130,7 +130,7 @@ export class DesignPointsComponent implements OnInit {
     if(confirm(confirmMessage)){
       this.endpointsService.deletePoint(this.focusApp.code, this.selectedRow.code).subscribe( () => {
         this.toastr.error(successMessage, null, {
-          timeOut: 3000,
+          timeOut: 10000,
           positionClass: 'toast-center-center'
         });
         this.getPoints();

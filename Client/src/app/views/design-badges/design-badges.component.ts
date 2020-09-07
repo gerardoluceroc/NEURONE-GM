@@ -73,7 +73,7 @@ export class DesignBadgesComponent implements OnInit {
         this.endpointsService.postBadges(formData, this.focusApp.code).subscribe((data: { data: any; ok: boolean }) => {
           if(data.ok){
             this.toastr.success(successMessage, null, {
-              timeOut: 3000,
+              timeOut: 10000,
               positionClass: 'toast-center-center'
             });
             this.getBadges();
@@ -109,7 +109,7 @@ export class DesignBadgesComponent implements OnInit {
         this.endpointsService.putBadge(formData, this.focusApp.code, this.selectedRow.code).subscribe((data: { data: any; ok: boolean }) => {
           if(data.ok){
             this.toastr.info(successMessage, null, {
-              timeOut: 3000,
+              timeOut: 10000,
               positionClass: 'toast-center-center'
             });
             this.getBadges();
@@ -132,7 +132,7 @@ export class DesignBadgesComponent implements OnInit {
     if(confirm(confirmMessage)){
       this.endpointsService.deleteBadge(this.focusApp.code, this.selectedRow.code).subscribe( () => {
         this.toastr.error(successMessage, null, {
-          timeOut: 3000,
+          timeOut: 10000,
           positionClass: 'toast-center-center'
         });
         this.getBadges();

@@ -37,7 +37,11 @@
   "title": "Title",
   "fieldRequired": "This field is required.",
   "chooseImage": "Choose Image (optional)",
+  "login": "Log In",
   "logout": "Log Out",
+  "username": "User Name",
+  "password": "Password",
+  "enter": "Enter",
   "home": {
     "secondTitle": "Players Summary"
   },
@@ -46,7 +50,11 @@
     "editAppTitle": "Edit App",
     "activeApp": "Active App",
     "manageApps": "Manage my Apps",
-    "owner": "Owner"
+    "owner": "Owner",
+    "addSuccess": "Leaderboard added successfully.",
+    "editSuccess": "Leaderboard updated successfully.",
+    "deleteSuccess": "Leaderboard deleted successfully.",
+    "deleteConfirm": "Are you sure to delete this application? This operation is irreversible and you will lose all its linked gamification."
   },
   "header": {
     "home": "HOME",
@@ -113,7 +121,13 @@
     "action": "Action",
     "point": "Point",
     "leaderboard": "Leaderboard",
-    "renew": "Renew"
+    "renew": "Renew",
+    "addSuccess": "Leaderboard added successfully.",
+    "editSuccess": "Leaderboard updated successfully.",
+    "deleteSuccess": "Leaderboard deleted successfully.",
+    "deleteConfirm": "Are you sure to delete this leaderboard? This operation is irreversible.",
+    "addLeaderboardTitle" : "Add New Leaderboard",
+    "editLeaderboardTitle" : "Edit Leaderboard"
   },
   "playerProfile": {
     "completedChallenges": "Completed Challenges",

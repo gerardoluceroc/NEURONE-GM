@@ -9,7 +9,7 @@ export class User {
     _id: string;
     username: string;
     email: string;
-    token?: string;
+    accessToken: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -24,6 +24,10 @@ export class AuthenticationService {
 
     public get currentUserValue(): User {
         return this.currentUserSubject.value;
+    }
+
+    public get authHeader(){
+        return { 'x-access-token': this.currentUserValue.accessToken };  
     }
 
     login(username: string, password: string) {

@@ -105,7 +105,7 @@ export class DesignChallengesComponent implements OnInit {
         this.endpointsService.postChallenge(res, this.focusApp.code).subscribe((data: { data: any; ok: boolean }) => {
           if(data.ok){
             this.toastr.success(successMessage, null, {
-              timeOut: 3000,
+              timeOut: 10000,
               positionClass: 'toast-center-center'
             });
             this.getChallenges();
@@ -140,7 +140,7 @@ export class DesignChallengesComponent implements OnInit {
         this.endpointsService.putChallenge(res, this.focusApp.code, this.selectedRow.code).subscribe((data: { data: any; ok: boolean }) => {
           if(data.ok){
             this.toastr.info(successMessage, null, {
-              timeOut: 3000,
+              timeOut: 10000,
               positionClass: 'toast-center-center'
             });
             this.getChallenges();
@@ -163,7 +163,7 @@ export class DesignChallengesComponent implements OnInit {
     if(confirm(confirmMessage)){
       this.endpointsService.deleteChallenge(this.focusApp.code, this.selectedRow.code).subscribe( () => {
         this.toastr.error(successMessage, null, {
-          timeOut: 3000,
+          timeOut: 10000,
           positionClass: 'toast-center-center'
         });
         this.getChallenges();

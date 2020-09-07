@@ -1,14 +1,13 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {DialogData} from '../add-action-dialog/add-action-dialog.component';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import {TranslateService} from '@ngx-translate/core';
 import {EndpointsService} from '../../endpoints/endpoints.service';
 
-export class Leaderboard {
-  name: string;
-  parameter: string;
-  element_code: string;
+export interface DialogData {
+  message: string;
+  editData: any;
+  withCode: boolean;
 }
 
 @Component({
@@ -25,18 +24,12 @@ export class AddLeaderboardDialogComponent implements OnInit {
   firstFormGroup: FormGroup;
   types = [];
   secondFormGroup: FormGroup;
+  thirdFormGroup: FormGroup;
   type: {id, name} = {id: '', name: ''};
   points = [];
   actions = [];
   selectedElement: any;
-  leaderboard: Leaderboard = new Leaderboard();
   ngOnInit(): void {
-    this.firstFormGroup = this.formBuilder.group({
-      firstCtrl: ['', Validators.required]
-    });
-    this.secondFormGroup = this.formBuilder.group({
-      secondCtrl: ['', Validators.required]
-    });
     this.translate.get('actions').subscribe(res => {
       this.types.push({id: 'actions', name: res});
     });
@@ -45,7 +38,41 @@ export class AddLeaderboardDialogComponent implements OnInit {
     });
     this.getActions();
     this.getPoints();
+    this.createForms();
   }
+
+  createForms() {
+    let leaderboard = this.data.editData;
+    this.secondFormGroup = this.formBuilder.group({
+      element_code: [null, Validators.required]
+    });
+    if(leaderboard){
+      if(leaderboard.parameter === 'actions'){
+        this.firstFormGroup = this.formBuilder.group({
+          parameter: [this.types[0], Validators.required]
+        });
+      }
+      else{
+        this.firstFormGroup = this.formBuilder.group({
+          parameter: [this.types[1], Validators.required]
+        });
+      }
+      this.thirdFormGroup = this.formBuilder.group({
+        'name': [leaderboard.name, [Validators.required]],
+        'code': [leaderboard.code, [Validators.required]],
+      });
+    }
+    else{
+      this.firstFormGroup = this.formBuilder.group({
+        parameter: [this.types[0], Validators.required]
+      });
+      this.thirdFormGroup = this.formBuilder.group({
+        'name': [null, [Validators.required]],
+        'code': [null, []],
+      });
+    }
+  }
+
   getActions(){
     this.endpointsService.getActions('NEURONE-A-DAY').subscribe((data: {
         actions: any[]; ok: boolean} ) => { // Success
@@ -66,15 +93,18 @@ export class AddLeaderboardDialogComponent implements OnInit {
   }
   onClickNO(){
     this.dialogRef.close();
-    console.log(this.leaderboard);
   }
+
   onChangeType($event){
     this.type = $event.value;
-    this.leaderboard.parameter = this.type.id;
+    this.secondFormGroup.controls['element_code'].setValue(null);
   }
-  onChangeElement($event){
-    this.selectedElement = $event.value;
-    this.leaderboard.element_code = $event.value.code;
+
+  onSubmit(){
+    let res = this.thirdFormGroup.value;
+    res.parameter = this.firstFormGroup.value.parameter.id;
+    res.element_code = this.secondFormGroup.value.element_code.code;
+    this.dialogRef.close(res);
   }
 
 }

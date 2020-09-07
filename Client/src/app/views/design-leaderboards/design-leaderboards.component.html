@@ -1,7 +1,7 @@
 <app-design marked="leaderboards"></app-design>
 <div class="design-content">
   <div class="column">
-    <button mat-raised-button class="button button-add" (click)="openAddLeaderBoardDialog()">{{"add" | translate}}</button>
+    <button mat-raised-button class="button button-add" (click)="openAddLeaderboardDialog()">{{"add" | translate}}</button>
     <mat-form-field style="width: 100%">
       <mat-label>{{"filter"| translate}}</mat-label>
       <input matInput (keyup)="applyFilter($event)" #input>
@@ -15,8 +15,8 @@
     </table>
   </div>
   <div *ngIf="selectedRow!=null" class="display-column">
-    <button mat-raised-button class="button button-edit" >{{"edit" | translate}}</button>
-    <button mat-raised-button class="button button-delete">{{"delete"| translate}}</button>
+    <button mat-raised-button class="button button-edit" (click)="openEditLeaderboardDialog()">{{"edit" | translate}}</button>
+    <button mat-raised-button class="button button-delete" (click)="deleteLeaderboard()">{{"delete"| translate}}</button>
     <div class="points-column">
       <div style="width: 30%; float: left">
         <p class="attributes-name">{{"name" | translate}}: </p>

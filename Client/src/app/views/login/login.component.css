@@ -27,6 +27,7 @@ mat-card-content {
     height: 30%;
     margin: auto;
     margin-top: 12%;
+    border: 1px solid black;
 }
 
 .title-span {
