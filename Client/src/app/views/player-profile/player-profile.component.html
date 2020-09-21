@@ -1,41 +1,49 @@
 <app-header marked="players"></app-header>
 <div class="main-content">
-    <mat-card  style="max-width: 90%;">
+    <mat-card class="mat-elevation-z5" style="max-width: 90%;">
     <img mat-card-image src="https://media.istockphoto.com/photos/blue-abstract-background-or-texture-picture-id1138395421?k=6&m=1138395421&s=612x612&w=0&h=bJ1SRWujCgg3QWzkGPgaRiArNYohPl7-Wc4p_Fa_cyA=" alt="Background Image" style="width: 100%; height: 200px; margin: 0">
     <div mat-card-avatar class="example-header-image"></div>
     <mat-card-content style="height: 5em;">
         <h1 class="player-name">{{player.name}} {{player.last_name}}</h1>
     </mat-card-content>
     </mat-card>
-    <div *ngIf="completedChallenges.length > 0" style="width: 45%; margin-top: 1%; display: inline-block; vertical-align:top; border: 1.5px solid #000 !important;">
+    <div *ngIf="completedChallenges.length > 0" class="mat-elevation-z5 status-card">
         <h1 class="attribute-title">{{"playerProfile.completedChallenges" | translate}}</h1>
-        <mat-card *ngFor="let playerChallenge of completedChallenges" style="margin: 1px; color: black;">
+        <mat-card *ngFor="let playerChallenge of completedChallenges" class="attribute-card mat-elevation-z0">
             <mat-card-content>
                 {{playerChallenge.challenge.name}}
             </mat-card-content>
         </mat-card>
     </div>
-    <div *ngIf="playerPoints.length > 0" style="width: 45%; margin-top: 1%; margin-left: 2%; display: inline-block; vertical-align:top; border: 1.5px solid #000 !important;">
+    <div *ngIf="playerPoints.length > 0" class="mat-elevation-z5 status-card">
         <h1 class="attribute-title">{{"playerProfile.totalPoints" | translate}}</h1>
-        <mat-card *ngFor="let playerPoint of playerPoints" style="margin: 1px; background-color: white;">
+        <mat-card *ngFor="let playerPoint of playerPoints" class="attribute-card mat-elevation-z0">
             <mat-card-content *ngIf="playerPoint.point">
                 <span>{{playerPoint.point.name}}</span> <span style="float: right;">{{playerPoint.amount}}</span>
             </mat-card-content>
         </mat-card>
     </div>
-    <div *ngIf="playerActions.length > 0" style="width: 45%; margin-top: 1%; display: inline-block; vertical-align:top; border: 1.5px solid #000 !important;">
+    <div *ngIf="playerActions.length > 0" class="mat-elevation-z5 status-card">
         <h1 class="attribute-title">{{"playerProfile.lastActions" | translate}}</h1>
-        <mat-card *ngFor="let playerAction of playerActions"  style="margin: 1px; background-color: white;">
+        <mat-card *ngFor="let playerAction of playerActions"  class="attribute-card mat-elevation-z0">
             <mat-card-content>
                 {{playerAction.action.name}} <span style="float: right;">{{playerAction.date.slice(0,10)}}</span>
             </mat-card-content>
         </mat-card>
     </div>
-    <div *ngIf="playerBadges.length > 0" style="width: 45%; margin-top: 1%;  margin-left: 2%; display: inline-block;  vertical-align:top; border: 1.5px solid #000 !important;" >
+    <div *ngIf="playerBadges.length > 0" class="mat-elevation-z5 status-card" >
         <h1 class="attribute-title">{{"playerProfile.badges" | translate}}</h1>
-        <mat-card *ngFor="let playerBadge of playerBadges" style="margin: 1px; height: 40px; background-color: gold;">
+        <mat-card *ngFor="let playerBadge of playerBadges" class="attribute-card mat-elevation-z0" style="background-color: white;">
             <mat-card-content>
                 <img [src]="playerBadge.badge.image_url" style="width: 40px; height: 40px; float: left;"> <span style="float: left; margin-left: 5%;">{{playerBadge.badge.title}}</span> <span style="float: right;">{{playerBadge.acquisition_date.slice(0,10)}}</span>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div *ngIf="playerLevels.length > 0" class="mat-elevation-z5 status-card" >
+        <h1 class="attribute-title">{{"playerProfile.levels" | translate}}</h1>
+        <mat-card *ngFor="let playerLevel of playerLevels" class="attribute-card mat-elevation-z0">
+            <mat-card-content>
+                {{playerLevel.level.name}} <span style="float: right;">{{playerLevel.acquisition_date.slice(0,10)}}</span>
             </mat-card-content>
         </mat-card>
     </div>

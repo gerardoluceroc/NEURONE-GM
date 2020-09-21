@@ -42,6 +42,7 @@
   "username": "User Name",
   "password": "Password",
   "enter": "Enter",
+  "itemsPerPage": "Items per page",
   "home": {
     "secondTitle": "Players Summary"
   },
@@ -54,7 +55,8 @@
     "addSuccess": "Leaderboard added successfully.",
     "editSuccess": "Leaderboard updated successfully.",
     "deleteSuccess": "Leaderboard deleted successfully.",
-    "deleteConfirm": "Are you sure to delete this application? This operation is irreversible and you will lose all its linked gamification."
+    "deleteConfirm": "Are you sure to delete this application? This operation is irreversible and you will lose all its linked design and data.",
+    "webhooks": "Webhooks"
   },
   "header": {
     "home": "HOME",
@@ -91,7 +93,12 @@
     "addSuccess": "Point added successfully.",
     "editSuccess": "Point updated successfully.",
     "deleteSuccess": "Point deleted successfully.",
-    "deleteConfirm": "Are you sure to delete this point? This operation is irreversible."
+    "deleteConfirm": "Are you sure to delete this point? This operation is irreversible.",
+    "initialPointsTip": "Number of points that all players start with.",
+    "dailyMaxTip": "Maximum amount of this point that the player can get in one day. Write -1 if there is no maximum.",
+    "hiddenTip": "Select false if you want this point not to be shown to the player in their profile or to be notified when they acquire it.",
+    "defaultTip": "Select true if you want this point to be visible to the player.",
+    "maxPointsTip": "Maximum amount of this point that a player can get. Write -1 if there is no maximum."
   },
   "challenge": {
     "challenge": "Challenge",
@@ -120,6 +127,7 @@
     "challenge": "Challenge",
     "action": "Action",
     "point": "Point",
+    "elementCode": "Parameter Code",
     "leaderboard": "Leaderboard",
     "renew": "Renew",
     "addSuccess": "Leaderboard added successfully.",
@@ -133,7 +141,8 @@
     "completedChallenges": "Completed Challenges",
     "totalPoints": "Total Points",
     "lastActions": "Last Actions",
-    "badges": "Badges Earned"
+    "badges": "Badges Earned",
+    "levels": "Levels Reached"
   },
   "badge": {
     "addBadgeTitle": "Add New Badge",

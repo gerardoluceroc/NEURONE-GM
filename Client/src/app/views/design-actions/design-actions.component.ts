@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {EndpointsService} from '../../endpoints/endpoints.service';
 import { AddActionDialogComponent} from '../../components/add-action-dialog/add-action-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {TranslateService} from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-design-actions',
@@ -14,18 +15,23 @@ import { ToastrService } from 'ngx-toastr';
 export class DesignActionsComponent implements OnInit {
 
   constructor(protected endpointsService: EndpointsService, public dialog: MatDialog, public translate: TranslateService, private toastr: ToastrService) { }
-  table = new MatTableDataSource([]);
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  dataSource= new MatTableDataSource();
+  itemsPerPage: string;
   actions = [];
   displayedColumns: string[] = ['name'];
   selectedRow = null;
   focusApp: any = {};
   ngOnInit(): void {
     this.getActiveApp();
+    this.translate.get('itemsPerPage').subscribe(res => {
+      this.itemsPerPage  = res;
+    });
   }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.table.filter = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   select(row){
@@ -45,7 +51,9 @@ export class DesignActionsComponent implements OnInit {
     this.endpointsService.getActions(this.focusApp.code).subscribe((data: {
         actions: any[]; ok: boolean} ) => { // Success
         this.actions = data.actions;
-        this.table.data = this.actions;
+        this.dataSource.data = this.actions;
+        this.dataSource.paginator = this.paginator;
+        this.paginator._intl.itemsPerPageLabel = this.itemsPerPage;
       },
       (error) => {
         console.error(error);

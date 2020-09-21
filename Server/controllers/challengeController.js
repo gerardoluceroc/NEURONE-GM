@@ -6,7 +6,7 @@ const Player = require('../models/player');
 const ActionChallenge = require('../models/actionChallenge');
 const ChallengeRequisite = require('../models/challengeRequisite');
 const ChallengePlayer = require('../models/challengePlayer');
-const codeGenerator = require('../utils/codeGenerator');
+const codeGenerator = require('../services/codeGenerator');
 const challengeController = {};
 
 challengeController.getChallenges = async (req, res) => {

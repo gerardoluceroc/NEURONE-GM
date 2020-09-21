@@ -2,7 +2,7 @@ const Point = require('../models/point');
 const Player = require('../models/player');
 const Challenge = require('../models/challenge');
 const PointPlayer = require('../models/pointPlayer');
-const codeGenerator = require('../utils/codeGenerator');
+const codeGenerator = require('../services/codeGenerator');
 const imageStorage = require('../middlewares/imageStorage');
 
 const pointController = {};
@@ -220,6 +220,5 @@ pointController.getPoint = async  (req, res) => {
         });
     })
 };
-
 
 module.exports = pointController;

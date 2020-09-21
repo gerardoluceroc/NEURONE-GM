@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {EndpointsService} from '../../endpoints/endpoints.service';
 import {MatDialog} from '@angular/material/dialog';
 import {AddLevelDialogComponent} from '../../components/add-level-dialog/add-level-dialog.component';
 import {TranslateService} from "@ngx-translate/core";
 import { ToastrService } from 'ngx-toastr';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-design-levels',
@@ -15,8 +16,10 @@ export class DesignLevelsComponent implements OnInit {
 
   constructor(protected endpointsService: EndpointsService, public dialog: MatDialog, public translate: TranslateService,  private toastr: ToastrService) { }
 
-  table = new MatTableDataSource([]);
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  dataSource= new MatTableDataSource();
   levels = [];
+  itemsPerPage: string;
   points = [];
   displayedColumns: string[] = ['name'];
   selectedRow = null;
@@ -24,6 +27,9 @@ export class DesignLevelsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getActiveApp();
+    this.translate.get('itemsPerPage').subscribe(res => {
+      this.itemsPerPage  = res;
+    });
   }
 
   getActiveApp(){
@@ -49,7 +55,9 @@ export class DesignLevelsComponent implements OnInit {
     this.endpointsService.getLevels(this.focusApp.code).subscribe((data: {
         data: any[]; ok: boolean} ) => { // Success
         this.levels = data.data;
-        this.table.data = this.levels;
+        this.dataSource.data = this.levels;
+        this.dataSource.paginator = this.paginator;
+        this.paginator._intl.itemsPerPageLabel = this.itemsPerPage;
       },
       (error) => {
         console.error(error);
@@ -157,7 +165,7 @@ export class DesignLevelsComponent implements OnInit {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.table.filter = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   select(row){

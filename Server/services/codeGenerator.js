@@ -1,7 +1,7 @@
 const { normalize } = require('normalize-diacritics');
 
 module.exports = {
-//Función para generar un código que sirva como identificador único para los recursos de gamificación (acciones, puntos, niveles, etc)
+//Function to generate a code that serves as a unique identifier for gamification resources (actions, points, levels, etc.)
     async codeGenerator(appCode, name, type) {
         const app = appCode.split("_");
         const element = name.split(' ').join('').slice(0, 12);

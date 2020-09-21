@@ -6,18 +6,18 @@
         <mat-label>{{"filter"| translate}}</mat-label>
         <input matInput (keyup)="applyFilter($event)" #input>
       </mat-form-field>
-      <table mat-table [dataSource]="table" style="width: 100%">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z1" style="width: 100%">
         <ng-container matColumnDef="title">
           <mat-cell *matCellDef="let element"> {{element.title}} </mat-cell>
         </ng-container>
-  
         <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="select(row)" style="cursor:pointer"></mat-row>
       </table>
+      <mat-paginator class="mat-elevation-z1" [pageSizeOptions]="[5, 10]" showFirstLastButtons style="width: 100%;"></mat-paginator>
     </div>
     <div *ngIf="selectedRow!=null" class="display-column">
       <button mat-raised-button class="button button-edit" (click)="openEditBadgeDialog()">{{"edit" | translate}}</button>
       <button mat-raised-button class="button button-delete" (click)="deleteBadge()">{{"delete"| translate}}</button>
-      <div class="points-column">
+      <div class="mat-elevation-z5 points-column">
         <div style="width: 30%; float: left">
           <p class="attributes-name">{{"title" | translate}}: </p>
           <p class="attributes-name">{{"code" | translate}}: </p>

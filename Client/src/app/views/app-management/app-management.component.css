@@ -37,6 +37,14 @@
   font-size: calc(0.2em + 1vmin);
 }
 
+.button-webhooks{
+  width: 30%;
+  margin-left: 35%;
+  margin-top: 2%;
+  background-color: #0c5460;
+  color: white;
+}
+
 .column{
   margin-left: 0 !important;
   padding: 0;

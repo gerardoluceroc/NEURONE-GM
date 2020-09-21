@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, ParamMap, Router} from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import {ActivatedRoute, ParamMap} from '@angular/router';
 import {EndpointsService} from '../../endpoints/endpoints.service';
 import { TranslateService } from '@ngx-translate/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 
 @Component({
@@ -12,12 +14,14 @@ import { TranslateService } from '@ngx-translate/core';
 export class DesignLeaderboardsSeeComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, protected endpointsService: EndpointsService, public translate: TranslateService) { }
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   code: string;
   focusApp: any = {};
   leaderboard: any = {};
   displayedColumns: string[] = ['rank', 'name', 'last_name', 'amount'];
-  dataSource = [];
+  dataSource= new MatTableDataSource();
   translation: string = "";
+  ok = false;
   name: string;
   ngOnInit(): void {
     this.route.paramMap
@@ -65,7 +69,8 @@ export class DesignLeaderboardsSeeComponent implements OnInit {
   }
   getData(){
     this.endpointsService.getLeaderboardData(this.focusApp.code, this.code).subscribe((data: {leaderboardResult: any, ok: boolean}) => { // Success
-        this.dataSource = data.leaderboardResult;
+        this.dataSource.data = data.leaderboardResult;
+        this.dataSource.paginator = this.paginator;
       },
       (error) => {
         console.error(error);

@@ -22,6 +22,7 @@ const pointsPlayerRoutes = require("./api/pointPlayerRoutes");
 const levelsPlayerRoutes = require("./api/levelPlayerRoutes");
 const badgesPlayerRoutes = require("./api/badgePlayerRoutes");
 const actionChallengeRoutes = require("./api/actionChallengeRoutes");
+const webhooksRoutes = require("./api/webhookRoutes");
 const imageRoutes = require("./api/imageRoutes");
 
 /** Database setup **/
@@ -52,6 +53,7 @@ app.use('/api', levelsPlayerRoutes);
 app.use('/api', badgesPlayerRoutes);
 app.use('/api', actionChallengeRoutes);
 app.use('/api', imageRoutes);
+app.use('/api', webhooksRoutes);
 
 app.get('/', function (req, res) {
     res.send('Hello World!');

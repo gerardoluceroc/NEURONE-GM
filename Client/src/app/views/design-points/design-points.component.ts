@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {EndpointsService} from '../../endpoints/endpoints.service';
 import {MatDialog} from '@angular/material/dialog';
 import {AddPointDialogComponent} from '../../components/add-point-dialog/add-point-dialog.component';
 import {TranslateService} from "@ngx-translate/core";
 import { ToastrService } from 'ngx-toastr';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-design-points',
@@ -14,13 +15,18 @@ import { ToastrService } from 'ngx-toastr';
 export class DesignPointsComponent implements OnInit {
 
   constructor(protected endpointsService: EndpointsService, public dialog: MatDialog, public translate: TranslateService, private toastr: ToastrService) { }
-  table = new MatTableDataSource([]);
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  dataSource= new MatTableDataSource();
   points = [];
+  itemsPerPage: string;
   displayedColumns: string[] = ['name'];
   selectedRow = null;
   focusApp: any = {};
   ngOnInit(): void {
     this.getActiveApp();
+    this.translate.get('itemsPerPage').subscribe(res => {
+      this.itemsPerPage  = res;
+    });
   }
   getActiveApp(){
     this.endpointsService.getActiveApp().subscribe((data: {data: object, ok: boolean}) => { // Success
@@ -35,7 +41,9 @@ export class DesignPointsComponent implements OnInit {
     this.endpointsService.getPoints(this.focusApp.code).subscribe((data: {
         data: any[]; ok: boolean} ) => { // Success
         this.points = data.data;
-        this.table.data = this.points;
+        this.dataSource.data = this.points;
+        this.dataSource.paginator = this.paginator;
+        this.paginator._intl.itemsPerPageLabel = this.itemsPerPage;
       },
       (error) => {
         console.error(error);
@@ -142,7 +150,7 @@ export class DesignPointsComponent implements OnInit {
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.table.filter = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
   select(row){
     this.selectedRow = row;

@@ -42,6 +42,7 @@
   "username": "Nombre de Usuario",
   "password": "Contraseña",
   "enter": "Entrar",
+  "itemsPerPage": "Elementos por página",
   "home": {
     "secondTitle": "Resumen Jugadores"
   },
@@ -54,7 +55,8 @@
     "addSuccess": "Aplicación añadida correctamente.",
     "editSuccess": "Aplicación actualizada correctamente.",
     "deleteSuccess": "Aplicación eliminada correctamente.",
-    "deleteConfirm": "¿Estás seguro de eliminar esta aplicación? Esta operación es irreversible y perderás toda su gamificación vinculada."
+    "deleteConfirm": "¿Estás seguro de eliminar esta aplicación? Esta operación es irreversible y perderás toda su diseño y datos vinculados.",
+    "webhooks": "Webhooks"
   },
   "header": {
     "home": "INICIO",
@@ -92,7 +94,13 @@
     "addSuccess": "Punto añadido correctamente.",
     "editSuccess": "Punto actualizado correctamente.",
     "deleteSuccess": "Punto eliminado correctamente.",
-    "deleteConfirm": "¿Estás seguro de eliminar este punto? Esta operación es irreversible."
+    "deleteConfirm": "¿Estás seguro de eliminar este punto? Esta operación es irreversible.",
+    "initialPointsTip": "Cantidad de puntos con la que empiezan todos los jugadores.",
+    "dailyMaxTip": "Cantidad máxima de este punto que el jugador puede obtener en un día. Escribe -1 si no hay máximo.",
+    "hiddenTip": "Selecciona false si quieres que este punto no sea mostrado al jugador en su perfil ni se le notifique por adquirirlo.",
+    "defaultTip": "Selecciona true si quieres que este punto sea visible al jugador.",
+    "maxPointsTip": "Cantidad máxima de este punto que un jugador puede obtener. Escribe -1 si no hay máximo."
+
   },
   "challenge": {
     "addChallengeTitle" : "Añadir Nuevo Desafío",
@@ -133,7 +141,8 @@
     "completedChallenges": "Desafíos Completados",
     "totalPoints": "Puntos Totales",
     "lastActions": "Últimas acciones",
-    "badges": "Insignias obtenidas"
+    "badges": "Insignias obtenidas",
+    "levels": "Niveles alcanzados"
   },
   "badge": {
     "addBadgeTitle": "Añadir Nueva Insignia",

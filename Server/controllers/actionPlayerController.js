@@ -5,9 +5,10 @@ const ActionChallenge = require('../models/actionChallenge');
 const ChallengeRequisite = require('../models/challengeRequisite');
 const ChallengePlayer = require('../models/challengePlayer');
 const Challenge = require('../models/challenge');
-const PointPlayer = require('../models/pointPlayer');
 const BadgePlayer = require('../models/badgePlayer');
-const challenge = require('../models/challenge');
+
+const PointService = require('../services/pointService');
+const WebhookUtil = require('../services/webhookUtil');
 
 const actionPlayerController = {};
 
@@ -73,7 +74,7 @@ actionPlayerController.postActionPlayer = async (req, res) => {
             });
         }
     });
-    //Se suma una acción realizada dentro del modelo action challenge (el cual lleva la cuenta de cuantas acciones realizadas del jugador para completar un desafío)
+    //An action is added within the action challenge model (which keeps track of how many actions the player has performed to complete a challenge)
     await ActionChallenge.updateMany({
         app_code: app_code,
         player: player._id,
@@ -105,8 +106,8 @@ actionPlayerController.postActionPlayer = async (req, res) => {
             });
         }
     });
-    //Se hace una agregación de todas las entradas actionChallenge, tomando como id al challenge y al value como el mínimo del campo completed
-    //Esto debido a que cuando un desafío ha sido completado, el mínimo de campo completado será true.
+    //An aggregation of all the actionChallenge entries is made, taking the challenge as the id and the value as the minimum of the completed field
+    //This is because when a challenge has been completed, the minimum field completed will be true.
     await ActionChallenge.aggregate([
         {$match: {player:player._id, active: true, $and: [
             { $expr: {$gte: [new Date(date), "$start_date"]} },
@@ -189,7 +190,22 @@ actionPlayerController.postActionPlayer = async (req, res) => {
                                     err
                                 });
                             }
-                            console.log("Notificar que "+player.name+" "+player.last_name+" ha completado el desafío "+ chall.name);
+                            WebhookUtil.trigger(app_code, 'challengeCompleted',  {
+                                messageES: 'Has completado el desafío '+chall.name,
+                                messageEN: 'You have completed '+chall.name,
+                                challenge: chall,
+                                name: 'challengeCompleted',
+                                player: player,
+                                acquisitionDate: date,
+                                notificationDate: new Date()
+                            }, (err, clientRes) => {
+                                if(err){
+                                    console.log(err);
+                                }
+                                else{
+                                    console.log(clientRes.data)
+                                }
+                            })
                             if(chall.badge){
                                 const badgePlayer = new BadgePlayer({
                                     app_code: app_code,
@@ -204,30 +220,33 @@ actionPlayerController.postActionPlayer = async (req, res) => {
                                             err
                                         });
                                     }
-                                    console.log(+player.name+" "+player.last_name+" ha obtenido insignia "+chall.badge.name);
+                                    WebhookUtil.trigger(app_code, 'badgeAcquired',  {
+                                        messageES: 'Has adquirido la insignia '+ chall.badge.title,
+                                        messageEN: 'You have earned badge '+chall.badge.title,
+                                        badge: chall.badge,
+                                        name: 'badgeAcquired',
+                                        player: player,
+                                        acquisitionDate: date,
+                                        notificationDate: new Date()
+                                    }, (err, clientRes) => {
+                                        if(err){
+                                            console.log(err);
+                                        }
+                                        else{
+                                            console.log(clientRes.data)
+                                        }
+                                    })
                                 })
                             }
                             for(let i = 0; i<chall.points_awards.length; i++){
-                                PointPlayer.findOne({point: chall.points_awards[i].point._id, player: player._id}, (err, pointPlayer)=>{
+                                PointService.givePoints(app_code, chall.points_awards[i].point, player, chall.points_awards[i].amount, date, (err, serviceRes)=> {
                                     if (err) {
                                         return res.status(404).json({
                                             ok: false,
                                             err
                                         });
                                     }
-                                    if(pointPlayer){
-                                        pointPlayer.amount += chall.points_awards[i].amount;
-                                        pointPlayer.save(err=>{
-                                            if (err) {
-                                                return res.status(404).json({
-                                                    ok: false,
-                                                    err
-                                                });
-                                            }
-                                            console.log(player.name+" "+player.last_name+" ha obtenido "+pointPlayer.amount.toString() +" "+ chall.points_awards[i].point.name);
-                                        });
-                                    }
-                                });
+                                })
                             }
                         }).populate('points_awards.point').populate('badge')
                     }
@@ -240,19 +259,5 @@ actionPlayerController.postActionPlayer = async (req, res) => {
         actionPlayer
     });
 };
-
-actionPlayerController.test = (req, res) => {
-    const date = new Date(req.body.date);
-    Challenge.find({app_code: "NEURONE-A-DAY", $and: [
-        { $expr: {$gte: [date, "$start_date"]} },
-        { $expr: {$lte: [date, "$end_date"]} }
-    ]}
-      , (err,data)=>{
-        res.status(200).json({
-            ok: true,
-            data
-        });
-    });
-}
 
 module.exports = actionPlayerController;

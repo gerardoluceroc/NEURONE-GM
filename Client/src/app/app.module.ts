@@ -45,6 +45,8 @@ import { PlayerProfileComponent } from './views/player-profile/player-profile.co
 import { AddBadgeDialogComponent } from './components/add-badge-dialog/add-badge-dialog.component';
 import { LoginComponent } from './views/login/login.component';
 import { JwtInterceptor, ErrorInterceptor } from './helpers';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -87,10 +89,12 @@ export function HttpLoaderFactory(http: HttpClient) {
         MatCardModule,
         MatSelectModule,
         HttpClientModule,
+        MatPaginatorModule,
         ReactiveFormsModule,
         MatDialogModule,
         FormsModule,
         MatListModule,
+        MatTooltipModule,
         MatIconModule,
         MatDatepickerModule,
         MatNativeDateModule,

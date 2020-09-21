@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {AddLeaderboardDialogComponent} from '../../components/add-leaderboard-dialog/add-leaderboard-dialog.component';
 import {EndpointsService} from '../../endpoints/endpoints.service';
 import {MatTableDataSource} from "@angular/material/table";
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-design-leaderboards',
@@ -14,17 +15,22 @@ import { TranslateService } from '@ngx-translate/core';
 export class DesignLeaderboardsComponent implements OnInit {
 
   constructor(public dialog: MatDialog, protected endpointsService: EndpointsService, public translate: TranslateService, private toastr: ToastrService) { }
-  table = new MatTableDataSource([]);
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  dataSource= new MatTableDataSource();
   leaderboards = [];
+  itemsPerPage: string;
   displayedColumns: string[] = ['name'];
   selectedRow = null;
   focusApp: any = {};
   ngOnInit(): void {
     this.getActiveApp();
+    this.translate.get('itemsPerPage').subscribe(res => {
+      this.itemsPerPage  = res;
+    });
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.table.filter = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   select(row){
@@ -44,7 +50,9 @@ export class DesignLeaderboardsComponent implements OnInit {
     this.endpointsService.getLeaderboards(this.focusApp.code).subscribe((data: {
         data: any[]; ok: boolean} ) => { // Success
         this.leaderboards = data.data;
-        this.table.data = this.leaderboards;
+        this.dataSource.data = this.leaderboards;
+        this.dataSource.paginator = this.paginator;
+        this.paginator._intl.itemsPerPageLabel = this.itemsPerPage;
       },
       (error) => {
         console.error(error);

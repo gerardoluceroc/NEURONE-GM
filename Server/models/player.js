@@ -6,6 +6,7 @@ const PlayerSchema = new Schema({
     name: { type: String, required: true},
     last_name: { type: String, required: true},
     code: { type: String, required: true, unique: true},
+    sourceId: { type: String}
 });
 
 module.exports = mongoose.model('Player', PlayerSchema);

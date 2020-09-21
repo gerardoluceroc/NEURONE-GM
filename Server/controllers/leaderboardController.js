@@ -5,7 +5,7 @@ const Player = require('../models/player');
 const Action = require('../models/action');
 const Point = require('../models/point');
 const PointPlayer = require('../models/pointPlayer');
-const codeGenerator = require('../utils/codeGenerator');
+const codeGenerator = require('../services/codeGenerator');
 
 const leaderboardController = {};
 
@@ -125,107 +125,110 @@ leaderboardController.makeLeaderboard = async (req, res)=> {
             });
         }
     })
-    const leaderboard = await Leaderboard.findOne({code: leaderboard_code}, err =>{
-        if(err){
-            return res.status(404).json({
-                ok: false,
-                err
-            });
-        }
-    });
-    const players = await Player.find({app_code: app_code}, err =>{
-        if(err){
-            return res.status(404).json({
-                ok: false,
-                err
-            });
-        }
-    });
-    const leaderboardResult = [];
-    if(leaderboard.parameter ==='actions'){
-        const action  = await Action.findOne({app_code: app_code, code: leaderboard.element_code}, err=>{
-            if(err){
-                return res.status(404).json({
-                    ok: false,
-                    err
-                });
-            }
+    if(generatedLeaderboard && (new Date()).getTime() - generatedLeaderboard.last_update.getTime() < 30000){
+        res.status(200).json({
+            ok: true,
+            leaderboardResult: generatedLeaderboard.table
         });
-        for(let i = 0; i<players.length; i++){
-            await ActionPlayer.countDocuments({app_code: app_code, action: action._id, player: players[i]._id}, (err, count)=>{
-                if(err){
-                    return res.status(404).json({
-                        ok: false,
-                        err
-                    });
-                }
-                leaderboardResult.push({name: players[i].name, last_name: players[i].last_name, amount: count})
-            })
-        }
-    }
-    else if (leaderboard.parameter === 'points'){
-        const point  = await Point.findOne({app_code: app_code, code: leaderboard.element_code}, err=>{
-            if(err){
-                return res.status(404).json({
-                    ok: false,
-                    err
-                });
-            }
-        });
-        for(let i = 0; i<players.length; i++){
-            await PointPlayer.findOne({app_code: app_code, point: point._id, player: players[i]._id}, (err, pointPlayer)=>{
-                if(err){
-                    return res.status(404).json({
-                        ok: false,
-                        err
-                    });
-                }
-                if(pointPlayer){
-                    leaderboardResult.push({name: players[i].name, last_name: players[i].last_name, amount: pointPlayer.amount})
-                }
-                else{
-                    leaderboardResult.push({name: players[i].name, last_name: players[i].last_name, amount: 0});
-                }
-            })
-        }
-    }
-    leaderboardResult.sort((a, b) => {
-        if(a.amount > b.amount){
-            return -1;
-        }
-        if(a.amount < b.amount){
-            return 1;
-        }
-        return 0;
-    })
-    for(let i = 0; i<leaderboardResult.length; i++){
-        leaderboardResult[i].rank = i+1;
-    }
-    if( generatedLeaderboard ){
-        generatedLeaderboard.last_update = new Date();
-        generatedLeaderboard.table = leaderboardResult;
     }
     else{
-        generatedLeaderboard = new GeneratedLeaderboard({
-            app_code,
-            leaderboard: leaderboard._id,
-            leaderboard_code: leaderboard.code,
-            last_update: new Date(),
-            table: leaderboardResult
+        const leaderboard = await Leaderboard.findOne({code: leaderboard_code}, err =>{
+            if(err){
+                return res.status(404).json({
+                    ok: false,
+                    err
+                });
+            }
         });
-    }
-    await generatedLeaderboard.save(err=>{
-        if(err){
-            return res.status(404).json({
-                ok: false,
-                err
+        const players = await Player.find({app_code: app_code}, err =>{
+            if(err){
+                return res.status(404).json({
+                    ok: false,
+                    err
+                });
+            }
+        });
+        const leaderboardResult = [];
+        if(leaderboard.parameter ==='actions'){
+            const action  = await Action.findOne({app_code: app_code, code: leaderboard.element_code}, err=>{
+                if(err){
+                    return res.status(404).json({
+                        ok: false,
+                        err
+                    });
+                }
+            });
+            for(let i = 0; i<players.length; i++){
+                await ActionPlayer.countDocuments({app_code: app_code, action: action._id, player: players[i]._id}, (err, count)=>{
+                    if(err){
+                        return res.status(404).json({
+                            ok: false,
+                            err
+                        });
+                    }
+                    leaderboardResult.push({name: players[i].name, last_name: players[i].last_name, amount: count})
+                })
+            }
+        }
+        else if (leaderboard.parameter === 'points'){
+            const point  = await Point.findOne({app_code: app_code, code: leaderboard.element_code}, err=>{
+                if(err){
+                    return res.status(404).json({
+                        ok: false,
+                        err
+                    });
+                }
+            });
+            for(let i = 0; i<players.length; i++){
+                await PointPlayer.findOne({app_code: app_code, point: point._id, player: players[i]._id}, (err, pointPlayer)=>{
+                    if(err){
+                        return res.status(404).json({
+                            ok: false,
+                            err
+                        });
+                    }
+                    leaderboardResult.push({name: players[i].name, last_name: players[i].last_name, amount: pointPlayer.amount})
+                })
+            }
+        }
+        leaderboardResult.sort((a, b) => {
+            if(a.amount > b.amount){
+                return -1;
+            }
+            if(a.amount < b.amount){
+                return 1;
+            }
+            return 0;
+        })
+        for(let i = 0; i<leaderboardResult.length; i++){
+            leaderboardResult[i].rank = i+1;
+        }
+        if( generatedLeaderboard ){
+            generatedLeaderboard.last_update = new Date();
+            generatedLeaderboard.table = leaderboardResult;
+        }
+        else{
+            generatedLeaderboard = new GeneratedLeaderboard({
+                app_code,
+                leaderboard: leaderboard._id,
+                leaderboard_code: leaderboard.code,
+                last_update: new Date(),
+                table: leaderboardResult
             });
         }
-    })
-    res.status(200).json({
-        ok: true,
-        leaderboardResult
-    });
+        await generatedLeaderboard.save(err=>{
+            if(err){
+                return res.status(404).json({
+                    ok: false,
+                    err
+                });
+            }
+        })
+        res.status(200).json({
+            ok: true,
+            leaderboardResult
+        });
+    }
 };
 
 

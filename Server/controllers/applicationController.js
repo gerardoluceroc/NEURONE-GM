@@ -1,4 +1,5 @@
 const Application = require('../models/application');
+const Webhook = require('../models/webhook');
 const Action = require('../models/action');
 const Player = require('../models/player');
 const Point = require('../models/point');
@@ -12,9 +13,26 @@ const { normalize } = require('normalize-diacritics');
 
 const applicationController = {};
 
-//Este método trae todos las aplicaciones de un usuario
-applicationController.getApps = async (req, res) => {
+//This method returns all applications
+applicationController.getApps = async  (req, res) => {
     await Application.find({},{_id:0}, (err, data) => {
+        if (err) {
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+        res.status(200).json({
+            ok: true,
+            data
+        });
+    });
+};
+
+//This method brings all the applications of a user
+applicationController.getUserApps = async  (req, res) => {
+    const username = req.params.username;
+    await Application.find({owner: username},{_id:0}, (err, data) => {
         if (err) {
             return res.status(404).json({
                 ok: false,
@@ -36,14 +54,29 @@ applicationController.postApp = async (req, res) => {
     }
     const normalize_name = await normalize(name);
     const code = normalize_name.split(' ').join('-');
-    var app = new Application({
+    const app = new Application({
         name: name,
         description: description,
         owner: owner,
         code: code,
         focus: false,
     });
-    await app.save( (err) => {
+    const webhook = new Webhook({
+        app_code: code,
+        givePointsUrl: '',
+        challengeCompletedUrl: '',
+        badgeAcquiredUrl: ''
+
+    });
+    await webhook.save( err=> {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    })
+    await app.save( err => {
         if(err){
             return res.status(404).json({
                 ok: false,
@@ -80,6 +113,14 @@ applicationController.updateApp = async (req, res) => {
 
 applicationController.deleteApp = async (req, res) => {
     const app_code = req.params.app_code;
+    await Webhook.deleteMany({app_code: app_code}, err => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    });
     await Application.deleteOne( { code: app_code}, (err, data) => {
         if(err){
             return res.status(404).json({

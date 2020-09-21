@@ -15,6 +15,7 @@ export class PlayerProfileComponent implements OnInit {
   playerPoints = [];
   playerActions = [];
   playerBadges = [];
+  playerLevels = [];
   focusApp: any = {}
   code: string;
   ngOnInit(): void {
@@ -33,6 +34,7 @@ export class PlayerProfileComponent implements OnInit {
         this.getPlayerPoints();
         this.getPlayerActions();
         this.getPlayerBadges();
+        this.getPlayerLevels();
       },
       (error) => {
         console.error(error);
@@ -74,6 +76,14 @@ export class PlayerProfileComponent implements OnInit {
   getPlayerBadges(){
     this.endpointsService.getPlayerBadges(this.focusApp.code, this.code).subscribe((data: {data: any[], ok: boolean}) => { // Success
       this.playerBadges = data.data;
+    },
+    (error) => {
+      console.error(error);
+    });
+  }
+  getPlayerLevels(){
+    this.endpointsService.getPlayerLevels(this.focusApp.code, this.code).subscribe((data: {data: any[], ok: boolean}) => { // Success
+      this.playerLevels = data.data;
     },
     (error) => {
       console.error(error);

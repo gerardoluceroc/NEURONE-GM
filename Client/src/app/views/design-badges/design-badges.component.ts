@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { EndpointsService } from 'src/app/endpoints/endpoints.service';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { AddBadgeDialogComponent } from 'src/app/components/add-badge-dialog/add-badge-dialog.component';
 import { ToastrService } from 'ngx-toastr';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-design-badges',
@@ -14,18 +15,23 @@ import { ToastrService } from 'ngx-toastr';
 export class DesignBadgesComponent implements OnInit {
 
   constructor(protected endpointsService: EndpointsService, public dialog: MatDialog, public translate: TranslateService, private toastr: ToastrService) { }
-  table = new MatTableDataSource([]);
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  dataSource= new MatTableDataSource();
   badges = [];
   displayedColumns: string[] = ['title'];
   selectedRow = null;
   focusApp: any = {};
+  itemsPerPage: string;
   ngOnInit(): void {
     this.getActiveApp();
+    this.translate.get('itemsPerPage').subscribe(res => {
+      this.itemsPerPage  = res;
+    });
   }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.table.filter = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   select(row){
@@ -46,7 +52,9 @@ export class DesignBadgesComponent implements OnInit {
     this.endpointsService.getBadges(this.focusApp.code).subscribe((data: {
         badges: any[]; ok: boolean} ) => { // Success
         this.badges = data.badges;
-        this.table.data = this.badges;
+        this.dataSource.data = this.badges;
+        this.dataSource.paginator = this.paginator;
+        this.paginator._intl.itemsPerPageLabel = this.itemsPerPage;
       },
       (error) => {
         console.error(error);

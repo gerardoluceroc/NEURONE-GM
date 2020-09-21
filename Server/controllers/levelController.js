@@ -1,6 +1,6 @@
 const Level = require('../models/level');
 const Point = require('../models/point');
-const codeGenerator = require('../utils/codeGenerator');
+const codeGenerator = require('../services/codeGenerator');
 const imageStorage = require('../middlewares/imageStorage');
 
 const levelController = {};

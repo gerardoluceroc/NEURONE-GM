@@ -2,7 +2,7 @@ const Action = require('../models/action');
 const ActionPlayer = require('../models/actionPlayer');
 const Challenge = require('../models/challenge');
 const ActionChallenge = require('../models/actionChallenge');
-const codeGenerator = require('../utils/codeGenerator');
+const codeGenerator = require('../services/codeGenerator');
 const imageStorage = require('../middlewares/imageStorage');
 
 const actionController = {};

@@ -1,6 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 
 export interface DialogData {
@@ -16,16 +17,35 @@ export interface DialogData {
 })
 export class AddPointDialogComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<AddPointDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData, private formBuilder: FormBuilder) { }
+  constructor(public dialogRef: MatDialogRef<AddPointDialogComponent>, public translate: TranslateService, @Inject(MAT_DIALOG_DATA) public data: DialogData, private formBuilder: FormBuilder) { }
   formGroup: FormGroup;
   file: File;
+  dailyMaxTip: String;
+  maxPointsTip: String;
+  defaultTip: String;
+  hiddenTip: String;
+  initialPointsTip: String;
   hidden = [true, false]
   default = [true, false]
   withCode: boolean;
   ngOnInit(): void {
     this.withCode = this.data.withCode;
     this.createForm();
-  
+    this.translate.get('point.initialPointsTip').subscribe(res => {
+      this.initialPointsTip = res;
+    });
+    this.translate.get('point.dailyMaxTip').subscribe(res => {
+      this.dailyMaxTip = res;
+    });
+    this.translate.get('point.maxPointsTip').subscribe(res => {
+      this.maxPointsTip = res;
+    });
+    this.translate.get('point.hiddenTip').subscribe(res => {
+      this.hiddenTip = res;
+    });
+    this.translate.get('point.defaultTip').subscribe(res => {
+      this.defaultTip = res;
+    });
   }
 
   createForm() {

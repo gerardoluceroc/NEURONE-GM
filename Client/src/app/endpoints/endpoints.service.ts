@@ -16,10 +16,12 @@ export class EndpointsService {
     return this.http.get(this.rootURL + 'applications/'+ user.username + '/focus');
   }
   getApps() {
-    return this.http.get(this.rootURL + 'applications');
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+    return this.http.get(this.rootURL + 'applications/' + user.username + '/userApps');
   }
   changeActiveApp(newActive){
-    return this.http.post(this.rootURL + 'applications/1/changeActive', newActive);
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+    return this.http.post(this.rootURL + 'applications/'+ user.username + '/changeActive', newActive);
   }
   postApp(newApp){
     return this.http.post(this.rootURL + 'applications', newApp);
@@ -51,6 +53,9 @@ export class EndpointsService {
   }
   getPlayerBadges(appCode, playerCode){
     return this.http.get(this.rootURL + appCode + '/players/' + playerCode + '/badges');
+  }
+  getPlayerLevels(appCode, playerCode){
+    return this.http.get(this.rootURL + appCode + '/players/' + playerCode + '/player-levels');
   }
   /* ACTIONS */
   getActions(appCode){

@@ -2,14 +2,17 @@ const express = require('express');
 const router = express.Router();
 const playerController = require('../controllers/playerController');
 const authMidl = require('../middlewares/authMiddleware');
+const playerMidl = require('../middlewares/playerMiddleware');
+const appMidl = require('../middlewares/applicationMiddleware');
 
 router.get('/:app_code/players',  [authMidl.verifyToken], playerController.getPlayers);
-router.post('/:app_code/players', [authMidl.verifyToken], playerController.postPlayer);
-router.put('/:app_code/players/:player_code', [authMidl.verifyToken], playerController.updatePlayer);
-router.delete('/:app_code/players/:player_code', [authMidl.verifyToken], playerController.deletePlayer);
+router.post('/:app_code/players', [authMidl.verifyToken, appMidl.checkOwner], playerController.postPlayer);
+router.put('/:app_code/players/:player_code', [authMidl.verifyToken, appMidl.checkOwner, playerMidl.checkPlayer,  playerMidl.checkCode], playerController.updatePlayer);
+router.delete('/:app_code/players/:player_code', [authMidl.verifyToken, appMidl.checkOwner], playerController.deletePlayer);
 router.get('/:app_code/players/:player_code', [authMidl.verifyToken], playerController.getPlayer);
 router.get('/:app_code/players/:player_code/completed-challenges', [authMidl.verifyToken], playerController.getPlayerCompletedChallenges);
 router.get('/:app_code/players/:player_code/player-points', [authMidl.verifyToken],  playerController.getPlayerPoints);
 router.get('/:app_code/players/:player_code/badges', [authMidl.verifyToken], playerController.getPlayerBadges);
+router.get('/:app_code/players/:player_code/player-levels', [authMidl.verifyToken], playerController.getPlayerLevels);
 
 module.exports = router;

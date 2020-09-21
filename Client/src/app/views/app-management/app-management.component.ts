@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import {MatTableDataSource} from '@angular/material/table';
 import {EndpointsService} from '../../endpoints/endpoints.service';
@@ -7,6 +7,7 @@ import {AddAppDialogComponent} from '../../components/add-app-dialog/add-app-dia
 import { Subject } from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-app-management',
@@ -20,9 +21,12 @@ export class AppManagementComponent implements OnInit {
     public dialog: MatDialog,
     public translate: TranslateService,
     private toastr: ToastrService) { }
-  table = new MatTableDataSource([]);
+    
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  dataSource= new MatTableDataSource();
   displayedColumns: string[] = ['name'];
   apps = [];
+  itemsPerPage: string;
   selectedRow = null;
   focusApp: any = {};
   newFocusApp: any = {};
@@ -31,6 +35,9 @@ export class AppManagementComponent implements OnInit {
   eventsSubject: Subject<void> = new Subject<void>();
   ngOnInit(): void {
     this.getActiveApp();
+    this.translate.get('itemsPerPage').subscribe(res => {
+      this.itemsPerPage  = res;
+    });
   }
 
   emitEventToHeader() {
@@ -39,7 +46,9 @@ export class AppManagementComponent implements OnInit {
   getApps(){
     this.endpointsService.getApps().subscribe((data: {data: any[], ok: boolean}) => { // Success
         this.apps = data.data;
-        this.table.data = this.apps;
+        this.dataSource.data = this.apps;
+        this.dataSource.paginator = this.paginator;
+        this.paginator._intl.itemsPerPageLabel = this.itemsPerPage;
         let index;
         for (let i = 0; i < this.apps.length; i++){
           if (this.apps[i].code === this.focusApp.code){
@@ -77,7 +86,7 @@ export class AppManagementComponent implements OnInit {
         console.error(error);
       });
   }
-  async openAddAppDialog() {
+  openAddAppDialog() {
     let message, successMessage;
     this.translate.get('appManagement.addAppTitle').subscribe(res => {
       message = res;
@@ -161,7 +170,7 @@ export class AppManagementComponent implements OnInit {
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.table.filter = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
   select(row){
     this.selectedRow = row;

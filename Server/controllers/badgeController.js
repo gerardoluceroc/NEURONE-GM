@@ -1,7 +1,7 @@
 const Badge = require('../models/badge');
 const Challenge = require('../models/challenge');
 const BadgePlayer = require('../models/badgePlayer');
-const codeGenerator = require('../utils/codeGenerator');
+const codeGenerator = require('../services/codeGenerator');
 const imageStorage = require('../middlewares/imageStorage');
 
 const badgeController = {};

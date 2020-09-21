@@ -32,3 +32,20 @@
     text-decoration: none;
     font-family: Candara, sans-serif;
 }
+
+.status-card{
+    width: 45%;
+    margin-top: 1%; 
+    margin-right: 2%;
+    display: inline-block; 
+    vertical-align:top; 
+    border: 1.5px solid #000 !important;
+    border-radius: 25px;
+}
+
+.attribute-card{
+    margin: 10px; 
+    height: 40px; 
+    padding: 2px 1px 2px 2px;
+    background-color: white;
+}
