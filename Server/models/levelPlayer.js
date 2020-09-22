@@ -8,7 +8,7 @@ const LevelPlayerSchema = new Schema({
     point: {type: Schema.Types.ObjectId, ref: 'Point', required: true},
     point_threshold: { type: Number, required: true},
     acquired: {type: Boolean, required: true},
-    acquisition_date: {type: Date},
+    acquisition_date: {type: Date}
 });
 
 module.exports = mongoose.model('LevelPlayer', LevelPlayerSchema);

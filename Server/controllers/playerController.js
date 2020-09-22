@@ -4,6 +4,7 @@ const Challenge = require('../models/challenge');
 const ChallengePlayer = require('../models/challengePlayer');
 const ChallengeRequisite = require('../models/challengeRequisite');
 const ActionChallenge = require('../models/actionChallenge');
+const ActionPlayer = require('../models/actionPlayer');
 const PointPlayer = require('../models/pointPlayer');
 const BadgePlayer = require('../models/badgePlayer');
 const Level = require('../models/level');
@@ -43,6 +44,11 @@ playerController.postPlayer = async (req, res) => {
         code,
         sourceId
     });
+    if(req.file){
+        let image_url = 'http://localhost:3080/api/image/'+req.file.filename;
+        player.image_url = image_url;
+        player.image_id = req.file.id;
+    }
     const points = await Point.find({app_code: app_code}, err => {
         if(err){
             return res.status(404).json({
@@ -223,6 +229,14 @@ playerController.updatePlayer = async (req, res) => {
         if(sourceId){
             player.sourceId = sourceId;
         }
+        if(req.file){
+            if(player.image_id){
+                imageStorage.gfs.delete(player.image_id);
+            }
+            let image_url = 'http://localhost:3080/api/image/'+req.file.filename;
+            player.image_url = image_url;
+            player.image_id = req.file.id;
+        }
         player.save((err , data) => {
             if(err){
                 return res.status(404).json({
@@ -248,6 +262,9 @@ playerController.deletePlayer = async (req, res) => {
             });
         }
     })
+    if(player.image_id){
+        imageStorage.gfs.delete(action.image_id);
+    }
     await ActionChallenge.deleteMany({player: player._id}, err => {
         if(err){
             return res.status(404).json({

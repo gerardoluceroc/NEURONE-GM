@@ -2,7 +2,6 @@ const axios = require("axios");
 const Webhook = require('../models/webhook');
 
 const trigger = async (app_code, name, data, callback) => {
-    console.log(name);
     const webhook = await Webhook.findOne({app_code: app_code}, err => {
         if (err) {
             callback( err );

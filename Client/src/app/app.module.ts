@@ -47,6 +47,8 @@ import { LoginComponent } from './views/login/login.component';
 import { JwtInterceptor, ErrorInterceptor } from './helpers';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { WebhooksComponent } from './views/webhooks/webhooks.component';
+import { AddPlayerDialogComponent } from './components/add-player-dialog/add-player-dialog.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -76,6 +78,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     PlayerProfileComponent,
     AddBadgeDialogComponent,
     LoginComponent,
+    WebhooksComponent,
+    AddPlayerDialogComponent,
   ],
     imports: [
         CommonModule,

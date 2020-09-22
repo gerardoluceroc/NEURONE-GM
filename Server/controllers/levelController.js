@@ -1,5 +1,8 @@
 const Level = require('../models/level');
 const Point = require('../models/point');
+const Player = require('../models/player');
+const LevelPlayer = require('../models/levelPlayer');
+const PointPlayer = require('../models/pointPlayer');
 const codeGenerator = require('../services/codeGenerator');
 const imageStorage = require('../middlewares/imageStorage');
 
@@ -38,6 +41,14 @@ levelController.postLevel = async (req, res) => {
             })
         }
     });
+    const players = await Player.find({ app_code: app_code }, err => {
+        if (err) {
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    });
     var level = new Level({
         name: name,
         description: description,
@@ -51,6 +62,39 @@ levelController.postLevel = async (req, res) => {
         level.image_url = image_url;
         level.image_id = req.file.id;
     }
+    levelPlayers = [];
+    for(let i = 0; i<players.length; i++){
+        let pointPlayer = await PointPlayer.findOne({player: players[i]._id, point: point._id}, err =>{
+            if (err) {
+                return res.status(404).json({
+                    ok: false,
+                    err
+                });
+            }
+        })
+        let levelPlayer = new LevelPlayer({
+            app_code,
+            player: players[i]._id,
+            level: level._id,
+            point: point._id,
+            point_threshold,
+            acquired: false,
+            acquisition_date: null
+        })
+        if(pointPlayer.amount >= point_threshold){
+            levelPlayer.acquired = true;
+            levelPlayer.acquisition_date = new Date();
+        }
+        levelPlayers.push(levelPlayer);
+    }
+    await LevelPlayer.insertMany(levelPlayers, err => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    });
     await level.save( (err, data) => {
         if(err){
             return res.status(404).json({

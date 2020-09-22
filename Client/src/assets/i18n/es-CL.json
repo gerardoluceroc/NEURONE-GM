@@ -12,6 +12,7 @@
   "groups": "Grupos",
   "badges": "Insignias",
   "leaderboards": "Tablas de Clasificación",
+  "save": "Guardar",
   "add": "Añadir",
   "edit": "Editar",
   "delete": "Eliminar",
@@ -56,7 +57,17 @@
     "editSuccess": "Aplicación actualizada correctamente.",
     "deleteSuccess": "Aplicación eliminada correctamente.",
     "deleteConfirm": "¿Estás seguro de eliminar esta aplicación? Esta operación es irreversible y perderás toda su diseño y datos vinculados.",
-    "webhooks": "Webhooks"
+    "webhooks": "Webhooks",
+    "firstUrl": "Url para notificación de eventos de entrega de puntos.",
+    "secondUrl": "Url para notificación de eventos por completar desafíos.",
+    "thirdUrl": "Url para notificación de eventos por adquirir insignias.",
+    "fourthUrl": "Url para notificación de eventos por subir de nivel.",
+    "firstUrlTip": "Se enviará una request del tipo POST a esta URL notificando los eventos del tipo 'jugador obtiene puntos'.",
+    "secondUrlTip": "Se enviará una request del tipo POST a esta URL notificando los eventos del tipo 'jugador completó un desafío'.",
+    "thirdUrlTip": "Se enviará una request del tipo POST a esta URL notificando los eventos del tipo 'jugador adquiere insignia'.",
+    "fourthUrlTip": "Se enviará una request del tipo POST a esta URL notificando los eventos del tipo 'jugador sube de nivel'.",
+    "webhooksTitle":"Manejo de Webhooks",
+    "updateWebhookMsg": "Webhooks actualizados correctamente"
   },
   "header": {
     "home": "INICIO",
@@ -142,7 +153,12 @@
     "totalPoints": "Puntos Totales",
     "lastActions": "Últimas acciones",
     "badges": "Insignias obtenidas",
-    "levels": "Niveles alcanzados"
+    "levels": "Niveles alcanzados",
+    "addPlayerTitle": "Añadir Nuevo Jugador",
+    "addSuccess": "Jugador añadido correctamente.",
+    "chooseImage": "Seleccionar Imágen de Perfil (opcional)",
+    "last_name": "Apellido",
+    "sourceId": "ID de aplicación fuente"
   },
   "badge": {
     "addBadgeTitle": "Añadir Nueva Insignia",

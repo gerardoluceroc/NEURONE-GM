@@ -16,6 +16,7 @@ import {DesignBadgesComponent} from './views/design-badges/design-badges.compone
 import {DesignLeaderboardsSeeComponent} from './views/design-leaderboards-see/design-leaderboards-see.component';
 import { PlayerProfileComponent } from './views/player-profile/player-profile.component';
 import { LoginComponent } from './views/login/login.component';
+import { WebhooksComponent } from './views/webhooks/webhooks.component';
 
 
 
@@ -31,6 +32,7 @@ const routes: Routes = [
   { path: 'design/leaderboards/see/:code', component: DesignLeaderboardsSeeComponent, canActivate: [AuthGuard]},
   { path: 'players', component: PlayersComponent, canActivate: [AuthGuard]},
   { path: 'players/:player_code/profile', component: PlayerProfileComponent, canActivate: [AuthGuard]},
+  { path: 'webhooks/:app_code', component: WebhooksComponent, canActivate: [AuthGuard]},
   { path: 'management', component: AppManagementComponent, canActivate: [AuthGuard]},
   { path: 'login', component: LoginComponent},
   { path: '**', redirectTo: '/login' }

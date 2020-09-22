@@ -67,7 +67,10 @@ export class PlayerProfileComponent implements OnInit {
   }
   getPlayerActions(){
     this.endpointsService.getPlayerActions(this.focusApp.code, this.code).subscribe((data: {actions: any[], ok: boolean}) => { // Success
-      this.playerActions = data.actions;
+      let array = data.actions;
+      array = array.reverse();
+      array = array.slice(0,9);
+      this.playerActions = array;
     },
     (error) => {
       console.error(error);

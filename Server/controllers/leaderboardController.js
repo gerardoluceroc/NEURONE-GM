@@ -28,10 +28,6 @@ leaderboardController.getLeaderboards = async (req, res) => {
 leaderboardController.postLeaderboard = async (req, res) => {
     const app_code = req.params.app_code;
     const {name, parameter, element_code} = req.body;
-    if(!name || !parameter || !element_code){
-        res.status(400).send('Write all the fields');
-        return;
-    }
     let code = await codeGenerator.codeGenerator(app_code, name, 'lb');
     const timesRepeated = await Leaderboard.countDocuments( { 'code' : { '$regex' : code, '$options' : 'i' } } );
     if(timesRepeated > 0){

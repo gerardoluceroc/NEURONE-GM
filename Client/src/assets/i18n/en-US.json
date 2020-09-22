@@ -12,6 +12,7 @@
   "groups": "Groups",
   "badges": "Badges",
   "leaderboards": "Leaderboards",
+  "save": "Save",
   "add": "Add",
   "edit": "Edit",
   "delete": "Delete",
@@ -52,11 +53,21 @@
     "activeApp": "Active App",
     "manageApps": "Manage my Apps",
     "owner": "Owner",
-    "addSuccess": "Leaderboard added successfully.",
-    "editSuccess": "Leaderboard updated successfully.",
-    "deleteSuccess": "Leaderboard deleted successfully.",
+    "addSuccess": "Application added successfully.",
+    "editSuccess": "Application updated successfully.",
+    "deleteSuccess": "Application deleted successfully.",
     "deleteConfirm": "Are you sure to delete this application? This operation is irreversible and you will lose all its linked design and data.",
-    "webhooks": "Webhooks"
+    "webhooks": "Webhooks",
+    "firstUrl": "Url for notification of points obtaining events.",
+    "secondUrl": "Url to send notification for completion of challenges.",
+    "thirdUrl": "Url to send notifications of badge acquisition events.",
+    "fourthUrl": "Url to send notifications of level up events.",
+    "firstUrlTip": "A POST request will be sent to this URL notifying the events of the type 'player gets points'.",
+    "secondUrlTip": "A POST request will be sent to this URL notifying the events of the type 'player completed a challenge'.",
+    "thirdUrlTip": "A POST request will be sent to this URL notifying the events of the type 'player acquires badge'.",
+    "fourthUrlTip": "A POST request will be sent to this URL notifying the events of the type 'player level up'.",
+    "webhooksTitle":"APP Webhooks managament",
+    "updateWebhookMsg": "Webhooks updated successfully"
   },
   "header": {
     "home": "HOME",
@@ -142,7 +153,12 @@
     "totalPoints": "Total Points",
     "lastActions": "Last Actions",
     "badges": "Badges Earned",
-    "levels": "Levels Reached"
+    "levels": "Levels Reached",
+    "addPlayerTitle": "Add New Player",
+    "addSuccess": "Player added successfully.",
+    "chooseImage": "Choose Profile Image (optional)",
+    "last_name": "Last name",
+    "sourceId": "Source app ID"
   },
   "badge": {
     "addBadgeTitle": "Add New Badge",

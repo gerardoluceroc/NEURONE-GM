@@ -30,3 +30,9 @@
 a {
   text-decoration:none;
 }
+
+.p-label:hover {
+  color: #08c50e;
+  font-weight: bolder;
+  text-shadow: 0 0 20px #d1ebd1, 0 0 30px #d1ebd1, 0 0 40px #d1ebd1, 0 0 50px #d1ebd1, 0 0 60px #d1ebd1, 0 0 70px #d1ebd1, 0 0 80px #d1ebd1;
+}

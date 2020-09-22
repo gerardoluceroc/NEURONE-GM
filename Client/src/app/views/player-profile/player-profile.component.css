@@ -5,10 +5,17 @@
     height: 89vh;
 }
 
-.example-header-image {
-    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+
+.banner-card{
+    max-width: 90%; 
+    background-color: white; 
+    color: black;
+    border: 2px solid black;
+}
+
+.header-image {
     background-size: cover;
-    position: absolute;
+    display: inline-block;
     z-index: 1;
     margin-top: -5%;
     margin-left: 2%;
@@ -39,13 +46,15 @@
     margin-right: 2%;
     display: inline-block; 
     vertical-align:top; 
-    border: 1.5px solid #000 !important;
+    border: 2px solid black !important;
+    color: black;
     border-radius: 25px;
 }
+
 
 .attribute-card{
     margin: 10px; 
     height: 40px; 
     padding: 2px 1px 2px 2px;
-    background-color: white;
+    color: black;
 }

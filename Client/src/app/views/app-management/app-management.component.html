@@ -46,7 +46,7 @@
         <p class="attributes-value">{{selectedRow.description}}</p>
       </div>
     </div>
-    <button mat-raised-button class="button-webhooks" (click)="openEditAppDialog()">{{"appManagement.webhooks" | translate}}</button>
+    <button mat-raised-button class="button-webhooks" [routerLink]="['/webhooks/'+selectedRow.code]">{{"appManagement.webhooks" | translate}}</button>
   </div>
 
 </div>

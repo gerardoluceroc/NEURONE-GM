@@ -35,9 +35,19 @@ export class EndpointsService {
   getAppSummary(appCode){
     return this.http.get(this.rootURL + 'applications/' + appCode + '/summary');
   }
+  /* WEBHOOKS */
+  getWebhooks(appCode){
+    return this.http.get(this.rootURL + appCode + '/webhooks');
+  }
+  updateWebhooks(webhooks, appCode){
+    return this.http.put(this.rootURL + appCode + '/webhooks', webhooks);
+  }
   /* PLAYERS */
   getPlayers(appCode){
     return this.http.get(this.rootURL + appCode + '/players');
+  }
+  postPlayer(newPlayer, appCode){
+    return this.http.post(this.rootURL + appCode + '/players', newPlayer)
   }
   getPlayer(appCode, playerCode){
     return this.http.get(this.rootURL + appCode + '/players/' + playerCode);
