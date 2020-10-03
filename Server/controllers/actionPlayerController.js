@@ -132,6 +132,7 @@ actionPlayerController.postActionPlayer = async (req, res) => {
                     }
                     if(challPlayer.completed === false){
                         challPlayer.completed = true;
+                        challPlayer.completion_date = Date.now();
                         challPlayer.save(err => {
                             if (err) {
                                 return res.status(404).json({

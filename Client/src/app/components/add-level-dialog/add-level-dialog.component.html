@@ -60,6 +60,6 @@
   </form> 
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="submitForm()" [disabled]="!formGroup.valid">{{"confirm" | translate}}</button>
-  <button mat-button (click)="onClickNO()">{{"cancel" | translate}}</button>
+  <button mat-button (click)="submitForm()" class="success" [disabled]="!formGroup.valid">{{"confirm" | translate}}</button>
+  <button mat-button (click)="onClickNO()" class="danger">{{"cancel" | translate}}</button>
 </div>

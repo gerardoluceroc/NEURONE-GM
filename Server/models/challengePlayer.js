@@ -10,6 +10,17 @@ const ChallengePlayerSchema = new Schema({
     end_date: {type: Date, required: true},
     active: {type: Boolean, required: true},
     badge: { type: Schema.Types.ObjectId, ref: 'Badge'},
+    completion_date: { type: Date},
+    createdAt: { type: Date, default: Date.now }
+});
+
+// Sets the createdAt parameter equal to the current time
+ChallengePlayerSchema.pre('save', next => {
+    now = new Date();
+    if(!this.createdAt) {
+      this.createdAt = now;
+    }
+    next();
 });
 
 module.exports = mongoose.model('ChallengePlayer', ChallengePlayerSchema);

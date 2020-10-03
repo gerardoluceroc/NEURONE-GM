@@ -1,5 +1,6 @@
 <app-header marked="management" [events]="eventsSubject.asObservable()"></app-header>
-<div class="main-content">
+<mat-spinner class="load-spinner" diameter=50 strokeWidth=10 *ngIf="load"></mat-spinner>
+<div class="main-content" [hidden]="load">
   <h1 class="h1-1"><b>{{"appManagement.activeApp" | translate}}:</b></h1>
   <h1 *ngIf="!change && focusApp" class="h1-1"><em>{{focusApp.name}}</em></h1>
   <button *ngIf="!change" class="button button-edit button-change" mat-raised-button (click)="changeFocus()">{{"change" | translate}}</button>
@@ -48,5 +49,4 @@
     </div>
     <button mat-raised-button class="button-webhooks" [routerLink]="['/webhooks/'+selectedRow.code]">{{"appManagement.webhooks" | translate}}</button>
   </div>
-
 </div>

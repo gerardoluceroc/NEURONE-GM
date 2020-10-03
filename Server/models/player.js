@@ -9,6 +9,16 @@ const PlayerSchema = new Schema({
     sourceId: { type: String},
     image_url: { type: String},
     image_id: { type: Schema.Types.ObjectId},
+    createdAt: { type: Date, default: Date.now }
+});
+
+// Sets the createdAt parameter equal to the current time
+PlayerSchema.pre('save', next => {
+    now = new Date();
+    if(!this.createdAt) {
+      this.createdAt = now;
+    }
+    next();
 });
 
 module.exports = mongoose.model('Player', PlayerSchema);

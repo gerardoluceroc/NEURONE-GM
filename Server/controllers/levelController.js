@@ -33,7 +33,7 @@ levelController.postLevel = async (req, res) => {
     if(timesRepeated > 0){
         code = code+(timesRepeated+1).toString();
     }
-    const point = await Point.findOne({code: point_required}, (err)=>{
+    const point = await Point.findOne({code: point_required}, (err, point)=>{
         if(err){
             return res.status(404).json({
                 ok: false,
@@ -41,72 +41,79 @@ levelController.postLevel = async (req, res) => {
             })
         }
     });
-    const players = await Player.find({ app_code: app_code }, err => {
-        if (err) {
-            return res.status(404).json({
-                ok: false,
-                err
-            });
-        }
-    });
-    var level = new Level({
-        name: name,
-        description: description,
-        app_code: app_code,
-        point_required: point._id,
-        point_threshold: point_threshold,
-        code: code
-    });
-    if(req.file){
-        let image_url = 'http://localhost:3080/api/image/'+req.file.filename;
-        level.image_url = image_url;
-        level.image_id = req.file.id;
+    if(!point){
+        res.status(400).send( "Failed! Point specified doesn't exist!");
     }
-    levelPlayers = [];
-    for(let i = 0; i<players.length; i++){
-        let pointPlayer = await PointPlayer.findOne({player: players[i]._id, point: point._id}, err =>{
+    else{
+        const players = await Player.find({ app_code: app_code }, err => {
             if (err) {
                 return res.status(404).json({
                     ok: false,
                     err
                 });
             }
-        })
-        let levelPlayer = new LevelPlayer({
-            app_code,
-            player: players[i]._id,
-            level: level._id,
-            point: point._id,
-            point_threshold,
-            acquired: false,
-            acquisition_date: null
-        })
-        if(pointPlayer.amount >= point_threshold){
-            levelPlayer.acquired = true;
-            levelPlayer.acquisition_date = new Date();
-        }
-        levelPlayers.push(levelPlayer);
-    }
-    await LevelPlayer.insertMany(levelPlayers, err => {
-        if(err){
-            return res.status(404).json({
-                ok: false,
-                err
-            });
-        }
-    });
-    await level.save( (err, data) => {
-        if(err){
-            return res.status(404).json({
-                ok: false,
-                err
-            });
-        }
-        res.status(200).json({
-            ok: true,
-            data
         });
-    })
+        const level = new Level({
+            name: name,
+            description: description,
+            app_code: app_code,
+            point_required: point._id,
+            point_threshold: point_threshold,
+            code: code
+        });
+        if(req.file){
+            let image_url = 'http://localhost:3080/api/image/'+req.file.filename;
+            level.image_url = image_url;
+            level.image_id = req.file.id;
+        }
+        levelPlayers = [];
+        for(let i = 0; i<players.length; i++){
+            let pointPlayer = await PointPlayer.findOne({player: players[i]._id, point: point._id}, err =>{
+                if (err) {
+                    return res.status(404).json({
+                        ok: false,
+                        err
+                    });
+                }
+            })
+            if(pointPlayer){
+                let levelPlayer = new LevelPlayer({
+                    app_code,
+                    player: players[i]._id,
+                    level: level._id,
+                    point: point._id,
+                    point_threshold,
+                    acquired: false,
+                    acquisition_date: null
+                })
+                if(pointPlayer.amount >= point_threshold){
+                    levelPlayer.acquired = true;
+                    levelPlayer.acquisition_date = new Date();
+                }
+                levelPlayers.push(levelPlayer);
+            }
+        }
+        await LevelPlayer.insertMany(levelPlayers, err => {
+            if(err){
+                return res.status(404).json({
+                    ok: false,
+                    err
+                });
+            }
+        });
+        await level.save( (err, data) => {
+            if(err){
+                return res.status(404).json({
+                    ok: false,
+                    err
+                });
+            }
+            res.status(200).json({
+                ok: true,
+                data
+            });
+        })
+    }
 };
 
 levelController.updateLevel = async (req, res) => {
@@ -121,9 +128,9 @@ levelController.updateLevel = async (req, res) => {
                     err
                 })
             }
+            req.body.point_required = point._id;
         });
     }
-    req.body.point_required = point._id;
     await Level.findOne( { code: level_code}, (err, level) => {
         if(err){
             return res.status(404).json({

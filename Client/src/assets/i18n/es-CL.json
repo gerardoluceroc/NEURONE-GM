@@ -21,7 +21,7 @@
   "lastName": "Apellido",
   "code": "Código",
   "description": "Descripción",
-  "repeatable": "Repetible",
+  "repeatable": "Acción repetible",
   "startDate": "Fecha de Inicio",
   "endDate": "Fecha de Termino",
   "abbreviation": "Abreviación",
@@ -44,8 +44,15 @@
   "password": "Contraseña",
   "enter": "Entrar",
   "itemsPerPage": "Elementos por página",
+  "statistics": "Estadísticas",
   "home": {
     "secondTitle": "Resumen Jugadores"
+  },
+  "loginDialogs":{
+    "userNotFound": "Usuario no encontrado",
+    "userNotFoundTip": "Parece que escribiste mal tu nombre de usuario, vuelve a ingresarlo para volver a intentarlo",
+    "invalidPassword": "Contraseña inválida",
+    "invalidPasswordTip": "Parece que escribiste mal tu contraseña, vuelve a ingresarla para volver a intentarlo"
   },
   "appManagement": {
     "addAppTitle": "Añadir Nueva Aplicación",
@@ -158,7 +165,8 @@
     "addSuccess": "Jugador añadido correctamente.",
     "chooseImage": "Seleccionar Imágen de Perfil (opcional)",
     "last_name": "Apellido",
-    "sourceId": "ID de aplicación fuente"
+    "sourceId": "ID de aplicación fuente",
+    "summaryStatistics": "Resumen estadísticas"
   },
   "badge": {
     "addBadgeTitle": "Añadir Nueva Insignia",

@@ -7,8 +7,8 @@ const playerMidl = require('../middlewares/playerMiddleware');
 const appMidl = require('../middlewares/applicationMiddleware');
 
 router.get('/:app_code/players',  [authMidl.verifyToken], playerController.getPlayers);
-router.post('/:app_code/players', [authMidl.verifyToken, appMidl.checkOwner, imageStorage.upload.single('file')], playerController.postPlayer);
-router.put('/:app_code/players/:player_code', [authMidl.verifyToken, appMidl.checkOwner, playerMidl.checkPlayer,  playerMidl.checkCode, imageStorage.upload.single('file')], playerController.updatePlayer);
+router.post('/:app_code/players', [authMidl.verifyToken, appMidl.checkOwner, imageStorage.upload.single('file'), playerMidl.checkCreate], playerController.postPlayer);
+router.put('/:app_code/players/:player_code', [authMidl.verifyToken, appMidl.checkOwner, imageStorage.upload.single('file'), playerMidl.checkPlayer,  playerMidl.checkCode], playerController.updatePlayer);
 router.delete('/:app_code/players/:player_code', [authMidl.verifyToken, appMidl.checkOwner], playerController.deletePlayer);
 router.get('/:app_code/players/:player_code', [authMidl.verifyToken], playerController.getPlayer);
 router.get('/:app_code/players/:player_code/completed-challenges', [authMidl.verifyToken], playerController.getPlayerCompletedChallenges);

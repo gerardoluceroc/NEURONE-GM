@@ -13,6 +13,16 @@ const PointSchema = new Schema({
     hidden: { type: Boolean, required: true},
     image_url: { type: String},
     image_id: { type: Schema.Types.ObjectId},
+    createdAt: { type: Date, default: Date.now }
+});
+
+// Sets the createdAt parameter equal to the current time
+PointSchema.pre('save', next => {
+    now = new Date();
+    if(!this.createdAt) {
+      this.createdAt = now;
+    }
+    next();
 });
 
 module.exports = mongoose.model('Point', PointSchema);

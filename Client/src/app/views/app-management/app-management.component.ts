@@ -26,6 +26,7 @@ export class AppManagementComponent implements OnInit {
   dataSource= new MatTableDataSource();
   displayedColumns: string[] = ['name'];
   apps = [];
+  load = true;
   itemsPerPage: string;
   selectedRow = null;
   focusApp: any = {};
@@ -33,12 +34,14 @@ export class AppManagementComponent implements OnInit {
   change = false;
   appControl = new FormControl('', Validators.required);
   eventsSubject: Subject<void> = new Subject<void>();
+  info: boolean;
   ngOnInit(): void {
     this.getActiveApp();
     this.translate.get('itemsPerPage').subscribe(res => {
       this.itemsPerPage  = res;
     });
   }
+
 
   emitEventToHeader() {
     this.eventsSubject.next();
@@ -56,6 +59,7 @@ export class AppManagementComponent implements OnInit {
           }
         }
         this.newFocusApp = this.apps[index];
+        this.load = false;
       },
       (error) => {
         console.error(error);

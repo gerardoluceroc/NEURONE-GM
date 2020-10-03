@@ -9,6 +9,16 @@ const ChallengeRequisiteSchema = new Schema({
     completed: {type: Boolean, required: true},
     start_date: {type: Date, required: true},
     end_date: {type: Date, required: true},
+    createdAt: { type: Date, default: Date.now }
+});
+
+// Sets the createdAt parameter equal to the current time
+ChallengeRequisiteSchema.pre('save', next => {
+    now = new Date();
+    if(!this.createdAt) {
+      this.createdAt = now;
+    }
+    next();
 });
 
 module.exports = mongoose.model('ChallengeRequisite', ChallengeRequisiteSchema);

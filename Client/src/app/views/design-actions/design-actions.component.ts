@@ -18,6 +18,8 @@ export class DesignActionsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   dataSource= new MatTableDataSource();
   itemsPerPage: string;
+  yes: string;
+  no: string;
   actions = [];
   displayedColumns: string[] = ['name'];
   selectedRow = null;
@@ -26,6 +28,12 @@ export class DesignActionsComponent implements OnInit {
     this.getActiveApp();
     this.translate.get('itemsPerPage').subscribe(res => {
       this.itemsPerPage  = res;
+    });
+    this.translate.get('yes').subscribe(res => {
+      this.yes  = res;
+    });
+    this.translate.get('no').subscribe(res => {
+      this.no  = res;
     });
   }
 
@@ -51,6 +59,14 @@ export class DesignActionsComponent implements OnInit {
     this.endpointsService.getActions(this.focusApp.code).subscribe((data: {
         actions: any[]; ok: boolean} ) => { // Success
         this.actions = data.actions;
+        for(let i = 0; i<this.actions.length; i++){
+          if(this.actions[i].repeatable){
+            this.actions[i].displayRepeatable = this.yes;
+          }
+          else{
+            this.actions[i].displayRepeatable = this.no;
+          }
+        }
         this.dataSource.data = this.actions;
         this.dataSource.paginator = this.paginator;
         this.paginator._intl.itemsPerPageLabel = this.itemsPerPage;

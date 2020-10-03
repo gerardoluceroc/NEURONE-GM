@@ -8,6 +8,7 @@ export interface DialogData {
   message: string;
   editData: any;
   withCode: boolean;
+  appCode: string;
 }
 
 @Component({
@@ -74,7 +75,7 @@ export class AddLeaderboardDialogComponent implements OnInit {
   }
 
   getActions(){
-    this.endpointsService.getActions('NEURONE-A-DAY').subscribe((data: {
+    this.endpointsService.getActions(this.data.appCode).subscribe((data: {
         actions: any[]; ok: boolean} ) => { // Success
         this.actions = data.actions;
       },
@@ -83,7 +84,7 @@ export class AddLeaderboardDialogComponent implements OnInit {
       });
   }
   getPoints(){
-    this.endpointsService.getPoints('NEURONE-A-DAY').subscribe((data: {
+    this.endpointsService.getPoints(this.data.appCode).subscribe((data: {
         data: any[]; ok: boolean} ) => { // Success
         this.points = data.data;
       },

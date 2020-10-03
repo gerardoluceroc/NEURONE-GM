@@ -28,7 +28,17 @@ const ChallengeSchema = new Schema({
             point: {type: Schema.Types.ObjectId, ref: 'Point', required: true},
             amount: {type: Number, required: true}
         }
-    ]
+    ],
+    createdAt: { type: Date, default: Date.now }
+});
+
+// Sets the createdAt parameter equal to the current time
+ChallengeSchema.pre('save', next => {
+    now = new Date();
+    if(!this.createdAt) {
+      this.createdAt = now;
+    }
+    next();
 });
 
 module.exports = mongoose.model('Challenge', ChallengeSchema);

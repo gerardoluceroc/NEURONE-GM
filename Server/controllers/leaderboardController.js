@@ -121,7 +121,7 @@ leaderboardController.makeLeaderboard = async (req, res)=> {
             });
         }
     })
-    if(generatedLeaderboard && (new Date()).getTime() - generatedLeaderboard.last_update.getTime() < 30000){
+    if(generatedLeaderboard && (new Date()).getTime() - generatedLeaderboard.last_update.getTime() < 2000){
         res.status(200).json({
             ok: true,
             leaderboardResult: generatedLeaderboard.table

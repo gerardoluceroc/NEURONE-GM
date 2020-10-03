@@ -33,7 +33,7 @@ userController.signin = async (req, res) => {
             username: axiosRes.data.username,
             token: axiosRes.data.accessToken,
             timestamp: new Date(),
-            expiration: 86400000
+            expiration: 31556900000 //a year in ms
         })
         userToken.save(err => {
             if (err) {

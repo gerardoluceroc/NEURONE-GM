@@ -11,6 +11,7 @@ const Level = require('../models/level');
 const LevelPlayer = require('../models/levelPlayer');
 
 const codeGenerator = require('../services/codeGenerator');
+const imageStorage = require('../middlewares/imageStorage');
 const playerController = {};
 
 playerController.getPlayers = async (req, res) => {
@@ -263,7 +264,7 @@ playerController.deletePlayer = async (req, res) => {
         }
     })
     if(player.image_id){
-        imageStorage.gfs.delete(action.image_id);
+        imageStorage.gfs.delete(player.image_id);
     }
     await ActionChallenge.deleteMany({player: player._id}, err => {
         if(err){
@@ -378,9 +379,7 @@ playerController.getPlayerPoints = async (req, res) => {
         }
         let data = [];
         for(let i = 0; i<pointPlayer.length; i++){
-            if(pointPlayer[i].point){
-                data.push(pointPlayer[i]);
-            }
+            data.push(pointPlayer[i]);
         }
         res.status(200).json({
             ok: true,

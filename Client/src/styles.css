@@ -6,6 +6,53 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 
+/*Common*/
+.mb8{
+    margin-bottom: 8px;
+}
+
+.fl{
+    float: left !important;
+}
+
+.fr{
+    float: right !important;
+}
+
+.di-ib{
+    display: inline-block;
+}
+
+.di-b{
+    display: block;
+}
+
+.mat-button:disabled{
+    color: gainsboro;
+    background-color: white;
+  }
+
+.success{
+    background-color: #3c763d;
+    color: white;
+}
+
+.danger{
+    background-color: #EF2917;
+    color: white;
+}
+
+.info{
+    background-color: #0c5460;
+    color: white;
+}
+
+.load-spinner{
+    margin-top: 20% !important;
+    width: 50%;
+    margin: auto;
+}
+
 /*Content below header*/
 .main-content{
     position: absolute;

@@ -44,8 +44,15 @@
   "password": "Password",
   "enter": "Enter",
   "itemsPerPage": "Items per page",
+  "statistics": "Statistics",
   "home": {
     "secondTitle": "Players Summary"
+  },
+  "loginDialogs":{
+    "userNotFound": "User not found",
+    "userNotFoundTip": "It seems you misspelled your username, please re-enter it to try again",
+    "invalidPassword": "Invalid password",
+    "invalidPasswordTip": "It seems you misspelled your password, re-enter it to try again"
   },
   "appManagement": {
     "addAppTitle": "Add New App",
@@ -158,7 +165,8 @@
     "addSuccess": "Player added successfully.",
     "chooseImage": "Choose Profile Image (optional)",
     "last_name": "Last name",
-    "sourceId": "Source app ID"
+    "sourceId": "Source app ID",
+    "summaryStatistics": "Statistics Summary"
   },
   "badge": {
     "addBadgeTitle": "Add New Badge",

@@ -54,7 +54,7 @@ export class DesignBadgesComponent implements OnInit {
         this.badges = data.badges;
         this.dataSource.data = this.badges;
         this.dataSource.paginator = this.paginator;
-        this.paginator._intl.itemsPerPageLabel = this.itemsPerPage;
+        this.dataSource.paginator._intl.itemsPerPageLabel = this.itemsPerPage;
       },
       (error) => {
         console.error(error);

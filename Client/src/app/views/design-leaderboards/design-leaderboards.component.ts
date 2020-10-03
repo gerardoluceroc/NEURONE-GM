@@ -67,7 +67,7 @@ export class DesignLeaderboardsComponent implements OnInit {
       successMessage = res;
     });
     const dialogRef = this.dialog.open(AddLeaderboardDialogComponent, {
-      data: {message, withCode: false},
+      data: {message, withCode: false, appCode: this.focusApp.code},
     });
     dialogRef.afterClosed().subscribe(res => {
       if(res){
@@ -103,7 +103,8 @@ export class DesignLeaderboardsComponent implements OnInit {
       data: {
         message,
         editData: this.selectedRow,
-        withCode: true
+        withCode: true,
+        appCode: this.focusApp.code
       },
     });
     dialogRef.afterClosed().subscribe(res => {

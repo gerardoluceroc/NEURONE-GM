@@ -11,9 +11,10 @@ mat-card-content {
 
 .error {
     padding: 16px;
+    border: 1px solid red;
     width: 300px;
-    color: white;
-    background-color: red;
+    color: black;
+    background-color: #f66e61;
 }
 
 .button {

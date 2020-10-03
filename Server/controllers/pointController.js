@@ -114,10 +114,10 @@ pointController.updatePoint = async (req, res) => {
         if(daily_max){
             point.daily_max = daily_max;
         }
-        if(is_default){
+        if(is_default !== null){
             point.is_default = is_default;
         }
-        if(hidden){
+        if(hidden !== null){
             point.hidden = hidden;
         }
         if(req.file){
@@ -175,7 +175,7 @@ pointController.deletePoint = async (req, res) => {
             let index;
             let challPoints = challenges[i].points_awards;
             for(let j = 0; j<challPoints.length; j++){
-                if(challActions[j].point.equals(point._id)){
+                if(challPoints[j].point.equals(point._id)){
                     index = j;
                     break;
                 }

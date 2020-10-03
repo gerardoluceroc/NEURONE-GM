@@ -3,7 +3,7 @@ const Point = require('../models/point');
 checkCreate = (req, res, next) => {
     //Check body fields
     const {name, abbreviation, initial_points, max_points, daily_max, is_default, hidden} = req.body;
-    if(!name || !abbreviation || !initial_points || !max_points || !daily_max || !is_default || !hidden ){
+    if(!name || !abbreviation || (!initial_points && !(initial_points === 0)) || (!max_points && !(max_points === 0)) || (!daily_max && !(daily_max === 0)) || !is_default || !hidden){
         res.status(400).send('Write all the fields');
         return;
     }

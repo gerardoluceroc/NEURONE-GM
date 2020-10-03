@@ -76,7 +76,7 @@ actionController.updateAction = async (req, res) => {
         if(description){
             action.description = description;
         }
-        if(repeatable){
+        if(repeatable !== null){
             action.repeatable = repeatable;
         }
         if(req.file){

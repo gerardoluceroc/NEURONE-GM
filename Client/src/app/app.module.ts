@@ -40,6 +40,7 @@ import { DesignLeaderboardsComponent } from './views/design-leaderboards/design-
 import { DesignBadgesComponent } from './views/design-badges/design-badges.component';
 import { AddLeaderboardDialogComponent } from './components/add-leaderboard-dialog/add-leaderboard-dialog.component';
 import {MatStepperModule} from "@angular/material/stepper";
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { DesignLeaderboardsSeeComponent } from './views/design-leaderboards-see/design-leaderboards-see.component';
 import { PlayerProfileComponent } from './views/player-profile/player-profile.component';
 import { AddBadgeDialogComponent } from './components/add-badge-dialog/add-badge-dialog.component';
@@ -49,6 +50,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { WebhooksComponent } from './views/webhooks/webhooks.component';
 import { AddPlayerDialogComponent } from './components/add-player-dialog/add-player-dialog.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -80,6 +82,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     LoginComponent,
     WebhooksComponent,
     AddPlayerDialogComponent,
+    ProfileComponent,
   ],
     imports: [
         CommonModule,
@@ -99,6 +102,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         FormsModule,
         MatListModule,
         MatTooltipModule,
+        MatProgressSpinnerModule,
         MatIconModule,
         MatDatepickerModule,
         MatNativeDateModule,
