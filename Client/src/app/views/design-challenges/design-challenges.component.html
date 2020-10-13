@@ -31,8 +31,8 @@
         <p class="attributes-value">{{selectedRow.name}}</p>
         <p class="attributes-value">{{selectedRow.code}}</p>
         <p class="attributes-value">{{selectedRow.description}}</p>
-        <p class="attributes-value">{{selectedRow.start_date.slice(0,10)}}</p>
-        <p class="attributes-value">{{selectedRow.end_date.slice(0,10)}}</p>
+        <p class="attributes-value">{{selectedRow.start_display}}</p>
+        <p class="attributes-value">{{selectedRow.end_display}}</p>
         <p class="attributes-value" *ngIf="selectedRow.badge">{{selectedRow.badge.title}}</p>
         <img class="display-img" [src]="selectedRow.badge.image_url" *ngIf="selectedRow.badge">
       </div>

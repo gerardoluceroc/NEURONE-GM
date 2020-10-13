@@ -81,7 +81,7 @@
     <mat-label>{{"amount" | translate}}</mat-label>
     <input matInput type="number" [disabled]="this.actions.length < 1" [(ngModel)]="newAmount">
   </mat-form-field>
-  <button mat-button [disabled]="this.actions.length < 1" (click)="onclickAddAction()">{{"add"| translate}}</button>
+  <button mat-button class="success" [disabled]="this.actions.length < 1" (click)="onclickAddAction()">{{"add"| translate}}</button>
   <h2>{{"challenge.challengesRequired" | translate}}</h2>
   <mat-list>
     <mat-list-item *ngFor="let challenge of challenges_required">
@@ -96,7 +96,7 @@
       <mat-option *ngFor="let challenge of this.challenges" [value]="challenge">{{challenge.name}}</mat-option>
     </mat-select>
   </mat-form-field>
-  <button mat-button (click)="onclickAddAChallenge()" [disabled]="this.challenges.length < 1">{{"add"| translate}}</button>
+  <button mat-button class="success" (click)="onclickAddAChallenge()" [disabled]="this.challenges.length < 1">{{"add"| translate}}</button>
   <h2>{{"challenge.pointsAwards"| translate}}</h2>
   <mat-list>
     <mat-list-item *ngFor="let point of points_awards">
@@ -116,9 +116,9 @@
     <mat-label>{{"challenge.pointsAmount"| translate}}</mat-label>
     <input matInput type="number" [(ngModel)]="newPointAmount" [disabled]="this.points.length < 1">
   </mat-form-field>
-  <button mat-button (click)="onclickAddPoint()" [disabled]="this.points.length < 1">{{"add"| translate}}</button>
+  <button mat-button class="success" (click)="onclickAddPoint()" [disabled]="this.points.length < 1">{{"add"| translate}}</button>
 </mat-dialog-content>
 <div mat-dialog-actions>
-  <button mat-button (click)="submitForm()" [disabled]="!formGroup.valid">{{"confirm"| translate}}</button>
-  <button mat-button (click)="onClickNO()">{{"cancel"| translate}}</button>
+  <button mat-button class="success" (click)="submitForm()" [disabled]="!formGroup.valid">{{"confirm"| translate}}</button>
+  <button mat-button class="danger" (click)="onClickNO()">{{"cancel"| translate}}</button>
 </div>

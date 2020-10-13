@@ -109,7 +109,7 @@ describe('Points',  () => {//Before start test we crete a fake User and App
     * Test the /PUT/:code route
     */
     describe('/PUT/:code point', () => {
-        it('it should UPDATE an point given the code', (done) => {
+        it('it should UPDATE a point given the code', (done) => {
             const point = new Point({
                 name: "experience",
                 abbreviation: "EXP",
@@ -156,7 +156,7 @@ describe('Points',  () => {//Before start test we crete a fake User and App
   * Test the /DELETE/:id route
   */
   describe('/DELETE/:code point', () => {
-    it('it should DELETE an point given the code', (done) => {
+    it('it should DELETE a point given the code', (done) => {
         const point = new Point({
             name: "experience",
             abbreviation: "EXP",

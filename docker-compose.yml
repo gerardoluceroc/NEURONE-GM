@@ -1,0 +1,21 @@
+version: '3.5'
+
+services:
+  server:
+    build: ./Server/
+    ports: 
+      - 3080:3080
+    volumes:
+      - .:/opt/server
+    links: [mongo]
+  mongo:
+    container_name: neuronegm
+    image: mongo
+    ports: 
+      - "27018:27017"
+  client:
+    build: ./Client/
+    ports:
+      - 4200:4200
+    volumes:
+      - .:/opt/client

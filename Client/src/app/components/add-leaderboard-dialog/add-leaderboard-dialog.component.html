@@ -11,7 +11,7 @@
           </mat-select>
         </mat-form-field>
         <div>
-          <button mat-button matStepperNext>{{"next" | translate}}</button>
+          <button mat-button class="success" matStepperNext>{{"next" | translate}}</button>
         </div>
       </form>
     </mat-step>
@@ -31,8 +31,8 @@
           </mat-select>
         </mat-form-field>
         <div>
-          <button mat-button matStepperPrevious>{{"back"| translate}}</button>
-          <button mat-button matStepperNext>{{"next"| translate}}</button>
+          <button mat-button class="info" matStepperPrevious>{{"back"| translate}}</button>
+          <button mat-button class="success" matStepperNext>{{"next"| translate}}</button>
         </div>
       </form>
     </mat-step>
@@ -58,13 +58,13 @@
 
       </form>
       <div>
-        <button mat-button (click)="onSubmit()" [disabled]="!firstFormGroup.valid || !secondFormGroup.valid || !thirdFormGroup.valid">{{"confirm" | translate}}</button>
-        <button mat-button matStepperPrevious>{{"back"| translate}}</button>
-        <button mat-button (click)="stepper.reset()">{{"reset"| translate}}</button>
+        <button mat-button class="success" (click)="onSubmit()" [disabled]="!firstFormGroup.valid || !secondFormGroup.valid || !thirdFormGroup.valid">{{"confirm" | translate}}</button>
+        <button mat-button class="info" matStepperPrevious>{{"back"| translate}}</button>
+        <button mat-button class="danger" (click)="stepper.reset()">{{"reset"| translate}}</button>
       </div>
     </mat-step>
   </mat-vertical-stepper>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onClickNO()">{{"cancel" | translate}}</button>
+  <button mat-button class="danger" (click)="onClickNO()">{{"cancel" | translate}}</button>
 </div>

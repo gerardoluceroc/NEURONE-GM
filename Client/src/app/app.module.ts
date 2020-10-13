@@ -29,7 +29,7 @@ import { AddChallengeDialogComponent } from './components/add-challenge-dialog/a
 import {MatListModule} from '@angular/material/list';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatNativeDateModule} from '@angular/material/core';
+import {MatNativeDateModule, MAT_DATE_LOCALE} from '@angular/material/core';
 import { AddAppDialogComponent } from './components/add-app-dialog/add-app-dialog.component';
 
 import { TranslateHttpLoader} from '@ngx-translate/http-loader';
@@ -118,6 +118,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    {provide: MAT_DATE_LOCALE, useValue: navigator.language},
     EndpointsService],
   bootstrap: [AppComponent]
 })

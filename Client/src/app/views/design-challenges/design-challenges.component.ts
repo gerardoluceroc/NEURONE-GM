@@ -55,6 +55,10 @@ export class DesignChallengesComponent implements OnInit {
     this.endpointsService.getChallenges(this.focusApp.code).subscribe((data: {
         data: any[]; ok: boolean} ) => { // Success
         this.challenges = data.data;
+        for(let i = 0; i<this.challenges.length; i++){
+          this.challenges[i].start_display = new Date(this.challenges[i].start_date).toLocaleDateString();
+          this.challenges[i].end_display = new Date(this.challenges[i].end_date).toLocaleDateString();
+        }
         this.dataSource.data = this.challenges;
         this.dataSource.paginator = this.paginator;
         this.paginator._intl.itemsPerPageLabel = this.itemsPerPage;

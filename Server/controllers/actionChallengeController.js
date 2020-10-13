@@ -18,10 +18,6 @@ actionChallengeController.getActionsChallenges = async (req, res) => {
     }).populate('action').populate('player');
 };
 
-actionChallengeController.test = async (req, res) => {
-
-};
-
 
 
 module.exports = actionChallengeController;

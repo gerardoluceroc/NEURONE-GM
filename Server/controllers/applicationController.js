@@ -4,7 +4,6 @@ const Action = require('../models/action');
 const Player = require('../models/player');
 const Point = require('../models/point');
 const Challenge = require('../models/challenge');
-const Group = require('../models/group');
 const Level = require('../models/level');
 const Badge = require('../models/badge');
 const Leaderboard = require('../models/leaderboard');
@@ -241,14 +240,6 @@ applicationController.appSummary = async(req, res) => {
         }
     });
     players = await Player.countDocuments({app_code: app_code}, err=> {
-        if (err){
-            return res.status(404).json({
-                ok: false,
-                err
-            });
-        }
-    });
-    groups = await Group.countDocuments({app_code: app_code}, err=> {
         if (err){
             return res.status(404).json({
                 ok: false,
