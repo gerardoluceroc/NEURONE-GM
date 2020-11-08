@@ -1,5 +1,6 @@
 <app-design marked="leaderboards"></app-design>
-<div class="design-content">
+<mat-spinner class="load-spinner" diameter=50 strokeWidth=10 *ngIf="load"></mat-spinner>
+<div class="design-content" [hidden]="load">
   <div class="column">
     <button mat-raised-button class="button button-add" (click)="openAddLeaderboardDialog()">{{"add" | translate}}</button>
     <mat-form-field style="width: 100%">

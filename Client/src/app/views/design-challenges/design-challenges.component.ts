@@ -22,6 +22,7 @@ export class DesignChallengesComponent implements OnInit {
   actions = [];
   points = [];
   badges = [];
+  load = true;
   displayedColumns: string[] = ['name'];
   selectedRow = null;
   focusApp: any = {};
@@ -62,6 +63,7 @@ export class DesignChallengesComponent implements OnInit {
         this.dataSource.data = this.challenges;
         this.dataSource.paginator = this.paginator;
         this.paginator._intl.itemsPerPageLabel = this.itemsPerPage;
+        this.load = false;
       },
       (error) => {
         console.error(error);

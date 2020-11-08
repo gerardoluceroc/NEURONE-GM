@@ -21,6 +21,7 @@ export class DesignBadgesComponent implements OnInit {
   displayedColumns: string[] = ['title'];
   selectedRow = null;
   focusApp: any = {};
+  load = true;
   itemsPerPage: string;
   ngOnInit(): void {
     this.getActiveApp();
@@ -55,6 +56,7 @@ export class DesignBadgesComponent implements OnInit {
         this.dataSource.data = this.badges;
         this.dataSource.paginator = this.paginator;
         this.dataSource.paginator._intl.itemsPerPageLabel = this.itemsPerPage;
+        this.load = false;
       },
       (error) => {
         console.error(error);

@@ -20,6 +20,7 @@ export class DesignLeaderboardsComponent implements OnInit {
   leaderboards = [];
   itemsPerPage: string;
   displayedColumns: string[] = ['name'];
+  load = true;
   selectedRow = null;
   focusApp: any = {};
   ngOnInit(): void {
@@ -53,6 +54,7 @@ export class DesignLeaderboardsComponent implements OnInit {
         this.dataSource.data = this.leaderboards;
         this.dataSource.paginator = this.paginator;
         this.paginator._intl.itemsPerPageLabel = this.itemsPerPage;
+        this.load = false;
       },
       (error) => {
         console.error(error);

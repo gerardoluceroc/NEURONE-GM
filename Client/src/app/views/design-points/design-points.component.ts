@@ -18,6 +18,7 @@ export class DesignPointsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   dataSource= new MatTableDataSource();
   points = [];
+  load = true;
   itemsPerPage: string;
   displayedColumns: string[] = ['name'];
   selectedRow = null;
@@ -44,6 +45,7 @@ export class DesignPointsComponent implements OnInit {
         this.dataSource.data = this.points;
         this.dataSource.paginator = this.paginator;
         this.paginator._intl.itemsPerPageLabel = this.itemsPerPage;
+        this.load = false;
       },
       (error) => {
         console.error(error);

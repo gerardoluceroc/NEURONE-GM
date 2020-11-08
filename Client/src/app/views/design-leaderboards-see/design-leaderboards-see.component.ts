@@ -17,6 +17,7 @@ export class DesignLeaderboardsSeeComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   code: string;
   focusApp: any = {};
+  load = true;
   leaderboard: any = {};
   displayedColumns: string[] = ['rank', 'name', 'last_name', 'amount'];
   dataSource= new MatTableDataSource();
@@ -71,6 +72,7 @@ export class DesignLeaderboardsSeeComponent implements OnInit {
     this.endpointsService.getLeaderboardData(this.focusApp.code, this.code).subscribe((data: {leaderboardResult: any, ok: boolean}) => { // Success
         this.dataSource.data = data.leaderboardResult;
         this.dataSource.paginator = this.paginator;
+        this.load = false;
       },
       (error) => {
         console.error(error);

@@ -21,6 +21,7 @@ export class DesignLevelsComponent implements OnInit {
   levels = [];
   itemsPerPage: string;
   points = [];
+  load = true;
   displayedColumns: string[] = ['name'];
   selectedRow = null;
   focusApp: any = {};
@@ -58,6 +59,7 @@ export class DesignLevelsComponent implements OnInit {
         this.dataSource.data = this.levels;
         this.dataSource.paginator = this.paginator;
         this.paginator._intl.itemsPerPageLabel = this.itemsPerPage;
+        this.load = false;
       },
       (error) => {
         console.error(error);

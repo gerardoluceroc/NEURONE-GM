@@ -18,6 +18,7 @@ export class DesignActionsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   dataSource= new MatTableDataSource();
   itemsPerPage: string;
+  load = true;
   yes: string;
   no: string;
   actions = [];
@@ -70,6 +71,7 @@ export class DesignActionsComponent implements OnInit {
         this.dataSource.data = this.actions;
         this.dataSource.paginator = this.paginator;
         this.paginator._intl.itemsPerPageLabel = this.itemsPerPage;
+        this.load = false;
       },
       (error) => {
         console.error(error);
