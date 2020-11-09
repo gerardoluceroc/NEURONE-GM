@@ -2,15 +2,16 @@
 FROM node:10
 
 # Working directory
-RUN mkdir /usr/src/front-neurone-gm
-WORKDIR /usr/src/front-neurone-gm
+RUN mkdir /usr/src/client-neuronegm
+# Create app directory
+WORKDIR /usr/src/client-neuronegm
 
 COPY . .
 
 EXPOSE 4200
 
 # Dependencies
-RUN npm install -g @angular/cli@9.1.1
+RUN npm install -g @angular/cli@10.0.0
 RUN npm install
 
 # Serve the app

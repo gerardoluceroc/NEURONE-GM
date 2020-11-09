@@ -4,7 +4,7 @@
   "description": "backend for neurone gamification module",
   "main": "index.js",
   "scripts": {
-    "start": "SET NODE_ENV=dev && node app.js",
+    "start": "node app.js",
     "dev": "nodemon app.js localhost 3000",
     "test": "mocha --timeout 10000"
   },
@@ -18,7 +18,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "gridfs-stream": "^1.1.1",
-    "mongoose": "^5.9.15",
+    "mongoose": "^5.10.13",
     "morgan": "^1.10.0",
     "multer": "^1.4.2",
     "multer-gridfs-storage": "^4.2.0",

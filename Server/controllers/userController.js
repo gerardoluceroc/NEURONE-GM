@@ -29,21 +29,57 @@ userController.signin = async (req, res) => {
         }
     })
     await axios.post(url, {username: username, password: password, service: "NEURONE-GM"}).then((axiosRes) => {
-        const userToken = new UserToken({
-            username: axiosRes.data.username,
-            token: axiosRes.data.accessToken,
-            timestamp: new Date(),
-            expiration: 31556900000 //a year in ms
-        })
-        userToken.save(err => {
+        console.log(axiosRes)
+        User.findOne({username: axiosRes.data.username}, (err, user)=> {
             if (err) {
                 res.status(500).send({ message: err });
                 return;
             }
-            res.status(200).json({
-                ok: true,
-                data: axiosRes.data
-            });
+            if(!user){
+                const newUser = new User({
+                    username: axiosRes.data.username
+                })
+                newUser.save((err, user)=> {
+                    if (err) {
+                        res.status(500).send({ message: err });
+                        return;
+                    }
+                    const userToken = new UserToken({
+                        username: axiosRes.data.username,
+                        token: axiosRes.data.accessToken,
+                        timestamp: new Date(),
+                        expiration: 31556900000 //a year in ms
+                    })
+                    userToken.save(err => {
+                        if (err) {
+                            res.status(500).send({ message: err });
+                            return;
+                        }
+                        res.status(200).json({
+                            ok: true,
+                            data: axiosRes.data
+                        });
+                    })
+                })
+            }
+            else{
+                const userToken = new UserToken({
+                    username: axiosRes.data.username,
+                    token: axiosRes.data.accessToken,
+                    timestamp: new Date(),
+                    expiration: 31556900000 //a year in ms
+                })
+                userToken.save(err => {
+                    if (err) {
+                        res.status(500).send({ message: err });
+                        return;
+                    }
+                    res.status(200).json({
+                        ok: true,
+                        data: axiosRes.data
+                    });
+                })
+            }
         })
     }).catch((err) => {
         res.status(200).json({

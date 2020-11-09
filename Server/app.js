@@ -26,9 +26,7 @@ const userToken = require('./models/userToken');
 
 
 //db connection
-mongoose.connect(config.DBHost, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true});
-let db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
+mongoose.connect(process.env.URI,{useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true});
 
 
 /** Express setup **/

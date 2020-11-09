@@ -1,21 +1,25 @@
-version: '3.5'
-
+version: "3"
 services:
   server:
-    build: ./Server/
-    ports: 
-      - 3080:3080
+    container_name: server-neuronegm
+    restart: always
+    build: ./Server
+    ports:
+      - "3080:3080"
+    links:
+      - mongo
     volumes:
-      - .:/opt/server
-    links: [mongo]
+      - .:/usr/src/server-neuronegm
   mongo:
     container_name: neuronegm
     image: mongo
-    ports: 
+    ports:
       - "27018:27017"
   client:
-    build: ./Client/
+    container_name: client-neuronegm
+    restart: always
+    build: ./Client
     ports:
-      - 4200:4200
+      - "4200:4200"
     volumes:
-      - .:/opt/client
+      - .:/usr/src/client-neuronegm

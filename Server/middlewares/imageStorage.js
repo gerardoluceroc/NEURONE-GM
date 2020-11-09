@@ -7,11 +7,7 @@ require('../config/config');
 
 const imageStorage = {};
 
-const conn = mongoose.createConnection(process.env.URI,  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true
-  });
+const conn = mongoose.connection;
 imageStorage.gfs = {};
 
 conn.once('open', function () {
