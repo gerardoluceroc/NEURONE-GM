@@ -115,7 +115,7 @@
     "initialPointsTip": "Number of points that all players start with.",
     "dailyMaxTip": "Maximum amount of this point that the player can get in one day. Write -1 if there is no maximum.",
     "hiddenTip": "Select false if you want this point not to be shown to the player in their profile or to be notified when they acquire it.",
-    "defaultTip": "Select true if you want this point to be visible to the player.",
+    "defaultTip": "Select true if the point is essential to the design.",
     "maxPointsTip": "Maximum amount of this point that a player can get. Write -1 if there is no maximum."
   },
   "challenge": {

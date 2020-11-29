@@ -22,7 +22,7 @@ const pointsPlayerRoutes = require("./api/pointPlayerRoutes");
 const actionChallengeRoutes = require("./api/actionChallengeRoutes");
 const webhooksRoutes = require("./api/webhookRoutes");
 const imageRoutes = require("./api/imageRoutes");
-const userToken = require('./models/userToken');
+const groupRoutes = require('./api/groupRoutes');
 
 
 //db connection
@@ -60,6 +60,7 @@ app.use('/api', pointsPlayerRoutes);
 app.use('/api', actionChallengeRoutes);
 app.use('/api', imageRoutes);
 app.use('/api', webhooksRoutes);
+app.use('/api', groupRoutes);
 
 app.get('/', function (req, res) {
     res.send('Hello World!');

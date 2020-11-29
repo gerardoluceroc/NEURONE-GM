@@ -113,14 +113,28 @@ leaderboardController.getLeaderboard = async  (req, res) => {
 leaderboardController.makeLeaderboard = async (req, res)=> {
     const leaderboard_code = req.params.leaderboard_code;
     const app_code = req.params.app_code;
-    let generatedLeaderboard = await GeneratedLeaderboard.findOne({leaderboard_code: leaderboard_code}, (err) =>{
-        if(err){
-            return res.status(404).json({
-                ok: false,
-                err
-            });
-        }
-    })
+    const group_code = req.body.group_code;
+    let generatedLeaderboard;
+    if(group_code){
+        generatedLeaderboard = await GeneratedLeaderboard.findOne({leaderboard_code: leaderboard_code, group_code: group_code}, (err) =>{
+            if(err){
+                return res.status(404).json({
+                    ok: false,
+                    err
+                });
+            }
+        })
+    }
+    else{
+        generatedLeaderboard = await GeneratedLeaderboard.findOne({leaderboard_code: leaderboard_code, allPlayers: true}, (err) =>{
+            if(err){
+                return res.status(404).json({
+                    ok: false,
+                    err
+                });
+            }
+        })
+    }
     if(generatedLeaderboard && (new Date()).getTime() - generatedLeaderboard.last_update.getTime() < 2000){
         res.status(200).json({
             ok: true,
@@ -136,14 +150,27 @@ leaderboardController.makeLeaderboard = async (req, res)=> {
                 });
             }
         });
-        const players = await Player.find({app_code: app_code}, err =>{
-            if(err){
-                return res.status(404).json({
-                    ok: false,
-                    err
-                });
-            }
-        });
+        let players;
+        if(group_code){
+            players = await Player.find({app_code: app_code, group_code: group_code}, err =>{
+                if(err){
+                    return res.status(404).json({
+                        ok: false,
+                        err
+                    });
+                }
+            })
+        }
+        else{
+            players = await Player.find({app_code: app_code}, err =>{
+                if(err){
+                    return res.status(404).json({
+                        ok: false,
+                        err
+                    });
+                }
+            })
+        }
         const leaderboardResult = [];
         if(leaderboard.parameter ==='actions'){
             const action  = await Action.findOne({app_code: app_code, code: leaderboard.element_code}, err=>{
@@ -209,8 +236,13 @@ leaderboardController.makeLeaderboard = async (req, res)=> {
                 leaderboard: leaderboard._id,
                 leaderboard_code: leaderboard.code,
                 last_update: new Date(),
+                allPlayers: true,
                 table: leaderboardResult
             });
+            if(group_code){
+                generatedLeaderboard.group_code = group_code;
+                generatedLeaderboard.allPlayers = false;
+            }
         }
         await generatedLeaderboard.save(err=>{
             if(err){

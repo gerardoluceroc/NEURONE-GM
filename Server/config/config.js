@@ -6,5 +6,7 @@ process.env.AuthPORT = "http://localhost:9000/api"
 
 //DB
 
-process.env.URI = 'mongodb://mongo/neuronegm';
+process.env.URI = "mongodb://localhost:27017/neuronegm";
+
+process.env.TOKEN_SECRET = "supersecretoken"
 

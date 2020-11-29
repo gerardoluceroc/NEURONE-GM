@@ -9,6 +9,7 @@ const PointPlayer = require('../models/pointPlayer');
 const BadgePlayer = require('../models/badgePlayer');
 const Level = require('../models/level');
 const LevelPlayer = require('../models/levelPlayer');
+const Group = require('../models/group');
 
 const codeGenerator = require('../services/codeGenerator');
 const imageStorage = require('../middlewares/imageStorage');
@@ -32,7 +33,7 @@ playerController.getPlayers = async (req, res) => {
 
 playerController.postPlayer = async (req, res) => {
     const app_code = req.params.app_code;
-    const {name, last_name, sourceId} = req.body;
+    const {name, last_name, sourceId, group_code} = req.body;
     let code = await codeGenerator.codeGenerator(app_code, name, 'player');
     const timesRepeated = await Player.countDocuments( { 'code' : { '$regex' : code, '$options' : 'i' } } );
     if(timesRepeated > 0){
@@ -45,6 +46,23 @@ playerController.postPlayer = async (req, res) => {
         code,
         sourceId
     });
+    if(group_code){
+        let group = await Group.findOne({code: group_code}, err => {
+            if(err){
+                return res.status(404).json({
+                    ok: false,
+                    err
+                });
+            }
+        })
+        if(!group){
+            return res.status(404).json({
+                ok: false,
+                err: "Group doesn't exist"
+            });
+        }
+        player.group = group._id;
+    }
     if(req.file){
         let image_url = 'http://localhost:3080/api/image/'+req.file.filename;
         player.image_url = image_url;
@@ -436,5 +454,29 @@ playerController.getPlayerLevels = async (req, res) => {
     }).populate('level').populate('player')
 }
 
+playerController.getPlayersByGroup = async (req, res) => {
+    const group_code = req.params.group_code;
+    const app_code = req.params.app_code;
+    const group = await Group.find({code: group_code}, err =>{
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    });
+    await Player.find( { app_code: app_code, group: group._id}, (err, players) => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+        res.status(200).json({
+            ok: true,
+            players
+        });
+    }).populate('group')
+}
 
 module.exports = playerController;
