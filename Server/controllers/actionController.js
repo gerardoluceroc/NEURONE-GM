@@ -39,7 +39,7 @@ actionController.postAction = async (req, res) => {
         code: code
     });
     if(req.file){
-        let image_url = 'http://localhost:3080/api/image/'+req.file.filename;
+        let image_url = process.env.APP_URI+'/api/image/'+req.file.filename;
         action.image_url = image_url;
         action.image_id = req.file.id;
     }
@@ -83,7 +83,7 @@ actionController.updateAction = async (req, res) => {
             if(action.image_id){
                 imageStorage.gfs.delete(action.image_id);
             }
-            let image_url = 'http://localhost:3080/api/image/'+req.file.filename;
+            let image_url = process.env.APP_URI+'/api/image/'+req.file.filename;
             action.image_url = image_url;
             action.image_id = req.file.id;
         }

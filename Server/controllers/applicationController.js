@@ -1,5 +1,6 @@
 const Application = require('../models/application');
 const Webhook = require('../models/webhook');
+const Group = require('../models/group');
 const Action = require('../models/action');
 const Player = require('../models/player');
 const Point = require('../models/point');
@@ -255,6 +256,14 @@ applicationController.appSummary = async(req, res) => {
             });
         }
     });
+    groups = await Group.countDocuments({app_code: app_code}, err => {
+        if (err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    })
     res.status(200).json({
         actions,
         points,

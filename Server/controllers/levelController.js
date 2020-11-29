@@ -62,7 +62,7 @@ levelController.postLevel = async (req, res) => {
             code: code
         });
         if(req.file){
-            let image_url = 'http://localhost:3080/api/image/'+req.file.filename;
+            let image_url = process.env.APP_URI+'/api/image/'+req.file.filename;
             level.image_url = image_url;
             level.image_id = req.file.id;
         }
@@ -157,7 +157,7 @@ levelController.updateLevel = async (req, res) => {
             if(level.image_id){
                 imageStorage.gfs.delete(level.image_id);
             }
-            let image_url = 'http://localhost:3080/api/image/'+req.file.filename;
+            let image_url = process.env.APP_URI+'/api/image/'+req.file.filename;
             level.image_url = image_url;
             level.image_id = req.file.id;
         }

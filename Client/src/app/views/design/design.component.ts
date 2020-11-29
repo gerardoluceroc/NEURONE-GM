@@ -14,6 +14,7 @@ export class DesignComponent implements OnInit {
   challenges = false;
   actions = false;
   badges = false;
+  groups = false;
   leaderboards = false;
   ngOnInit(): void {
     // con este switch se resalta la etiqueta del sidebar en la que se encuentra el usuario
@@ -35,6 +36,9 @@ export class DesignComponent implements OnInit {
         break;
       case 'leaderboards':
         this.leaderboards = true;
+        break;
+      case 'groups':
+        this.groups = true;
         break;
       default:
         break;

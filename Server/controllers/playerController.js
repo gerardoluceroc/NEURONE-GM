@@ -64,7 +64,7 @@ playerController.postPlayer = async (req, res) => {
         player.group = group._id;
     }
     if(req.file){
-        let image_url = 'http://localhost:3080/api/image/'+req.file.filename;
+        let image_url = process.env.APP_URI+'/api/image/'+req.file.filename;
         player.image_url = image_url;
         player.image_id = req.file.id;
     }
@@ -252,7 +252,7 @@ playerController.updatePlayer = async (req, res) => {
             if(player.image_id){
                 imageStorage.gfs.delete(player.image_id);
             }
-            let image_url = 'http://localhost:3080/api/image/'+req.file.filename;
+            let image_url = process.env.APP_URI+'/api/image/'+req.file.filename;
             player.image_url = image_url;
             player.image_id = req.file.id;
         }

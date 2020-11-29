@@ -30,7 +30,7 @@ badgeController.postBadge =  async  (req, res) => {
     if(timesRepeated > 0){
         code = code+(timesRepeated+1).toString();
     }
-    let image_url = 'http://localhost:3080/api/image/'+req.file.filename;
+    let image_url = process.env.APP_URI+'/api/image/'+req.file.filename;
     var badge = new Badge({
         title: title,
         description: description,
@@ -78,7 +78,7 @@ badgeController.updateBadge = async (req, res) => {
             if(badge.image_id){
                 imageStorage.gfs.delete(badge.image_id);
             }
-            let image_url = 'http://localhost:3080/api/image/'+req.file.filename;
+            let image_url = process.env.APP_URI+'/api/image/'+req.file.filename;
             badge.image_url = image_url;
             badge.image_id = req.file.id;
         }
