@@ -47,17 +47,13 @@ applicationController.getUserApps = async  (req, res) => {
 };
 
 applicationController.postApp = async (req, res) => {
-    const {name, description, owner} = req.body;
-    if(!name || !description || !owner){
-        res.status(400).send('Write all the fields');
-        return;
-    }
+    const {name, description} = req.body;
     const normalize_name = await normalize(name);
     const code = normalize_name.split(' ').join('-');
     const app = new Application({
         name: name,
         description: description,
-        owner: owner,
+        owner: req.authUsername,
         code: code,
         focus: false,
     });
@@ -92,11 +88,6 @@ applicationController.postApp = async (req, res) => {
 
 applicationController.updateApp = async (req, res) => {
     const app_code = req.params.app_code;
-    const {name, description, owner, code} = req.body;
-    if(!name || !description){
-        res.status(400).send('Write all the fields');
-        return;
-    }
     await Application.updateOne( { code: app_code}, req.body, (err, data) => {
         if(err){
             return res.status(404).json({

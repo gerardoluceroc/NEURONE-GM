@@ -47,6 +47,16 @@ checkOwner = (req, res, next) => {
     });
 }
 
+checkCreate = (req, res, next) => {
+    //Check body fields
+    const {name, description} = req.body;
+    if(!name || !description){
+        res.status(400).send('Write all the fields');
+        return;
+    }
+    next();
+};
+
 usernameMatch = (req, res, next) => {
     const username = req.params.username;
     if(username !== req.authUsername){
@@ -60,7 +70,8 @@ usernameMatch = (req, res, next) => {
 const applicationMiddleware = {
     checkAppCodeParam,
     checkOwner,
-    usernameMatch
+    usernameMatch,
+    checkCreate
 };
 
 module.exports = applicationMiddleware;
