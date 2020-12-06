@@ -89,4 +89,21 @@ userController.signin = async (req, res) => {
     }
 }
 
+userController.ping = async(req, res) => {
+    res.status(200).send('REST API OK!');
+}
+
+userController.checkToken = async(req, res) => {
+    let token = req.headers["x-access-token"];
+    if (!token) {
+        return res.status(403).send({ok: false, message: "No token provided!"});
+    }
+    try{
+        const verified = jwt.verify(token, process.env.TOKEN_SECRET);
+        return res.status(200).send({expired: false, message: "Token is active"});
+    }catch(err){
+        return res.status(200).send({expired: true, message: "Token isn't active"});
+    }
+}
+
 module.exports = userController;
