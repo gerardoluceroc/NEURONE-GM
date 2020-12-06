@@ -72,7 +72,7 @@ applicationController.postApp = async (req, res) => {
             });
         }
     })
-    await app.save( err => {
+    await app.save( (err,data) => {
         if(err){
             return res.status(404).json({
                 ok: false,
@@ -81,7 +81,7 @@ applicationController.postApp = async (req, res) => {
         }
         res.status(200).json({
             ok: true,
-            message: 'Your App was created successfully'
+            data
         });
     })
 };

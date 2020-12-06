@@ -53,12 +53,14 @@ export class AppManagementComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
         this.paginator._intl.itemsPerPageLabel = this.itemsPerPage;
         let index;
-        for (let i = 0; i < this.apps.length; i++){
-          if (this.apps[i].code === this.focusApp.code){
-            index = i;
+        if(this.focusApp !== null){
+          for (let i = 0; i < this.apps.length; i++){
+            if (this.apps[i].code === this.focusApp.code){
+              index = i;
+            }
           }
+          this.newFocusApp = this.apps[index];
         }
-        this.newFocusApp = this.apps[index];
         this.load = false;
       },
       (error) => {

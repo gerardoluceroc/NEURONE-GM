@@ -44,7 +44,7 @@ actionPlayerController.postActionPlayer = async (req, res) => {
     if(!action_code || !date){
         res.status(400).send('Write all the fields');
     }
-    const player = await Player.findOne({code: player_code}, (err,pla) => {
+    const player = await Player.findOne({code: player_code}, err => {
         if (err) {
             return res.status(404).json({
                 ok: false,
@@ -60,7 +60,18 @@ actionPlayerController.postActionPlayer = async (req, res) => {
             })
         }
     });
-    var actionPlayer = new ActionPlayer({
+    const actionsPlayer = await ActionPlayer.findOne({action: action._id, player: player._id}, err => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            })
+        }
+    })
+    if(!action.repeatable && actionsPlayer !== null){
+        return res.status(400).send({ok: false, message: "This player has already did this action!"})
+    }
+    const actionPlayer = new ActionPlayer({
         app_code: app_code,
         action: action._id,
         player: player._id,

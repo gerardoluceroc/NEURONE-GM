@@ -25,6 +25,10 @@ userController.signup =  async  (req, res) => {
 };
 
 userController.gmSignUp = async (req, res) => {
+    const userExist = await User.findOne({ username: req.body.username });
+    if(userExist){
+        res.status(500).send({ message: "Username already exist!" });
+    }
      //hash password
      const salt = await bcrypt.genSalt(10);
      const hashpassword = await bcrypt.hash(req.body.password, salt);
@@ -38,11 +42,13 @@ userController.gmSignUp = async (req, res) => {
      //save user in db
      user.save((err, user) => {
          if(err){
+            console.log(err)
              return res.status(404).json({
                  ok: false,
                  err
              });
          }
+         console.log(user)
          res.status(200).json({
              user
          });
@@ -52,10 +58,8 @@ userController.gmSignUp = async (req, res) => {
 userController.signin = async (req, res) => {
     const user = await User.findOne({ username: req.body.username });
     if(!user){
-        if(err){
-            res.status(500).send({ message: "User doesn't exist!" });
-            return;
-        }
+        res.status(500).send({ message: "User doesn't exist!" });
+        return;
     }
     if(user.neuroneauth){
         await AuthService.authSignIn(req.body, (err, data)=> {

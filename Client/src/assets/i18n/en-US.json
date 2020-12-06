@@ -85,6 +85,7 @@
   "action": {
     "addActionTitle": "Add New Action",
     "editActionTitle": "Edit Action",
+    "chooseImage": "Choose Image (optional)",
     "addSuccess": "Action added successfully.",
     "editSuccess": "Action updated successfully.",
     "deleteSuccess": "Action deleted successfully.",
