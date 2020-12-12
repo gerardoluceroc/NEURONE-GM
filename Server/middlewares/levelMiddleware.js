@@ -3,7 +3,7 @@ const Level = require('../models/level');
 checkCreate = (req, res, next) => {
     //Check body fields
     const {name, description, point_required, point_threshold} = req.body;
-    if(!name || !description || !point_required || !point_threshold){
+    if(!name || !description || !point_required || (!point_threshold && point_threshold !== 0)){
         res.status(400).send('Write all the fields');
         return;
     }
