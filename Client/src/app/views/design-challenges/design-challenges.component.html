@@ -38,7 +38,7 @@
         <img class="display-img" [src]="selectedRow.badge.image_url" *ngIf="selectedRow.badge">
       </div>
       <div *ngIf="selectedRow.badge" style="margin-top: 55%;"></div>
-      <div style="width: 100%">
+      <div style="width: 100%; margin-top: 60%">
         <p class="attributes-title" *ngIf="this.selectedRow.actions_required.length > 0"><strong>{{"challenge.actionsRequired" | translate}}</strong></p>
         <p class="attributes-title" *ngFor="let action of selectedRow.actions_required"><span style="color: #696969">{{"challenge.actionName" | translate}}:</span> &nbsp;{{action.action.name}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <span style="color: #696969">{{"challenge.actionTimesRequired" | translate}}:</span> &nbsp;{{action.times_required}}</p>

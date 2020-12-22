@@ -264,83 +264,84 @@ challengeController.updateChallenge = async (req, res) => {
         challenge.end_date = req.body.end_date;
     }
     if(req.body.badge_award){
-        badge = await Badge.findOne({code: req.body.badge_award}, (err, badge) => {
+        let badge = await Badge.findOne({code: req.body.badge_award}, (err, badge) => {
             if(err){
                 return res.status(404).json({
                     ok: false,
                     err
                 });
             }
-            if(!badge){
-                return res.status(400).send("Reward Badge with code: "+badge_award+" doesn't exist!");
-            }
-            challenge.badge = badge._id;
         })
+        if(!badge){
+            return res.status(400).send("Reward Badge with code: "+badge_award+" doesn't exist!");
+        }
+        challenge.badge = badge._id;
     }
     let actions = [];
     let challenges = [];
     let points = [];
     if(req.body.actions_required && req.body.actions_required.length > 0){
         for(let i = 0; i<req.body.actions_required.length; i++){
-            await Action.findOne({code: req.body.actions_required[i].action_code}, (err, action)=>{
+            let action = await Action.findOne({code: req.body.actions_required[i].action_code}, (err, action)=>{
                 if(err){
                     return res.status(404).json({
                         ok: false,
                         err
                     });
                 }
-                if(!action){
-                    return res.status(400).send("Action Required with code: "+actions_required[i].action_code+" doesn't exist!");
-                }
-                actions.push({action: action._id, times_required: req.body.actions_required[i].times_required});
             })
+            if(!action){
+                return res.status(400).send("Action Required with code: "+actions_required[i].action_code+" doesn't exist!");
+            }
+            actions.push({action: action._id, times_required: req.body.actions_required[i].times_required});
         }
         challenge.actions_required = actions;
     }
     if(req.body.challenges_required && req.body.challenges_required.length > 0){
         for(let i = 0; i<req.body.challenges_required.length; i++){
-            await Challenge.findOne({code: req.body.challenges_required[i].challenge_code}, (err, challenge)=>{
+            let challenge = await Challenge.findOne({code: req.body.challenges_required[i].challenge_code}, (err, challenge)=>{
                 if(err){
                     return res.status(404).json({
                         ok: false,
                         err
                     });
                 }
-                if(!challenge){
-                    return res.status(400).send("Prerequisite Challenge with code: "+challenge_required[i].challenge_code+" doesn't exist!");
-                }
-                if(challenge.code.equals(challenge_code)){
-                    return res.status(400).send("You can't have the challenge as a prerequisite of the challenge itself");
-                }
-                challenges.push({challenge: challenge._id});
             })
+            if(!challenge){
+                return res.status(400).send("Prerequisite Challenge with code: "+challenge_required[i].challenge_code+" doesn't exist!");
+            }
+            if(challenge.code.equals(challenge_code)){
+                return res.status(400).send("You can't have the challenge as a prerequisite of the challenge itself");
+            }
+            challenges.push({challenge: challenge._id});
         }
         challenge.challenges_required = challenges;
     }
     if(req.body.points_awards && req.body.points_awards.length > 0){
         for(let i = 0; i<req.body.points_awards.length; i++){
-            await Point.findOne({code: req.body.points_awards[i].point_code}, (err, point)=>{
+            let point = await Point.findOne({code: req.body.points_awards[i].point_code}, (err, point)=>{
                 if(err){
                     return res.status(404).json({
                         ok: false,
                         err
                     });
                 }
-                if(!point){
-                    return res.status(400).send("Reward Point with code: "+points_awards[i].point_code+" doesn't exist!");
-                }
-                points.push({point: point._id, amount: req.body.points_awards[i].amount});
             })
+            if(!point){
+                return res.status(400).send("Reward Point with code: "+points_awards[i].point_code+" doesn't exist!");
+            }
+            points.push({point: point._id, amount: req.body.points_awards[i].amount});
         }
-        challenges.points_awards = points;
+        challenge.points_awards = points;
     }
-    challenge.save((err, data) => {
+    await challenge.save((err, data) => {
         if(err){
             return res.status(404).json({
                 ok: false,
                 err
             });
         }
+        console.log(data)
         res.status(200).json({
             ok: true,
             data

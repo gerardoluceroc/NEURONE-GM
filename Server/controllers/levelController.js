@@ -189,6 +189,14 @@ levelController.deleteLevel = async (req, res) => {
     if(level.image_id){
         imageStorage.gfs.delete(level.image_id);
     }
+    await LevelPlayer.deleteMany({level: level._id}, err => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    });
     await Level.deleteOne( { _id: level._id}, (err, data) => {
         if(err){
             return res.status(404).json({
