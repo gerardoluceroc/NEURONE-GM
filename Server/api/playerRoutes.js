@@ -15,6 +15,7 @@ router.get('/:app_code/players/:player_code/completed-challenges', [authMidl.ver
 router.get('/:app_code/players/:player_code/player-points', [authMidl.verifyToken],  playerController.getPlayerPoints);
 router.get('/:app_code/players/:player_code/badges', [authMidl.verifyToken], playerController.getPlayerBadges);
 router.get('/:app_code/players/:player_code/player-levels', [authMidl.verifyToken], playerController.getPlayerLevels);
+router.get('/:app_code/players/:player_code/level-progress',  [authMidl.verifyToken], playerController.getPlayerLevelProgress);
 router.get('/:app_code/players/by-group/:group_code', [authMidl.verifyToken], playerController.getPlayersByGroup);
 
 module.exports = router;

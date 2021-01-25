@@ -3,6 +3,7 @@ const GeneratedLeaderboard = require('../models/generatedLeaderboard');
 const ActionPlayer = require('../models/actionPlayer');
 const Player = require('../models/player');
 const Action = require('../models/action');
+const Group = require('../models/group');
 const Point = require('../models/point');
 const PointPlayer = require('../models/pointPlayer');
 const codeGenerator = require('../services/codeGenerator');
@@ -114,9 +115,18 @@ leaderboardController.makeLeaderboard = async (req, res)=> {
     const leaderboard_code = req.params.leaderboard_code;
     const app_code = req.params.app_code;
     const group_code = req.body.group_code;
+    let group;
     let generatedLeaderboard;
     if(group_code){
         generatedLeaderboard = await GeneratedLeaderboard.findOne({leaderboard_code: leaderboard_code, group_code: group_code}, (err) =>{
+            if(err){
+                return res.status(404).json({
+                    ok: false,
+                    err
+                });
+            }
+        })
+        group = await Group.findOne({code: group_code}, (err) =>{
             if(err){
                 return res.status(404).json({
                     ok: false,
@@ -152,7 +162,7 @@ leaderboardController.makeLeaderboard = async (req, res)=> {
         });
         let players;
         if(group_code){
-            players = await Player.find({app_code: app_code, group_code: group_code}, err =>{
+            players = await Player.find({app_code: app_code, group: group._id}, err =>{
                 if(err){
                     return res.status(404).json({
                         ok: false,
@@ -182,15 +192,15 @@ leaderboardController.makeLeaderboard = async (req, res)=> {
                 }
             });
             for(let i = 0; i<players.length; i++){
-                await ActionPlayer.countDocuments({app_code: app_code, action: action._id, player: players[i]._id}, (err, count)=>{
+                let count = await ActionPlayer.countDocuments({app_code: app_code, action: action._id, player: players[i]._id}, err=>{
                     if(err){
                         return res.status(404).json({
                             ok: false,
                             err
                         });
                     }
-                    leaderboardResult.push({name: players[i].name, last_name: players[i].last_name, amount: count})
                 })
+                leaderboardResult.push({name: players[i].name, last_name: players[i].last_name, code: players[i].code, amount: count})
             }
         }
         else if (leaderboard.parameter === 'points'){
@@ -203,15 +213,15 @@ leaderboardController.makeLeaderboard = async (req, res)=> {
                 }
             });
             for(let i = 0; i<players.length; i++){
-                await PointPlayer.findOne({app_code: app_code, point: point._id, player: players[i]._id}, (err, pointPlayer)=>{
+                let pointPlayer = await PointPlayer.findOne({app_code: app_code, point: point._id, player: players[i]._id}, err=>{
                     if(err){
                         return res.status(404).json({
                             ok: false,
                             err
                         });
                     }
-                    leaderboardResult.push({name: players[i].name, last_name: players[i].last_name, amount: pointPlayer.amount})
                 })
+                leaderboardResult.push({name: players[i].name, last_name: players[i].last_name, code: players[i].code, amount: pointPlayer.amount})
             }
         }
         leaderboardResult.sort((a, b) => {

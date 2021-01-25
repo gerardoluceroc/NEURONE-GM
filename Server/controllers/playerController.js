@@ -454,6 +454,48 @@ playerController.getPlayerLevels = async (req, res) => {
     }).populate('level').populate('player')
 }
 
+playerController.getPlayerLevelProgress = async (req, res) => {
+    const player_code = req.params.player_code;
+    const player = await Player.findOne( { code: player_code}, err => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    });
+    levelsPlayers = await LevelPlayer.find({player: player._id, acquired: false}, (err, data) => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    }).populate('level').populate('player');
+    let levelProgress = [];
+    for(let i = 0; i<levelsPlayers.length; i++){
+        let playerPoint = await PointPlayer.findOne({player: player._id, point: levelsPlayers[i].level.point_required}, err=> {
+            if(err){
+                return res.status(404).json({
+                    ok: false,
+                    err
+                });
+            }
+        }).populate('point');
+        let progress = {
+            point: playerPoint.point,
+            level: levelsPlayers[i].level,
+            amount: playerPoint.amount,
+            point_threshold: levelsPlayers[i].level.point_threshold
+        }
+        levelProgress.push(progress);
+    }
+    res.status(200).json({
+        ok: true,
+        data: levelProgress
+    });
+}
+
 playerController.getPlayersByGroup = async (req, res) => {
     const group_code = req.params.group_code;
     const app_code = req.params.app_code;
