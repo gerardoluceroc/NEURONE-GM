@@ -26,7 +26,7 @@ const groupRoutes = require('./api/groupRoutes');
 
 
 //db connection
-mongoose.connect(process.env.URI,{useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true});
+mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PWD}@localhost:27017/neuronegm`,{useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true});
 
 
 /** Express setup **/
