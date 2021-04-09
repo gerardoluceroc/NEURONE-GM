@@ -49,6 +49,7 @@ playerController.postPlayer = async (req, res) => {
     if(group_code){
         let group = await Group.findOne({code: group_code}, err => {
             if(err){
+                console.log(err)
                 return res.status(404).json({
                     ok: false,
                     err
@@ -56,6 +57,7 @@ playerController.postPlayer = async (req, res) => {
             }
         })
         if(!group){
+            console.log("no group")
             return res.status(404).json({
                 ok: false,
                 err: "Group doesn't exist"
@@ -70,6 +72,7 @@ playerController.postPlayer = async (req, res) => {
     }
     const points = await Point.find({app_code: app_code}, err => {
         if(err){
+            console.log(err)
             return res.status(404).json({
                 ok: false,
                 err
@@ -78,6 +81,7 @@ playerController.postPlayer = async (req, res) => {
     })
     const challenges = await Challenge.find({app_code: app_code}, err => {
         if(err){
+            console.log(err)
             return res.status(404).json({
                 ok: false,
                 err
@@ -86,6 +90,7 @@ playerController.postPlayer = async (req, res) => {
     })
     const levels = await  Level.find({app_code: app_code}, err => {
         if(err){
+            console.log(err)
             return res.status(404).json({
                 ok: false,
                 err
@@ -174,6 +179,7 @@ playerController.postPlayer = async (req, res) => {
     }
     await ActionChallenge.insertMany(actionsChallenge,(err) => {
         if(err){
+            console.log(err)
             return res.status(404).json({
                 ok: false,
                 err
@@ -182,6 +188,7 @@ playerController.postPlayer = async (req, res) => {
     });
     await ChallengePlayer.insertMany(challengesPlayer, (err) => {
         if(err){
+            console.log(err)
             return res.status(404).json({
                 ok: false,
                 err
@@ -190,6 +197,7 @@ playerController.postPlayer = async (req, res) => {
     });
     await ChallengeRequisite.insertMany(challengesRequisite,(err) => {
         if(err){
+            console.log(err)
             return res.status(404).json({
                 ok: false,
                 err
@@ -198,6 +206,7 @@ playerController.postPlayer = async (req, res) => {
     });
     await LevelPlayer.insertMany(levelsPlayer,(err) => {
         if(err){
+            console.log(err)
             return res.status(404).json({
                 ok: false,
                 err
@@ -206,6 +215,7 @@ playerController.postPlayer = async (req, res) => {
     });
     await PointPlayer.insertMany(pointsPlayer,(err) => {
         if(err){
+            console.log(err)
             return res.status(404).json({
                 ok: false,
                 err
@@ -214,6 +224,7 @@ playerController.postPlayer = async (req, res) => {
     });
     await player.save( (err, data) => {
         if(err){
+            console.log(err)
             return res.status(404).json({
                 ok: false,
                 err
