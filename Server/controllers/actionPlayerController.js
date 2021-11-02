@@ -203,8 +203,8 @@ actionPlayerController.postActionPlayer = async (req, res) => {
                                 });
                             }
                             WebhookUtil.trigger(app_code, 'challengeCompleted',  {
-                                messageES: 'Has completado el desafío '+chall.name,
-                                messageEN: 'You have completed '+chall.name,
+                                messageES: 'Has realizado el logro: "'+chall.name+'"',
+                                messageEN: 'You have completed: "'+chall.name+'"',
                                 challenge: chall,
                                 name: 'challengeCompleted',
                                 player: player,

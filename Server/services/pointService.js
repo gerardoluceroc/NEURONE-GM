@@ -16,8 +16,8 @@ const givePoints = async (app_code, point, player, amount, date, callback) => {
                 pointPlayer.amount = point.max_points;
             }
             await webhookUtil.trigger(app_code, 'givePoints', {
-                messageES: 'Has recibido '+amount.toString()+' '+point.name,
-                messageEN: 'You have received '+amount.toString()+' '+point.name,
+                messageES: 'Has recibido '+amount.toString()+' puntos de '+point.name,
+                messageEN: 'You have received '+amount.toString()+' points of '+point.name,
                 point: point,
                 name: 'givePoints',
                 player: player,
